@@ -15,6 +15,8 @@ global $wp_version;
 $exit_msg = "Dude, upgrade your stinkin Wordpress Installation.";
 if(version_compare($wp_version, "2.8", "<")) { exit($exit_msg); }
 
+define("SIMPLR_DIR", WP_PLUGIN_URL . '/simplr-registration-form/' );
+
 /*create admin page*/
 function simplr_reg_admin() {
 //Add posted options
@@ -59,7 +61,7 @@ global $options;
 
 function sreg_styles() {
 global $options;
-$src = get_bloginfo('siteurl').'/wp-content/plugins/simplr_reg_page/simplr_reg.css';
+$src = SIMPLR_DIR .'/simplr_reg.css';
 $style = '<link rel="stylesheet" type="text/css" media="screen,projection" href="' .$src .'" />';
 return $style;
 //End Function
