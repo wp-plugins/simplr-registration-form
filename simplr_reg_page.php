@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: Simplr User Registration Form	
-Version: 0.1
+Version: 0.1.1
 Description: This a simple plugin for adding a custom user registration form to any post or page using shortcode.
 Author: Mike Van Winkle
 Author URI: http://www.mikevanwinkle.com
