@@ -5,7 +5,7 @@ Version: 0.1.1
 Description: This a simple plugin for adding a custom user registration form to any post or page using shortcode.
 Author: Mike Van Winkle
 Author URI: http://www.mikevanwinkle.com
-Plugin URI: http://www.mikevanwinkle.com/plugins/simplr-user-registration-page/
+Plugin URI: http://www.mikevanwinkle.com/wordpress/how-to/custom-wordpress-registration-page/
 License: GPL
 */
 ?>
