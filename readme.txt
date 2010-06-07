@@ -38,3 +38,5 @@ Style: Overrides the default stylesheet included with the plugin.
 
 = 1.0 =
 * Initial Version
+=1.1=
+-fixed stylesheet path
