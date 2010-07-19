@@ -10,17 +10,17 @@ This plugin allows users to easily add a custom user registration form anywhere 
 
 == Description ==
 
-The goal of this plugin is to give developers and advanced Wordpress users a simple way to create role-specific registration forms for their wordpress website. For instance, you might be running an education based site in which you wanted both teachers and students to particape. This plugin enables you to create distinct registration forms for each type of registrant.
+The goal of this plugin is to give developers and advanced Wordpress users a simple way to create role-specific registration forms for their Wordpress website. For instance, you might be running an education based site in which you wanted both teachers and students to participate. This plugin enables you to create distinct registration forms for each type of registrant.
 
-Because the focus is on seperating registrants, I have not focused on creating a highly customizable form like <a href="http://wordpress.org/extend/plugins/register-plus/" title="Register Plus">Register Plus</a>. 
+Because the focus is on separating registrants, I have not focused on creating a highly customizable form like <a href="http://wordpress.org/extend/plugins/register-plus/" title="Register Plus">Register Plus</a>. 
 
-To use this plugin simply employ the shortcode <code>[Register]</code> on any Wordpress post or page. The default role is "subscriber". To apply another role to the registration simply use the the role parameter, for instance: <code>[Regsiter role="editor"]</code>. If you have created custom roles you may use them as well. 
+To use this plugin simply employ the shortcode <code>[Register]</code> on any Wordpress post or page. The default role is "subscriber". To apply another role to the registration simply use the the role parameter, for instance: <code>[Register role="editor"]</code>. If you have created custom roles you may use them as well. 
 
 You can also use shortcode so specify a custom confirmation message for each form: <br>
 
 [Register role="teacher" <b>message="Thank you for registering for my site. If you would like to encourage your students to register, please direct them to http://www.domain.com/students"</b>]
 
-Finally, you can specify emails to be notified when a new user is registered. By defualt site admins will receive notice but to notify others simply use the notify parameter:
+Finally, you can specify emails to be notified when a new user is registered. By default site admins will receive notice but to notify others simply use the notify parameter:
 
 [Register role="teacher" message="Thank you for registering for my site. If you would like to encourage your students to register, please direct them to http://www.domain.com/students" <b>notify="email1@email.com,email2@email.com"</b>]
 
