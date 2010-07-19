@@ -14,15 +14,15 @@ The goal of this plugin is to give developers and advanced Wordpress users a sim
 
 Because the focus is on seperating registrants, I have not focused on creating a highly customizable form like <a href="http://wordpress.org/extend/plugins/register-plus/" title="Register Plus">Register Plus</a>. 
 
-To use this plugin simplr employ the shortcode <code>[Register]</code> on any Wordpress post or page. The default role is "subscriber". To apply another role to the registration simply use the the role parameter, for instance: <code>[Regsiter role="editor"]</code>. If you have created custom roles you may use them as well. 
+To use this plugin simply employ the shortcode <code>[Register]</code> on any Wordpress post or page. The default role is "subscriber". To apply another role to the registration simply use the the role parameter, for instance: <code>[Regsiter role="editor"]</code>. If you have created custom roles you may use them as well. 
 
 You can also use shortcode so specify a custom confirmation message for each form: <br>
 
-<code>[Register role="teacher" <b>message="Thank you for registering for my site. If you would like to encourage your students to register, please direct them to http://www.domain.com/students"</b>]</code>
+[Register role="teacher" <b>message="Thank you for registering for my site. If you would like to encourage your students to register, please direct them to http://www.domain.com/students"</b>]
 
-Finally, you can specify emails to be notified when a new user is registered. By defualt site admins will receive notice but to notify other simply use the notify parameter:
+Finally, you can specify emails to be notified when a new user is registered. By defualt site admins will receive notice but to notify others simply use the notify parameter:
 
-<code>[Register role="teacher" message="Thank you for registering for my site. If you would like to encourage your students to register, please direct them to http://www.domain.com/students" <b>notify="email1@email.com,email2@email.com"</b>]</code>
+[Register role="teacher" message="Thank you for registering for my site. If you would like to encourage your students to register, please direct them to http://www.domain.com/students" <b>notify="email1@email.com,email2@email.com"</b>]
 
 == Installation ==
 
