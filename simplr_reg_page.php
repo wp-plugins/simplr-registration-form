@@ -1,7 +1,7 @@
 <?php
 /*
-Plugin Name: Simplr User Registration Form	
-Version: 0.1.2
+Plugin Name: Simplr User Registration Form	- BETA
+Version: 0.1.5
 Description: This a simple plugin for adding a custom user registration form to any post or page using shortcode.
 Author: Mike Van Winkle
 Author URI: http://www.mikevanwinkle.com
@@ -17,7 +17,9 @@ if(version_compare($wp_version, "2.8", "<")) { exit($exit_msg); }
 
 define("SIMPLR_DIR", WP_PLUGIN_URL . '/simplr-registration-form/' );
 
-function simplr_reg_set() { ?>
+function simplr_reg_set() {
+$profile_fields = get_option('simplr_profile_fields');
+?>
 	<div class="wrap">
 		  <h2>Registration Form Settings</h2>
 			  <form method="post" action="options.php" id="simplr-settings">
@@ -39,6 +41,29 @@ function simplr_reg_set() { ?>
 				  <input type="text" name="sreg_style" value="<?php echo get_option('sreg_style'); ?>" class="field text wide" />
 				  <p><small>Enter the URL of the stylesheet you would prefer to use. Leave blank to stick with default.</small></p>
 				  </td>
+				  </tr>
+				   <tr valign="top">
+				  <th scope="row">Profile Fields<br />
+				    <small>Here you can setup default fields to include in your registration form. These can be overwritten on a form by form basis. </small>
+				  </th>
+						<td>
+						<div class="left"><label for="aim">AIM</label></div>
+						<div class="right">
+						<input type="checkbox" name="simplr_profile_fields[aim][name]" value="aim" class="field checkbox" <?php $aim = $profile_fields[aim]; if($aim[name] == true) { echo "checked";} ?>>  
+						Label: <input type="text" name="simplr_profile_fields[aim][label]" value="<?php echo $aim[label]; ?>" /><br/></div>
+						<div class="left"><label for="aim">Yahoo ID</label></div>
+						<div class="right">
+						<input type="checkbox" name="simplr_profile_fields[yim][name]" value="yim" class="field checkbox" <?php $yim = $profile_fields[yim]; if($yim[name] == true) { echo "checked";} ?>>  
+						Label: <input type="text" name="simplr_profile_fields[yim][label]" value="<?php echo $yim[label]; ?>" /><br/></div>
+						<div class="left"><label for="aim">Website</label></div>
+						<div class="right">
+						<input type="checkbox" name="simplr_profile_fields[website][name]" value="website" class="field checkbox" <?php $website = $profile_fields[website]; if($website[name] == true) { echo "checked";} ?>>  
+						Label: <input type="text" name="simplr_profile_fields[website][label]" value="<?php echo $website[label]; ?>" /><br/></div>
+						<div class="left"><label for="aim">Nickname</label></div>
+						<div class="right">
+						<input type="checkbox" name="simplr_profile_fields[nickname][name]" value="nickname" class="field checkbox" <?php $nickname = $profile_fields[nickname]; if($nickname[name] == true) { echo "checked";} ?>>  
+						Label: <input type="text" name="simplr_profile_fields[nickname][label]" value="<?php echo $nickname[label]; ?>" /><br/></div>
+						</td>
 				  </tr>
 				  </table>
 			  <?php settings_fields('simplr_reg_options'); ?>
@@ -68,6 +93,15 @@ function simplr_reg_menu() {
 	register_setting ('simplr_reg_options', 'sreg_admin_email', '');
 	register_setting ('simplr_reg_options', 'sreg_email', '');
 	register_setting ('simplr_reg_options', 'sreg_style', '');
+	register_setting ('simplr_reg_options', 'simplr_profile_fields', 'simplr_fields_settings_process');
+}
+
+function simplr_fields_settings_process($input) {
+	if($input[aim][name] && $input[aim][label] == '') {$input[aim][label] = 'AIM';}
+	if($input[yim][name] && $input[yim][label] == '') {$input[yim][label] = 'YIM';}
+	if($input[website][name] && $input[website][label] == '') {$input[website][label] = 'Website';}	
+	if($input[nickname][name] && $input[nickname][label] == '') {$input[nickname][label] = 'Nickname';}
+	return $input;
 }
 
 function simplr_reg_styles() {
@@ -96,32 +130,64 @@ function simplr_reg_admin_page() {
 	add_submenu_page('options-general.php','Registration Page Settings', 'Registration Page','manage_options','simplr_reg_page', 'simplr_reg_admin');
 	}	
 
+
+function simplr_validate($data) {
+	require_once(ABSPATH . WPINC . '/registration.php' );
+	require_once(ABSPATH . WPINC . '/pluggable.php' );
+	$errors = '';
+	if(!$data['username']) { $errors = "You must enter a username."; } 
+		else {
+			// check whether username is valid
+			$user_test = validate_username($data['username']);
+				if($user_test != true) {
+						$errors .= 'Invalid Username';
+					}
+			// check whether username already exists
+			$user_id = username_exists( $data['username'] );
+				if($user_id) {
+						$errors .= 'This username already exists';
+					}
+		}	//end user validation
+	if(!$data['email']) { $errors = "You must enter an email."; } 	
+	else {
+		$email_test = email_exists($data['email']);
+		if($email_test != false) {
+				$errors .= 'An account with this email has already been registered';
+			}	
+		} // end email validation
+	$errors = apply_filters('simplr_validate_form', $errors); 
+	return $errors;
+}
+
 function sreg_process_form($atts) {
-		global $options;
-		$admin_email = $atts['from'];
-		$emessage = $atts['message'];
-		require_once(ABSPATH . WPINC . '/registration.php' );
-		require_once(ABSPATH . WPINC . '/pluggable.php' );
-		//Assign POST variables
-		$user_name = $_POST['username'];
-		$fname = $_POST['fname'];
-		$lname = $_POST['lname'];
-		$user_name = sanitize_user($user_name, true);
-		$email = $_POST['email'];
-		//Test variables using built in wordpress functions.
-		$user_test = validate_username($user_name);
-			if($user_test != true) {
-				$message = 'Invalid Username';
-				}
-			$email_test = email_exists($email);
-			if($email_test != false) {
-					$message = 'An account with this email has already been registered';
-				}
-			$user_id = username_exists( $user_name );
-			if($user_id) {
-				$message = 'This username already exists';
-			}
-			if (!$message) {
+	//security check
+	
+	if (!wp_verify_nonce($_POST['simplr_nonce'], 'simplr_nonce') ) { die('Security check'); }
+
+	$errors = simplr_validate($_POST);
+	if( $errors ==  true ) :
+		 $message = $errors;
+	endif; 
+	
+	if (!$message) {
+				
+			//check options
+				global $options;
+				$admin_email = $atts['from'];
+				$emessage = $atts['message'];
+				$role = $atts['role']; 
+					if($role == '') { $role = 'subscriber'; }
+				require_once(ABSPATH . WPINC . '/registration.php' );
+				require_once(ABSPATH . WPINC . '/pluggable.php' );
+				
+			//Assign POST variables
+				$user_name = $_POST['username'];
+				$fname = $_POST['fname'];
+				$lname = $_POST['lname'];
+				$user_name = sanitize_user($user_name, true);
+				$email = $_POST['email'];
+		
+		
 			//This part actually generates the account
 				$random_password = wp_generate_password( 12, false );
 				$userdata = array(
@@ -130,28 +196,106 @@ function sreg_process_form($atts) {
 					'last_name' => $lname,
 					'user_pass' => $random_password,
 					'user_email' => $email,
-					'role' => $atts['role']
+					'role' => $role
 					);
 				$user_id = wp_insert_user( $userdata );
+					if(WP_MULTISITE === true) { 
+						global $wpdb;
+						$ip = getenv('REMOTE_ADDR');
+						$site = get_current_site();
+						$sid = $site->id;
+						$query = $wpdb->prepare("
+							INSERT INTO $wpdb->registration_log
+							(ID, email, IP, blog_ID, date_registered)
+							VALUES ($user_id, $email, $ip, $sid, NOW() )
+							");
+						$results = $wpdb->query($query);
+					}
+				
+			//Do Meta Hook
+				do_action('simplr_profile_save_meta', $user_id);
+
+			//Set Message
 				$message = 'Registration Successful. A password was sent to you via email.';
 				$message = '<div class="simplr-message">'.$message .'</div>';
-				//add flag for the user to change their auto-generated password
+				
+			//add flag for the user to change their auto-generated password
 				$update = update_user_option($user_id, 'default_password_nag', true, true);
-				//notify admin of new user
+				
+			//notify admin of new user
 				$notification = wp_new_user_notification($user_id, $random_pass); 
 				$site = get_option('siteurl');
 				$name = get_option('blogname');
 				$notify = $atts['notify'];
-					mail($notify, "New User Registered for $name", "A new user has registered for $name.\rUsername: $user_name\r Email: $email \r");
-				$emessage = $emessage . "\r\r---\rYou should login and change your password as soon as possible.\r\rUsername: $user_name\rPassword: $random_password\rLogin: $site";
+				mail($notify, "New User Registered for $name", "A new user has registered for $name.\rUsername: $user_name\r Email: $email \r");
+				$emessage = $emessage . "\r\r---\rYou should login and change your password as soon as possible.\r\rUsername: $user_name\rPassword: $random_password\rLogin: $site/wp-login.php";
 				$mail_message = wp_mail($email, "$name - Registration Confirmaion", $emessage);
-				echo "Your Registration was successful, please check your email for confirmation";
+				$confirm = '<div class="simplr-message">Your Registration was successful, please check your email for confirmation</div>';
+				return $confirm;
 			} else { 
-			//Print the appropriate message
-			$message = '<div class="simplr-message">'.$message .'</div>';
-			echo $message;
-			}
+			
+			
+		//Print the appropriate message
+		$message = '<div class="simplr-message">'.$message .'</div>';
+		$form = simplr_build_form($_POST);
+		$output = $message . $form;
+		return $output;
+	}
 //END FUNCTION
+}
+
+function simplr_build_form($data) {
+			
+			$label_first = apply_filters('simplr_label_fname', 'First Name:' );
+			$label_last = apply_filters('simplr_label_lname', 'Last Name:' );
+			$label_email = apply_filters('simplr_label_email', 'Email Address:' );
+			$label_username = apply_filters('simplr_label_username', 'Your Username:' );
+			
+			//POST FORM
+			$form = '';
+			$form .=  '<div id="simplr-form">';
+			$form .=  '<form method="post" action="" id="simplr-reg">';
+			$form .=  '<div class="simplr-field">';
+			$form .=  '<label for="username" class="left">' .$label_username .' <span class="required">*</span></label>';
+			$form .=  '<input type="text" name="username" class="right" value="'.$data['username'] .'" /><br/>';
+			$form .=  '</div>';
+			$form .=  '<div class="simplr-field">';
+			$form .=  '<label for="email" class="left">' .$label_email .' <span class="required">*</span></label>';
+			$form .=  '<input type="text" name="email" class="right" value="'.$data['email'] .'" /><br/>';
+			$form .=  '</div>';
+			$form .=  '<div class="simplr-field">';
+			$form .=  '<label for="fname" class="left">'.$label_first .'</label>';
+			$form .=  '<input type="text" name="fname" class="right" value="'.$data['fname'] .'" /><br/>';
+			$form .=  '</div>';
+			$form .=  '<div class="simplr-field">';
+			$form .=  '<label for="lname" class="left">' .$label_last .'</label>';
+			$form .=  '<input type="text" name="lname" class="right" value="'.$data['lname'] .'"/><br/>';
+			$form .=  '</div>';
+
+			//hook for adding profile fields
+			$form = apply_filters('simplr_add_form_fields', $form);
+													
+			//optional profile fields
+			$pro_fields = get_option('simplr_profile_fields');
+			if($pro_fields) {
+					foreach($pro_fields as $field) {
+							if($field[name] != '') {
+						$form .= '<div class="simplr-field"><label for="' .$field[name] .'" class="left">'.$field[label] .'</label><input type="text" name="'.$field[name] .'" value="" class="text" /></div>';
+						}
+					}
+				}
+			
+				
+				 
+			//submission field
+			$form .=  '<input type="submit" name="submit-reg" value="Register" class="submit">';
+			
+			//wordress nonce for security
+			$nonce = wp_create_nonce('simplr_nonce');
+			$form .= '<input type="hidden" name="simplr_nonce" value="' .$nonce .'" />';
+			$form .=  '</form>';
+			$form .=  '</div>';
+			return $form;
 }
 
 function sreg_basic($atts) {
@@ -161,31 +305,12 @@ function sreg_basic($atts) {
 		} else {
 		//Then check to see whether a form has been submitted, if so, I deal with it.
 		if(isset($_POST['submit-reg'])) {
-			sreg_process_form($atts);	
+			$output = sreg_process_form($atts);	
+			return $output;
 		} else {
-			//POST FORM
-			echo '<div id="simplr-form">';
-			echo '<form method="post" action="">';
-			echo '<div class="simplr-field">';
-			echo '<label for="fname" class="left">First Name:</label>';
-			echo '<input type="text" name="fname" class="right"><br/>';
-			echo '</div>';
-			echo '<div class="simplr-field">';
-			echo '<label for="lname" class="left">Last Name:</label>';
-			echo '<input type="text" name="lname" class="right"><br/>';
-			echo '</div>';
-			echo '<div class="simplr-field">';
-			echo '<label for="username" class="left">Choose a username:</label>';
-			echo '<input type="text" name="username" class="right"><br/>';
-			echo '</div>';
-			echo '<div class="simplr-field">';
-			echo '<label for="email" class="left">Enter your email:</label>';
-			echo '<input type="text" name="email" class="right"><br/>';
-			echo '</div>';
-			echo '<input type="submit" name="submit-reg" value="Register" class="submit">';
-			wp_nonce_field('-1','simplr-nonce' );
-			echo '</form>';
-			echo '</div>';
+			$data = array();
+			$form = simplr_build_form($data);		
+		return $form;				
 	} //Close POST Condiditonal
 } //Close LOGIN Conditional
 
@@ -207,6 +332,7 @@ function sreg_figure($atts) {
 		} else { 
 			$function = 'You should not register admin users via a public form';
 		}
+	return $function;
 }//End Function
 
 
