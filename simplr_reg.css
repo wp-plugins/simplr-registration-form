@@ -1,7 +1,8 @@
 #simplr-form {padding:10px 5px; border-top: 1px dotted #eee; border-top: 1px dotted #eee; margin:10px; text-align:left;}
 .simplr-message {margin:5px 0; background:#eee; padding:10px; font-size:16px;}
 .simplr-field {margin:5px 0; }
-.simplr-field .left {width:30%;float:left;}
+.simplr-field .left {width:30%;float:left; color: #000; }
+.simplr-field .required {color:red;}
 .simplr-field .right {width:60%; float:left;}
 #simplr-form textarea {margin:5px 0 10px 8px;}
 #simplr-form .submit {clear:both;float:left;margin-right:9%;}
