@@ -57,8 +57,8 @@ $profile_fields = get_option('simplr_profile_fields');
 						Label: <input type="text" name="simplr_profile_fields[yim][label]" value="<?php echo $yim[label]; ?>" /><br/></div>
 						<div class="left"><label for="aim">Website</label></div>
 						<div class="right">
-						<input type="checkbox" name="simplr_profile_fields[website][name]" value="website" class="field checkbox" <?php $website = $profile_fields[website]; if($website[name] == true) { echo "checked";} ?>>  
-						Label: <input type="text" name="simplr_profile_fields[website][label]" value="<?php echo $website[label]; ?>" /><br/></div>
+						<input type="checkbox" name="simplr_profile_fields[url][name]" value="url" class="field checkbox" <?php $url = $profile_fields[url]; if($url[name] == true) { echo "checked";} ?>>  
+						Label: <input type="text" name="simplr_profile_fields[url][label]" value="<?php echo $url[label]; ?>" /><br/></div>
 						<div class="left"><label for="aim">Nickname</label></div>
 						<div class="right">
 						<input type="checkbox" name="simplr_profile_fields[nickname][name]" value="nickname" class="field checkbox" <?php $nickname = $profile_fields[nickname]; if($nickname[name] == true) { echo "checked";} ?>>  
@@ -186,6 +186,7 @@ function sreg_process_form($atts) {
 				$lname = $_POST['lname'];
 				$user_name = sanitize_user($user_name, true);
 				$email = $_POST['email'];
+				$user_url = $_POST['url'];
 		
 		
 			//This part actually generates the account
@@ -196,6 +197,7 @@ function sreg_process_form($atts) {
 					'last_name' => $lname,
 					'user_pass' => $random_password,
 					'user_email' => $email,
+					'user_url' => $user_url,
 					'role' => $role
 					);
 				$user_id = wp_insert_user( $userdata );
@@ -212,6 +214,16 @@ function sreg_process_form($atts) {
 						$results = $wpdb->query($query);
 					}
 				
+			//Process additional fields
+			$pro_fields = get_option('simplr_profile_fields');
+			if($pro_fields) {
+					foreach($pro_fields as $field) {
+					$key = $field['name'];
+					$val = $_POST[$key];
+						if(isset( $val )) { add_user_meta($user_id,$key,$val); }
+					}
+			}
+			
 			//Do Meta Hook
 				do_action('simplr_profile_save_meta', $user_id);
 
@@ -280,7 +292,7 @@ function simplr_build_form($data) {
 			if($pro_fields) {
 					foreach($pro_fields as $field) {
 							if($field[name] != '') {
-						$form .= '<div class="simplr-field"><label for="' .$field[name] .'" class="left">'.$field[label] .'</label><input type="text" name="'.$field[name] .'" value="" class="text" /></div>';
+						$form .= '<div class="simplr-field"><label for="' .$field[name] .'" class="left">'.$field[label] .'</label><input type="text" name="'.$field[name] .'" value="'.$data[$field[name]] .'" class="text" /></div>';
 						}
 					}
 				}
