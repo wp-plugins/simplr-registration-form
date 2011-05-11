@@ -27,7 +27,7 @@ add_action('admin_menu','simplr_reg_menu');
 
 add_shortcode('register', 'sreg_figure');
 add_shortcode('Register', 'sreg_figure');
-add_action('admin_init','action_admin_init');
+add_action('admin_init','simplr_action_admin_init');
 add_action('admin_init','simplr_reg_scripts');
 
 //functions
@@ -447,21 +447,21 @@ function sreg_figure($atts) {
 }//End Function
 
 
-function action_admin_init() {
+function simplr_action_admin_init() {
 	// only hook up these filters if we're in the admin panel, and the current user has permission
 	// to edit posts and pages
 	if ( current_user_can( 'edit_posts' ) && current_user_can( 'edit_pages' ) ) {
-		add_filter( 'mce_buttons', 'filter_mce_button' );
-		add_filter( 'mce_external_plugins', 'filter_mce_plugin' );
+		add_filter( 'mce_buttons', 'simplr_filter_mce_button' );
+		add_filter( 'mce_external_plugins', 'simplr_filter_mce_plugin' );
 	}
 }
 
-function filter_mce_button( $buttons ) {
+function simplr_filter_mce_button( $buttons ) {
 	array_push( $buttons, '|', 'simplr_reg_button' );
 	return $buttons;
 }
 
-function filter_mce_plugin( $plugins ) {
+function simplr_filter_mce_plugin( $plugins ) {
 	// this plugin file will work the magic of our button
 	$plugins['simplr_reg'] = SIMPLR_DIR . 'simplr_reg.js';
 	return $plugins;

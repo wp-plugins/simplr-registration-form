@@ -39,10 +39,10 @@ submit.click(function(){
 				<td>
 				<select name="role" id="reg-role">
 					<option value="">Select role ... </option>
-					<?php global $wp_roles; print_r($wp_roles); ?>
+					<?php global $wp_roles;  ?>
 					<?php foreach($wp_roles->role_names as $k => $v): ?>
 					<?php if($k != 'administrator'): ?>
-					<option value="<?=$k; ?>"><?=$v; ?></option>
+					<option value="<?php echo $k; ?>"><?php echo $v; ?></option>
 					<?php endif; ?>
 					<?php endforeach; ?>
 				</select><br/>
