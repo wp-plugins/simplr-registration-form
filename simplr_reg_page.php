@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: Simplr User Registration Form
-Version: 0.1.7
+Version: 0.1.8.1
 Description: This a simple plugin for adding a custom user registration form to any post or page using shortcode.
 Author: Mike Van Winkle
 Author URI: http://www.mikevanwinkle.com
@@ -316,7 +316,7 @@ function simplr_send_notifications($atts, $data, $passw) {
 	$user_name = $data['username'];
 	$email = $data['email'];
 	$notify = $atts['notify'];
-	$emessage = apply_filters('simplr_email_confirmation_message', __("Your registration was successful.".$atts['message']), 'simplr-reg');
+	$emessage = __("Your registration was successful.".$atts['message']);
 	$headers = "From: $name" . ' <' .get_option('admin_email') .'> ' ."\r\n\\";
 	wp_mail($notify, "A new user registered for $name", "A new user has registered for $name.\rUsername: $user_name\r Email: $email \r",$headers);
 	$emessage = $emessage . "\r\r---\r";
@@ -324,8 +324,7 @@ function simplr_send_notifications($atts, $data, $passw) {
 		$emessage .= "You should login and change your password as soon as possible.\r\r";
 		}
 	$emessage .= "Username: $user_name\rPassword: $passw\rLogin: $site/wp-login.php";
-	wp_mail($data['email'],"$name - Registration Confirmation", $emessage, $headers);
-	
+	wp_mail($data['email'],"$name - Registration Confirmation", apply_filters('simplr_email_confirmation_message',$emessage,$data) , $headers);
 }
 
 function simplr_build_form($data,$atts) {
@@ -470,6 +469,4 @@ function simplr_filter_mce_plugin( $plugins ) {
 function simplr_reg_scripts() {
 	wp_enqueue_script('simplr_reg_options', SIMPLR_DIR . 'simplr_reg_options.js', array('jquery'));
 	wp_localize_script( 'simplr_reg_options', 'simplr', array( 'plugin_dir' => SIMPLR_DIR ) );
-}
-
-?>
+}?>
