@@ -1,24 +1,24 @@
 <?php
 /*
 Plugin Name: Simplr User Registration Form
-Version: 0.1.8.1
+Version: 0.1.8.2
 Description: This a simple plugin for adding a custom user registration form to any post or page using shortcode.
 Author: Mike Van Winkle
 Author URI: http://www.mikevanwinkle.com
 Plugin URI: http://www.mikevanwinkle.com/wordpress/how-to/custom-wordpress-registration-page/
 License: GPL
 */
-?>
-<?php
+
 define('WP_DEBUG',true);
+
+//constants
+define("SIMPLR_URL", plugins_url('',__FILE__) );
+define("SIMPLR_DIR", rtrim(dirname(__FILE__), '/'));
 
 //validate
 global $wp_version;
 $exit_msg = "Dude, upgrade your stinkin Wordpress Installation.";
 if(version_compare($wp_version, "2.8", "<")) { exit($exit_msg); }
-
-//constants
-define("SIMPLR_DIR", WP_PLUGIN_URL . '/simplr-registration-form/' );
 
 //API
 add_action('wp_print_styles','simplr_reg_styles');
@@ -28,7 +28,7 @@ add_action('admin_menu','simplr_reg_menu');
 add_shortcode('register', 'sreg_figure');
 add_shortcode('Register', 'sreg_figure');
 add_action('admin_init','simplr_action_admin_init');
-add_action('admin_init','simplr_reg_scripts');
+add_action('admin_head','simplr_reg_scripts',100);
 
 //functions
 
@@ -123,7 +123,7 @@ function simplr_reg_styles() {
 	global $options;
 	$style = get_option('sreg_style');
 	if(!$style) {
-		$src = SIMPLR_DIR .'simplr_reg.css';
+		$src = SIMPLR_URL .'/simplr_reg.css';
 		wp_register_style('simplr-forms-style',$src);
 		wp_enqueue_style('simplr-forms-style');
 	} else {
@@ -135,7 +135,7 @@ function simplr_reg_styles() {
 }
 
 function simplr_admin_style() {
-	$src = SIMPLR_DIR . 'simplr_admin.css';
+	$src = SIMPLR_URL . '/simplr_admin.css';
 	wp_register_style('simplr-admin-style',$src); 
 	wp_enqueue_style('simplr-admin-style');
 }
@@ -462,11 +462,56 @@ function simplr_filter_mce_button( $buttons ) {
 
 function simplr_filter_mce_plugin( $plugins ) {
 	// this plugin file will work the magic of our button
-	$plugins['simplr_reg'] = SIMPLR_DIR . 'simplr_reg.js';
+	$plugins['simplr_reg'] = SIMPLR_URL . '/simplr_reg.js';
 	return $plugins;
 }
 
 function simplr_reg_scripts() {
-	wp_enqueue_script('simplr_reg_options', SIMPLR_DIR . 'simplr_reg_options.js', array('jquery'));
-	wp_localize_script( 'simplr_reg_options', 'simplr', array( 'plugin_dir' => SIMPLR_DIR ) );
-}?>
+	?>
+	<script type="text/javascript">
+	//<![CDATA[
+		userSettings.simplr_plugin_dir = '<?php echo SIMPLR_URL; ?>/';
+	//]]>
+</script> 
+	<?php
+}
+
+function simplr_premium_nag() {
+	?>
+	<div id="message" class="updated simplr-message">
+		<p><strong><a href="http://www.mikevanwinkle.com/simplr-registration-form-plus/" title="Find out more about Simplr Registration Form Plus">Simplr Registration Form Plus is now available!</a></strong> Plus includes a user interface for adding fields, Facebook Connect API Integration, Recaptcha Integration and more. <a href="http://www.mikevanwinkle.com/simplr-registration-form-plus/" title="Find out more about Simplr Registration Form Plus">Find out more</a>.
+		<a href="#" id="simplr-remove-this"  style="font-size:10px;font-style:italic;">Remove this message.</a>
+		<div style="clear:both;"></div>
+		</p>
+	</div>
+	<?php
+}
+
+$options = get_option('simplr_reg_options');
+if($options->premium_nag != '1') {
+	add_action('admin_notices','simplr_premium_nag'); 
+	add_action('admin_head','simplr_premium_nag_script');
+	add_action('wp_ajax_simplr-remove-nag','simplr_ajax_remove_nag');
+}
+
+function simplr_premium_nag_script() {
+	?>
+	<script>
+		jQuery.noConflict();
+		jQuery(document).ready(function() {
+			jQuery('a#simplr-remove-this').live('click',function(event) {
+				event.preventDefault(); 
+				jQuery.post(ajaxurl,{action:'simplr-remove-nag'},function(data) {});
+				jQuery(this).parent().parent().fadeOut();
+			});
+		});
+	</script>
+	<?php
+}
+
+function simplr_ajax_remove_nag() {
+	$options = get_option('simplr_reg_options');
+	$options->premium_nag = 1;
+	update_option('simplr_reg_options',$options);
+}
+?>

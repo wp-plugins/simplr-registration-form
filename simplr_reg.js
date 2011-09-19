@@ -1,7 +1,7 @@
 // closure to avoid namespace collision
 (function(){
 	// creates the plugin
-	root = simplr.plugin_dir;
+	root = userSettings.simplr_plugin_dir;
 	
 	tinymce.create('tinymce.plugins.simplr_reg', {
 		// creates control instances based on the control's id.
@@ -35,7 +35,7 @@
 		// creates a form to be displayed everytime the button is clicked
 		jQuery('#footer').append(function() {
 				jQuery(this).after('<div id="hook"></div>');
-				jQuery('#hook').load(simplr.plugin_dir + 'simplr_reg_options.php');
+				jQuery('#hook').load(root + 'simplr_reg_options.php');
 			});
 	
 	});
