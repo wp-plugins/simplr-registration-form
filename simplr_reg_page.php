@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: Simplr User Registration Form
-Version: 0.1.8.2
+Version: 0.1.8.3
 Description: This a simple plugin for adding a custom user registration form to any post or page using shortcode.
 Author: Mike Van Winkle
 Author URI: http://www.mikevanwinkle.com
@@ -10,6 +10,7 @@ License: GPL
 */
 
 define('WP_DEBUG',true);
+define('SIMPLR_REG_VERSION','0.1.8.3');
 
 //constants
 define("SIMPLR_URL", plugins_url('',__FILE__) );
@@ -19,6 +20,7 @@ define("SIMPLR_DIR", rtrim(dirname(__FILE__), '/'));
 global $wp_version;
 $exit_msg = "Dude, upgrade your stinkin Wordpress Installation.";
 if(version_compare($wp_version, "2.8", "<")) { exit($exit_msg); }
+
 
 //API
 add_action('wp_print_styles','simplr_reg_styles');
@@ -316,9 +318,22 @@ function simplr_send_notifications($atts, $data, $passw) {
 	$user_name = $data['username'];
 	$email = $data['email'];
 	$notify = $atts['notify'];
+	
+	if(strstr($notify,',')) {
+		$notify = explode(',',$notify);
+	}
+	
 	$emessage = __("Your registration was successful.".$atts['message']);
 	$headers = "From: $name" . ' <' .get_option('admin_email') .'> ' ."\r\n\\";
-	wp_mail($notify, "A new user registered for $name", "A new user has registered for $name.\rUsername: $user_name\r Email: $email \r",$headers);
+	
+	if(!is_array($notify)) {
+		wp_mail($notify, "A new user registered for $name", "A new user has registered for $name.\rUsername: $user_name\r Email: $email \r",$headers);
+	} else {
+		foreach($notify as $noti) {
+			wp_mail($noti, "A new user registered for $name", "A new user has registered for $name.\rUsername: $user_name\r Email: $email \r",$headers);		
+		}
+	}
+	
 	$emessage = $emessage . "\r\r---\r";
 		if(!isset($data['password'])) {
 		$emessage .= "You should login and change your password as soon as possible.\r\r";
