@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: Simplr User Registration Form
-Version: 0.1.8.3
+Version: 0.1.8.4
 Description: This a simple plugin for adding a custom user registration form to any post or page using shortcode.
 Author: Mike Van Winkle
 Author URI: http://www.mikevanwinkle.com
@@ -360,15 +360,15 @@ function simplr_build_form($data,$atts) {
 	$form .=  '<form method="post" action="" id="simplr-reg">';
 	$form .=  '<div class="simplr-field">';
 	$form .=  '<label for="username" class="left">' .$label_username .' <span class="required">*</span></label>';
-	$form .=  '<input type="text" name="username" class="right" value="'.$data['username'] .'" /><br/>';
+	$form .=  '<input type="text" name="username" class="right" value="'.esc_attr($data['username']).'" /><br/>';
 	$form .=  '</div>';
 	$form .=  '<div class="simplr-field">';
 	$form .=  '<label for="fname" class="left">'.$label_first .'</label>';
-	$form .=  '<input type="text" name="fname" class="right" value="'.$data['fname'] .'" /><br/>';
+	$form .=  '<input type="text" name="fname" class="right" value="'.esc_attr($data['fname']) .'" /><br/>';
 	$form .=  '</div>';
 	$form .=  '<div class="simplr-field">';
 	$form .=  '<label for="lname" class="left">' .$label_last .'</label>';
-	$form .=  '<input type="text" name="lname" class="right" value="'.$data['lname'] .'"/><br/>';
+	$form .=  '<input type="text" name="lname" class="right" value="'.esc_attr($data['lname']).'"/><br/>';
 	$form .=  '</div>';
 	
 	$form = apply_filters('simplr-add-personal-fields', $form);
@@ -376,11 +376,11 @@ function simplr_build_form($data,$atts) {
 	$form .=  apply_filters('simplr-reg-email-header',__('<h3 class="registration email">Contact Info</h3>','simplr-reg'));
 	$form .=  '<div class="simplr-field email-field">';
 	$form .=  '<label for="email" class="left">' .$label_email .' <span class="required">*</span></label>';
-	$form .=  '<input type="text" name="email" class="right" value="'.$data['email'] .'" /><br/>';
+	$form .=  '<input type="text" name="email" class="right" value="'.esc_attr($data['email']).'" /><br/>';
 	$form .=  '</div>';
 	$form .=  '<div class="simplr-field email-field">';
 	$form .=  '<label for="email" class="left">' .$label_confirm_email .' <span class="required">*</span></label>';
-	$form .=  '<input type="text" name="email_confirm" class="right" value="'.$data['email_confirm'] .'" /><br/>';
+	$form .=  '<input type="text" name="email_confirm" class="right" value="'.esc_attr($data['email_confirm']).'" /><br/>';
 	$form .=  '</div>';
 	
 	$form = apply_filters('simplr-add-contact-fields', $form);
@@ -390,7 +390,7 @@ function simplr_build_form($data,$atts) {
 	if($pro_fields) {
 		foreach($pro_fields as $field) {
 				if($field[name] != '') {
-			$form .= '<div class="simplr-field"><label for="' .$field[name] .'" class="left">'.$field[label] .'</label><input type="text" name="'.$field[name] .'" value="'.$data[$field[name]] .'" class="text" /></div>';
+			$form .= '<div class="simplr-field"><label for="' .$field[name] .'" class="left">'.$field[label] .'</label><input type="text" name="'.$field[name] .'" value="'.esc_attr($data[$field[name]]).'" class="text" /></div>';
 			}
 		}
 	}
@@ -400,12 +400,12 @@ function simplr_build_form($data,$atts) {
 		$form .=  apply_filters('simplr-reg-password-header',__('<h3 class="registration password">Choose a password</h3>','simplr-reg'));			
 		$form .=  '<div class="simplr-field">';
 		$form .=  '<label for="password" class="left">' .$label_pass .'</label>';
-		$form .=  '<input type="password" name="password" class="right" value="'.$data['password'] .'"/><br/>';
+		$form .=  '<input type="password" name="password" class="right" value="'.esc_attr($data['password']).'"/><br/>';
 		$form .=  '</div>';
 		
 		$form .=  '<div class="simplr-field">';
 		$form .=  '<label for="password-confirm" class="left">' .$label_confirm .'</label>';
-		$form .=  '<input type="password" name="password_confirm" class="right" value="'.$data['password_confirm'] .'"/><br/>';
+		$form .=  '<input type="password" name="password_confirm" class="right" value="'.esc_attr($data['password_confirm']).'"/><br/>';
 		$form .=  '</div>';
 	}
 
