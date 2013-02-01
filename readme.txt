@@ -58,4 +58,5 @@ Updated for WordPress 3.2
 Bugfix: Tinymce button loading triggers errors
 
 =1.8.4=
-Security Fix
+Security Fix (Based on report provided by Atulkumar Hariba Shedage and Ritesh Arunkumar Sarvaiya of defencely.com)
+
