@@ -67,7 +67,7 @@ if( @$simplr_options->mod_on == 'yes' ) {
 **
 **/
 
-$simplr_update = new PluginUpdateChecker('http://www.mikevanwinkle.com/api/simplr-reg-form-plus.json',__FILE__,'simplr-registration-form-plus');
+//$simplr_update = new PluginUpdateChecker('http://www.mikevanwinkle.com/api/simplr-reg-form-plus.json',__FILE__,'simplr-registration-form-plus');
 
 /*
 **
