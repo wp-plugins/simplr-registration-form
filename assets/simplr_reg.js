@@ -1,7 +1,7 @@
 // closure to avoid namespace collision
 (function(){
 	// creates the plugin
-	root = simplr.plugin_dir;
+	root = userSettings.simplr_plugin_dir;
 	
 	tinymce.create('tinymce.plugins.simplr_reg', {
 		// creates control instances based on the control's id.
@@ -14,10 +14,7 @@
 					image : root+'registration_24x24.png',  // path to the button's image
 					onclick : function() {
 						// do something when the button is clicked :)
-						var width = jQuery(window).width(), H = jQuery(window).height(), W = ( 720 < width ) ? 720 : width;
-						W = W - 80;
-						H = H - 84;
-						tb_show( 'Register Form Options', '#TB_inline?width=' + W + '&height=' + H + '&inlineId=reg-form' );
+						jQuery('#reg-form').show().after('<div class="media-modal-backdrop"></div>');
 					}
 				});
 				return button;
@@ -31,12 +28,23 @@
 	tinymce.PluginManager.add('simplr_reg', tinymce.plugins.simplr_reg);
 	
 	// executes this when the DOM is ready
-	jQuery(function(){
+	jQuery(document).ready(function(){
 		// creates a form to be displayed everytime the button is clicked
-		jQuery('#footer').append(function() {
+		jQuery('#wpfooter').append(function() {
 				jQuery(this).after('<div id="hook"></div>');
-				jQuery('#hook').load(simplr.plugin_dir + 'simplr_reg_options.php');
-			});
+				jQuery('#hook').load(root + 'simplr_reg_options.php');
+		});
+
+		//for backward compatibilty
+		jQuery('#footer').append(function() {
+                        jQuery(this).after('<div id="hook"></div>');
+                        jQuery('#hook').load(root + 'simplr_reg_options.php');
+                 });
+			
+		jQuery('a.media-modal-close').live('click',function() {
+			jQuery('#reg-form').hide();
+			jQuery('.media-modal-backdrop').remove();
+		});
 	
 	});
 

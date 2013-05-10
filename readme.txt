@@ -1,28 +1,24 @@
-=== Simplr User Registration Form ===
+=== Simplr Registration Form Plus+ ===
 Contributors: mpvanwinkle77
 Donate link: http://www.mikevanwinkle.com/
-Tags: registration, signup, wordpress 3.0, cms, users, user management
-Requires at least: 2.8
-Tested up to: 3.2
-Stable tag: 1.8.4
+Tags: registration, signup, wordpress 3.5, cms, users, user management
+Requires at least: 3.0
+Tested up to: 3.5
+Stable tag: 2.2.0
 
 This plugin allows users to easily add a custom user registration form anywhere on their site using simple shortcode.
 
 == Description ==
 
-The goal of this plugin is to give developers and advanced Wordpress users a simple way to create role-specific registration forms for their Wordpress website. For instance, you might be running an education based site in which you wanted both teachers and students to participate. This plugin enables you to create distinct registration forms for each type of registrant.
+This plugin creates a user interface for adding custom registration forms to any post or page on your WordPress website. Simply navigate to the edit page for post or page on which you would like the form to appear and click the registration forms button. A popup menu will appear guiding you through the options. 
 
-Because the focus is on separating registrants, I have not focused on creating a highly customizable form like <a href="http://wordpress.org/extend/plugins/register-plus/" title="Register Plus">Register Plus</a>. 
-
-To use this plugin simply employ the shortcode <code>[register]</code> on any Wordpress post or page. The default role is "subscriber". To apply another role to the registration simply use the the role parameter, for instance: <code>[Register role="editor"]</code>. If you have created custom roles you may use them as well. 
-
-For advanced options, insert the shortcode using the TinyMCE button.
+The plugin also creates an interface for adding/removing fields to be used in the registration form. 
 
 == Installation ==
 
-1. Download `simplr_reg_page.zip` and upload contents to the `/wp-content/plugins/` directory
+1. Download `simplr-registration-form-plus.zip` and upload contents to the `/wp-content/plugins/` directory
 1. Activate the plugin through the 'Plugins' menu in WordPress
-1. Place `[Register role="YOUROLE"]` in the page or post you would like to contain a registration form.
+1. Insert forms using the TinyMCE registration button.
 
 == Frequently Asked Questions ==
 
@@ -47,16 +43,91 @@ Email validation.
 Allows user to set their own password.
 Additional security to prevent registering administrative role via plugin.
 
-=1.8=
-Fixed tinyMCE button bug. 
+=2.0.1= 
+Premium version launch
 
-=1.8.1=
-Added message filter
+=2.0.2=
+Fixed tinyMCE bug
 
-=1.8.2=
-Updated for WordPress 3.2
-Bugfix: Tinymce button loading triggers errors
+=2.0.5=
+-Added Facebook Connect Integration. 
+-Fixed validation bug. 
+-Added instruction video. 
+-Added Auto-Update.
 
-=1.8.4=
-Security Fix (Based on report provided by Atulkumar Hariba Shedage and Ritesh Arunkumar Sarvaiya of defencely.com)
+=2.0.5.1=
+-Fixed FB Login Bug
 
+=2.0.6=
+-Feature: Adds Facebook Connect
+-Feature: Add error field hi-lighting
+-Feature: Adds custom registration fields to user profile
+-Bugfix: fixed issue with non-required custom fields
+-Bugfix: fixed tinyMCE button registration issue in WP 3.2+
+
+=2.0.6.1=
+-Bugfix: old profile fields deleted on activation
+-Bugfix: FB connect footer error
+
+=2.0.6.2=
+-Bugfix: FB conflicting with other plugins.
+
+=2.1=
+-Feature: Profile page shortcode
+-Feature: Field types for checkbox and call back functions.
+-Feature: Profile page redirect
+-Bugfix: Fized Facebook classes to avoid conflict with other plugins
+
+=2.1.1=
+-Bugfix:Turned Off Error Reporting.
+
+=2.1.2=
+-Bugfix:Added backward compatibility to field ordering.
+
+=2.1.3=
+-bugfix: activation error
+
+=2.1.4=
+-bugfix: reCaptcha api keys save error fixed. 
+
+=2.1.5=
+-bugfix: fixed bugs related to 3.3 and style fixes
+
+=2.1.6=
+-bugfix: non-required having asteriks other undefined index bugs
+
+=2.1.7=
+-bugfix: profile bugs, checkbox "checked" and hidden profiles on backend
+
+=2.1.8=
+-bugfix: Updated mutliuser check for 3.3
+-feature: Custom Thank You page 
+-feature: Updated styles to fit better with WordPress 3.3+
+-feature: Add Chosen JS library for better UI on admin pages (plan to exten this to front end forms)
+-feature: Auto-registration for FB Connect users. 
+-bugfix: login form on profile page if user is not logged in
+-codebase: Reorganized admin form saving functions
+
+=2.1.8.1=
+-bugfix: Critical fix on admin profile 
+
+=2.1.8.2=
+-bugfix: Critical bug on network check
+
+=2.1.8.4=
+-bugfix: Thank you page routing
+-bugfix: Recaptcha save
+
+=2.1.10=
+-bugfix: update tinymce button to accomodate wordpress 3.5
+
+=2.1.11=
+-bugfix: callback function bugfix
+
+=2.2.0=
+-bugfix: namespace the form class
+-bugfix: silence some php undefined var errors
+-feature: add moderation
+-feature: allow user submitted vars in confirmation email
+-enhancement: use new wp-media-modal instead of thickbox
+-feature: integrate custom fields with admin tables

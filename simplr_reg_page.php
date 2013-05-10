@@ -1,108 +1,110 @@
 <?php
 /*
-Plugin Name: Simplr User Registration Form
-Version: 0.1.8.4
+Plugin Name: Simplr User Registration Form Plus
+Version: 2.2.0
 Description: This a simple plugin for adding a custom user registration form to any post or page using shortcode.
 Author: Mike Van Winkle
 Author URI: http://www.mikevanwinkle.com
 Plugin URI: http://www.mikevanwinkle.com/wordpress/how-to/custom-wordpress-registration-page/
 License: GPL
 */
-
-define('WP_DEBUG',true);
-define('SIMPLR_REG_VERSION','0.1.8.3');
-
+//ini_set('display_errors', 1);error_reporting(E_ALL);
 //constants
-define("SIMPLR_URL", plugins_url('',__FILE__) );
+define("SIMPLR_URL", rtrim(WP_PLUGIN_URL,'/') . '/'.basename(dirname(__FILE__)) );
 define("SIMPLR_DIR", rtrim(dirname(__FILE__), '/'));
 
-//validate
-global $wp_version;
-$exit_msg = "Dude, upgrade your stinkin Wordpress Installation.";
-if(version_compare($wp_version, "2.8", "<")) { exit($exit_msg); }
+//setup options global
+global $simplr_options;
+$simplr_options = get_option('simplr_reg_options');
 
+//Includes 
+include_once(SIMPLR_DIR.'/lib/fields.class.php');
+include_once(SIMPLR_DIR.'/lib/fields-table.class.php');
+include_once(SIMPLR_DIR.'/simplr_form_functions.php');
+require_once(SIMPLR_DIR.'/lib/plugin-update-checker.php');
+require_once(SIMPLR_DIR.'/lib/profile.php');
+//require_once(SIMPLR_DIR.'/lib/login.php');
 
 //API
 add_action('wp_print_styles','simplr_reg_styles');
 add_action('admin_init','simplr_admin_style');
+add_action('init','simplr_admin_scripts');
 add_action('admin_menu','simplr_reg_menu');
-
 add_shortcode('register', 'sreg_figure');
 add_shortcode('Register', 'sreg_figure');
+add_shortcode('login_page','simplr_login_page');
+add_shortcode('profile_page','simplr_profile_page');
 add_action('admin_init','simplr_action_admin_init');
 add_action('admin_head','simplr_reg_scripts',100);
+//add_action('init','simplr_reg_default_fields');
+register_activation_hook(__FILE__, 'simplr_reg_install');
+add_action('wp','simplr_fb_auto_login',0);
+add_action('login_head','simplr_fb_auto_login');
+add_filter('login_message','get_fb_login_btn');
+add_action('login_head','simplr_fb_login_style');
+add_action('init','simplr_register_redirect');
+//add_action('template_redirect','simplr_includes');
+add_action('login_footer','simplr_fb_login_footer_scripts');
+add_action('wp','simplr_profile_redirect',10);
 
-//functions
+if( is_admin() ) {
+	add_action( 'show_user_profile', 'simplr_reg_profile_form_fields' );
+	add_action( 'edit_user_profile', 'simplr_reg_profile_form_fields' );
+}
+
+//moderation related hooks
+if( @$simplr_options->mod_on == 'yes' ) {
+	add_action('admin_action_sreg-activate-selected', 'simplr_activate_users');
+	add_action('admin_action_sreg-resend-emails', 'simplr_resend_emails' );
+	if( $simplr_options->mod_activation == 'auto' ) {
+		add_action('wp','simplr_activation_listen');
+	}
+}
+
+/**
+**
+** Plugin Updater Class Constructor
+**
+**/
+
+$simplr_update = new PluginUpdateChecker('http://www.mikevanwinkle.com/api/simplr-reg-form-plus.json',__FILE__,'simplr-registration-form-plus');
+
+/*
+**
+** Plugin Activation Hook
+**
+**/
+
+function simplr_reg_install() {
+		//validate
+	global $wp_version;
+	$exit_msg = "Dude, upgrade your stinkin Wordpress Installation.";
+	
+	if(version_compare($wp_version, "2.8", "<"))
+		exit($exit_msg); 
+	
+	//setup some default fields	
+	simplr_reg_default_fields(); 
+}
+
+/**
+**
+** Load Settings Page
+**
+**/
 
 function simplr_reg_set() {
-$profile_fields = get_option('simplr_profile_fields');
-?>
-	<div class="wrap">
-		  <h2>Registration Form Settings</h2>
-			  <form method="post" action="options.php" id="simplr-settings">
-				  <table class="form-table">
-				  <tr valign="top">
-				  <th scope="row">Set Default FROM Email:</th>
-				  <td><input type="text" name="sreg_admin_email" value="<?php echo get_option('sreg_admin_email'); ?>" class="field text wide"/></td>
-				  </tr>
-				  <tr valign="top">
-				  <th scope="row">Set Defult Confirmation Message:<br>
-				  <small></small>
-				  </th>
-				  <td>
-				  <textarea id="sreg_email" name="sreg_email" style="width:500px;height:200px; padding:3px;" class="sreg_email"><?php echo get_option('sreg_email'); ?></textarea></td>
-				  </tr>
-				  <tr valign="top">
-				  <th scope="row">Stylesheet Override</th>
-				  <td>
-				  <input type="text" name="sreg_style" value="<?php echo get_option('sreg_style'); ?>" class="field text wide" />
-				  <p><small>Enter the URL of the stylesheet you would prefer to use. Leave blank to stick with default.</small></p>
-				  </td>
-				  </tr>
-				   <tr valign="top">
-				  <th scope="row">Profile Fields<br />
-				    <small>Here you can setup default fields to include in your registration form. These can be overwritten on a form by form basis. </small>
-				  </th>
-						<td>
-						<div class="left"><label for="aim">AIM</label></div>
-						<div class="right">
-						<input type="checkbox" name="simplr_profile_fields[aim][name]" value="aim" class="field checkbox" <?php $aim = $profile_fields[aim]; if($aim[name] == true) { echo "checked";} ?>>  
-						Label: <input type="text" name="simplr_profile_fields[aim][label]" value="<?php echo $aim[label]; ?>" /><br/></div>
-						<div class="left"><label for="aim">Yahoo ID</label></div>
-						<div class="right">
-						<input type="checkbox" name="simplr_profile_fields[yim][name]" value="yim" class="field checkbox" <?php $yim = $profile_fields[yim]; if($yim[name] == true) { echo "checked";} ?>>  
-						Label: <input type="text" name="simplr_profile_fields[yim][label]" value="<?php echo $yim[label]; ?>" /><br/></div>
-						<div class="left"><label for="aim">Website</label></div>
-						<div class="right">
-						<input type="checkbox" name="simplr_profile_fields[url][name]" value="url" class="field checkbox" <?php $url = $profile_fields[url]; if($url[name] == true) { echo "checked";} ?>>  
-						Label: <input type="text" name="simplr_profile_fields[url][label]" value="<?php echo $url[label]; ?>" /><br/></div>
-						<div class="left"><label for="aim">Nickname</label></div>
-						<div class="right">
-						<input type="checkbox" name="simplr_profile_fields[nickname][name]" value="nickname" class="field checkbox" <?php $nickname = $profile_fields[nickname]; if($nickname[name] == true) { echo "checked";} ?>>  
-						Label: <input type="text" name="simplr_profile_fields[nickname][label]" value="<?php echo $nickname[label]; ?>" /><br/></div>
-						</td>
-				  </tr>
-				  </table>
-			  <?php settings_fields('simplr_reg_options'); ?>
-			  <p class="submit">
-			  <input type="submit" class="button-primary" value="<?php _e('Save Changes') ?>" />
-			  </p>
-			  </form>
-		<div id="instructions">
-			<h2>How to use</h2>
-			<p>The goal of this plugin is to give developers and advanced Wordpress users a simple way to create role-specific registration forms for their wordpress website. For instance, you might be running an education based site in which you wanted both teachers and students to particape. This plugin enables you to create distinct registration forms for each type of registrant.</p>
-			<p>Because the focus is on seperating registrants, I have not focused on creating a highly customizable form like <a href="http://wordpress.org/extend/plugins/register-plus/" title="Register Plus">Register Plus</a>. </p>
-			<h3>Usage</h3>
-			<p>To use this plugin simplr employ the shortcode <code>[Register]</code> on any Wordpress post or page. The default role is "subscriber". To apply another role to the registration simply use the the role parameter, for instance: <code>[Regsiter role="editor"]</code>. If you have created custom roles you may use them as well. </p>
-			<p>You can also use shortcode so specify a custom confirmation message for each form: <br>
-			<code>[Register role="teacher" <b>message="Thank you for registering for my site. If you would like to encourage your students to register, please direct them to http://www.domain.com/students"</b>]</code></p>
-			<p>Finally, you can specify emails to be notified when a new user is registered. By defualt site admins will receive notice but to notify other simply use the notify parameter:
-			<code>[Register role="teacher" message="Thank you for registering for my site. If you would like to encourage your students to register, please direct them to http://www.domain.com/students" <b>notify="email1@email.com,email2@email.com"</b>]</code>
-		<p>
-		</div>
-	  </div>
-  <?php
-}//End Function
+	include_once(SIMPLR_DIR.'/lib/form.class.php');
+	include_once( SIMPLR_DIR . '/main_options_page.php' );
+} //End Function
+
+
+
+/**
+**
+** Add Settings page to admin menu
+**
+**/
 
 function simplr_reg_menu() {
 	$page = add_submenu_page('options-general.php','Registration Forms', 'Registration Forms','manage_options','simplr_reg_set', 'simplr_reg_set');
@@ -113,6 +115,12 @@ function simplr_reg_menu() {
 	register_setting ('simplr_reg_options', 'simplr_profile_fields', 'simplr_fields_settings_process');
 }
 
+/** 
+**
+** Process Saved Settings (Deprecated)
+**
+**/
+
 function simplr_fields_settings_process($input) {
 	if($input[aim][name] && $input[aim][label] == '') {$input[aim][label] = 'AIM';}
 	if($input[yim][name] && $input[yim][label] == '') {$input[yim][label] = 'YIM';}
@@ -121,365 +129,100 @@ function simplr_fields_settings_process($input) {
 	return $input;
 }
 
+/**
+**
+** Register and enqueue plugin styles
+**
+**/
+
 function simplr_reg_styles() {
-	global $options;
-	$style = get_option('sreg_style');
-	if(!$style) {
-		$src = SIMPLR_URL .'/simplr_reg.css';
+	$options = get_option('simplr_reg_options');
+	if($options->styles != 'yes') {
+		if( @$options->style_skin ) {
+			$src = SIMPLR_URL .'/assets/skins/'.$options->style_skin;
+		} else {
+			$src = SIMPLR_URL .'/assets/skins/default.css';
+		}
 		wp_register_style('simplr-forms-style',$src);
 		wp_enqueue_style('simplr-forms-style');
-	} else {
-		$src = $style;
+	} elseif(!empty($options->stylesheet)) {
+		$src = $options->stylesheet;
 		wp_register_style('simplr-forms-custom-style',$src);
 		wp_enqueue_style('simplr-forms-custom-style');
 	}
-//End Function
 }
 
+/**
+ * Handle admin styles and JS
+ */
 function simplr_admin_style() {
-	$src = SIMPLR_URL . '/simplr_admin.css';
-	wp_register_style('simplr-admin-style',$src); 
-	wp_enqueue_style('simplr-admin-style');
-}
-
-//Register Menu Item for Admin Page
-function simplr_reg_admin_page() {
-	add_submenu_page('options-general.php','Registration Page Settings', 'Registration Page','manage_options','simplr_reg_page', 'simplr_reg_admin');
-	}	
-
-
-function simplr_validate($data) {
-	require_once(ABSPATH . WPINC . '/registration.php' );
-	require_once(ABSPATH . WPINC . '/pluggable.php' );
-	$errors = array();
-	
-	// Make sure passwords match
-	if($data['password'] != $data['password_confirm']) {
-		$errors[] = __('The passwords you entered do not match.', 'simplr-reg');
-	}
-	
-	// Validate username
-	if(!$data['username']) { 
-		$errors[] = __("You must enter a username.",'simplr-reg'); 
-		} else {
-			// check whether username is valid
-			$user_test = validate_username($data['username']);
-				if($user_test != true) {
-						$errors[] .= __('Invalid Username.','simplr-reg');
-					}
-			// check whether username already exists
-			$user_id = username_exists( $data['username'] );
-				if($user_id) {
-						$errors[] .= __('This username already exists.','simplr-reg');
-					}
-		} //end username validation
-		
-		
-	// Validate email
-	if(!$data['email']) { 
-		$errors[] = __("You must enter an email.",'simplr-reg'); 
-	} elseif($data['email'] !== $data['email_confirm']) {
-		$errors[] = __("The emails you entered do not match.",'simplr-reg'); 
-	} else {
-		$email_test = email_exists($data['email']);
-		if($email_test != false) {
-				$errors[] .= __('An account with this email has already been registered.','simplr-reg');
-			}
-		if( !is_email($data['email']) ) {
-				$errors[] .= __("Please enter a valid email.",'simplr-reg');
-			}	
-		} // end email validation
-		
-	
-	//use this filter to apply custom validation rules.
-	$errors = apply_filters('simplr_validate_form', $errors); 
-	return $errors;
-}
-
-function sreg_process_form($atts) {
-	//security check
-	if (!wp_verify_nonce($_POST['simplr_nonce'], 'simplr_nonce') ) { die('Security check'); } 
-	$errors = simplr_validate($_POST);
-	if( $errors ==  true ) :
-		 $message = $errors;
-	endif; 
-	if (!$message) {			
-		$output = simplr_setup_user($atts,$_POST);
-		return $output;
-	} else { 		
-		//Print the appropriate message
-		if(is_array($message)) {
-			$out = '';
-			foreach($message as $mes) {
-				$out .= '<div class="simplr-message error">'.$mes .'</div>';
-			}
-		} else {
-			$out = '<div class="simplr-message error">'.$message .'</div>';
-		}
-		//rebuild the form
-		$form = simplr_build_form($_POST,$atts);
-		$output = $out . $form;
-		//return shortcode output
-		return $output;
-	}
-//END FUNCTION
-}
-
-
-function simplr_setup_user($atts,$data) {
-	//check options
-	global $options;
-	$admin_email = $atts['from'];
-	$emessage = $atts['message'];
-	$role = $atts['role']; 
-		if('' == $role) { $role = 'subscriber'; }
-		if('administrator' == $role) { wp_die('Do not use this form to register administrators'); }
-	require_once(ABSPATH . WPINC . '/registration.php' );
-	require_once(ABSPATH . WPINC . '/pluggable.php' );
-	
-	//Assign POST variables
-	$user_name = $data['username'];
-	$fname = $data['fname'];
-	$lname = $data['lname'];
-	$user_name = sanitize_user($user_name, true);
-	$email = $data['email'];
-	$user_url = $data['url'];
-	
-	
-	//This part actually generates the account
-	if(isset($data['password'])) {
-		$passw = $data['password'];
-	} else {
-		$passw = wp_generate_password( 12, false );
-	}
-	
-	$userdata = array(
-	'user_login' => $user_name,
-	'first_name' => $fname,
-	'last_name' => $lname,
-	'user_pass' => $passw,
-	'user_email' => $email,
-	'user_url' => $user_url,
-	'role' => $role
-	);
-	
-	// create user	
-	$user_id = wp_insert_user( $userdata );
-	
-	//multisite support add user to registration log and associate with current site
-		if(WP_MULTISITE === true) { 
-			global $wpdb;
-			$ip = getenv('REMOTE_ADDR');
-			$site = get_current_site();
-			$sid = $site->id;
-			$query = $wpdb->prepare("
-				INSERT INTO $wpdb->registration_log
-				(ID, email, IP, blog_ID, date_registered)
-				VALUES ($user_id, $email, $ip, $sid, NOW() )
-				");
-			$results = $wpdb->query($query);
-		}
-	
-	//Process additional fields 
-	$pro_fields = get_option('simplr_profile_fields');
-		if($pro_fields) {
-				foreach($pro_fields as $field) {
-				$key = $field['name'];
-				$val = $data[$key];
-				if(isset( $val )) { add_user_meta($user_id,$key,$val); }
-			}
-		}
-	
-	//Save Hook for custom profile fields
-	do_action('simplr_profile_save_meta', $user_id);
-	
-	// if password was auto generated, add flag for the user to change their auto-generated password
-	if(!$data['password']) {
-		$update = update_user_option($user_id, 'default_password_nag', true, true);
-	}
-	
-	//notify admin of new user
-	simplr_send_notifications($atts,$data, $passw);
-
-	$extra = "Please check your email for confirmation.";
-	$extra = apply_filters('simplr_extra_message', __($extra,'simplr-reg') );
-	$confirm = '<div class="simplr-message success">Your Registration was successful. '.$extra .'</div>';
-	
-	//Use this hook for multistage registrations
-	do_action('simplr_reg_next_action', array($data, $user_id, $confirm));
-	
-	//return confirmation message. 
-	return apply_filters('simplr_reg_confirmation', $confirm);
-}
-
-function simplr_send_notifications($atts, $data, $passw) {
-	$site = get_option('siteurl');
-	$name = get_option('blogname');
-	$user_name = $data['username'];
-	$email = $data['email'];
-	$notify = $atts['notify'];
-	
-	if(strstr($notify,',')) {
-		$notify = explode(',',$notify);
-	}
-	
-	$emessage = __("Your registration was successful.".$atts['message']);
-	$headers = "From: $name" . ' <' .get_option('admin_email') .'> ' ."\r\n\\";
-	
-	if(!is_array($notify)) {
-		wp_mail($notify, "A new user registered for $name", "A new user has registered for $name.\rUsername: $user_name\r Email: $email \r",$headers);
-	} else {
-		foreach($notify as $noti) {
-			wp_mail($noti, "A new user registered for $name", "A new user has registered for $name.\rUsername: $user_name\r Email: $email \r",$headers);		
-		}
-	}
-	
-	$emessage = $emessage . "\r\r---\r";
-		if(!isset($data['password'])) {
-		$emessage .= "You should login and change your password as soon as possible.\r\r";
-		}
-	$emessage .= "Username: $user_name\rPassword: $passw\rLogin: $site/wp-login.php";
-	wp_mail($data['email'],"$name - Registration Confirmation", apply_filters('simplr_email_confirmation_message',$emessage,$data) , $headers);
-}
-
-function simplr_build_form($data,$atts) {
+	$src = SIMPLR_URL . '/assets/admin-style.css';
+	$url = parse_url($_SERVER['REQUEST_URI']);
+	$parts = explode('/', trim($url['path']));
+	if(is_admin()) 
+	{
+		if(@$_GET['page'] == 'simplr_reg_set' ) {
+			wp_register_style('chosen',SIMPLR_URL.'/assets/js/chosen/chosen/chosen.css');
+			wp_register_script('chosen',SIMPLR_URL.'/assets/js/chosen/chosen/chosen.jquery.js',array('jquery'));
+			add_action('admin_print_footer_scripts','simplr_footer_scripts');
+			wp_enqueue_style('chosen');
+			wp_enqueue_script('chosen');
 			
-	$label_first = apply_filters('simplr_label_fname', __('First Name:', 'simplr-reg') );
-	$label_last = apply_filters('simplr_label_lname', __('Last Name:','simplr-reg') );
-	$label_email = apply_filters('simplr_label_email', __('Email Address:','simplr-reg') );
-	$label_confirm_email = apply_filters('simplr_label_confirm_email', __('Confirm Email:','simplr-reg') );
-	$label_username = apply_filters('simplr_label_username', __('Your Username:','simplr-reg') );
-	$label_pass = apply_filters('simplr_label_password', __('Choose a Password','simpr-reg'));
-	$label_confirm = apply_filters('simplr_label_confirm', __('Confirm Password','simpr-reg'));
-	
-	//POST FORM
-	$form = '';
-	$form .= apply_filters('simplr-reg-instructions', __('Please fill out this form to sign up for this site', 'simplr-reg'));
-	$form .=  '<div id="simplr-form">';
-	$form .=  apply_filters('simplr-personal-header',__('<h3 class="registration personal">Personal Info</h3>','simplr-reg'));
-	$form .=  '<form method="post" action="" id="simplr-reg">';
-	$form .=  '<div class="simplr-field">';
-	$form .=  '<label for="username" class="left">' .$label_username .' <span class="required">*</span></label>';
-	$form .=  '<input type="text" name="username" class="right" value="'.esc_attr($data['username']).'" /><br/>';
-	$form .=  '</div>';
-	$form .=  '<div class="simplr-field">';
-	$form .=  '<label for="fname" class="left">'.$label_first .'</label>';
-	$form .=  '<input type="text" name="fname" class="right" value="'.esc_attr($data['fname']) .'" /><br/>';
-	$form .=  '</div>';
-	$form .=  '<div class="simplr-field">';
-	$form .=  '<label for="lname" class="left">' .$label_last .'</label>';
-	$form .=  '<input type="text" name="lname" class="right" value="'.esc_attr($data['lname']).'"/><br/>';
-	$form .=  '</div>';
-	
-	$form = apply_filters('simplr-add-personal-fields', $form);
-	
-	$form .=  apply_filters('simplr-reg-email-header',__('<h3 class="registration email">Contact Info</h3>','simplr-reg'));
-	$form .=  '<div class="simplr-field email-field">';
-	$form .=  '<label for="email" class="left">' .$label_email .' <span class="required">*</span></label>';
-	$form .=  '<input type="text" name="email" class="right" value="'.esc_attr($data['email']).'" /><br/>';
-	$form .=  '</div>';
-	$form .=  '<div class="simplr-field email-field">';
-	$form .=  '<label for="email" class="left">' .$label_confirm_email .' <span class="required">*</span></label>';
-	$form .=  '<input type="text" name="email_confirm" class="right" value="'.esc_attr($data['email_confirm']).'" /><br/>';
-	$form .=  '</div>';
-	
-	$form = apply_filters('simplr-add-contact-fields', $form);
-	
-	//optional profile fields
-	$pro_fields = get_option('simplr_profile_fields');
-	if($pro_fields) {
-		foreach($pro_fields as $field) {
-				if($field[name] != '') {
-			$form .= '<div class="simplr-field"><label for="' .$field[name] .'" class="left">'.$field[label] .'</label><input type="text" name="'.$field[name] .'" value="'.esc_attr($data[$field[name]]).'" class="text" /></div>';
-			}
-		}
-	}
-	
-	if('yes' == $atts['password']) {
-	
-		$form .=  apply_filters('simplr-reg-password-header',__('<h3 class="registration password">Choose a password</h3>','simplr-reg'));			
-		$form .=  '<div class="simplr-field">';
-		$form .=  '<label for="password" class="left">' .$label_pass .'</label>';
-		$form .=  '<input type="password" name="password" class="right" value="'.esc_attr($data['password']).'"/><br/>';
-		$form .=  '</div>';
-		
-		$form .=  '<div class="simplr-field">';
-		$form .=  '<label for="password-confirm" class="left">' .$label_confirm .'</label>';
-		$form .=  '<input type="password" name="password_confirm" class="right" value="'.esc_attr($data['password_confirm']).'"/><br/>';
-		$form .=  '</div>';
-	}
-
-	//filter for adding profile fields
-	$form = apply_filters('simplr_add_form_fields', $form);
-		 
-	//submission field
-	$form .=  apply_filters('simplr-reg-submit', '<input type="submit" name="submit-reg" value="Register" class="submit button">');
-	
-	//wordress nonce for security
-	$nonce = wp_create_nonce('simplr_nonce');
-	$form .= '<input type="hidden" name="simplr_nonce" value="' .$nonce .'" />';
-	$form .=  '</form>';
-	$form .=  '</div>';
-	return $form;
-}
-
-function sreg_basic($atts) {
-	//Check if the user is logged in, if so he doesn't need the registration page
-		if ( is_user_logged_in() ) {
-			echo "You are already registered for this site!!!";
-		} else {
-		//Then check to see whether a form has been submitted, if so, I deal with it.
-		if(isset($_POST['submit-reg'])) {
-			$output = sreg_process_form($atts);	
-			return $output;
-		} else {
-			$data = array();
-			$form = simplr_build_form($data, $atts);		
-		return $form;				
-	} //Close POST Condiditonal
-} //Close LOGIN Conditional
-
-} //END FUNCTION
-
-
-//this function determines which version of the registration to call
-function sreg_figure($atts) {
-	global $options;
-	extract(shortcode_atts(array(
-	'role' => 'subscriber',
-	'from' => get_option('sreg_admin_email'),
-	'message' => 'Thank you for registering',
-	'notify' => get_option('sreg_email'),
-	'fb' => false,
-	), $atts));
-		if($role != 'admin') {
-			$function = sreg_basic($atts);
-		} else { 
-			$function = 'You should not register admin users via a public form';
-		}
-	return $function;
-}//End Function
-
-
-function simplr_action_admin_init() {
-	// only hook up these filters if we're in the admin panel, and the current user has permission
-	// to edit posts and pages
-	if ( current_user_can( 'edit_posts' ) && current_user_can( 'edit_pages' ) ) {
-		add_filter( 'mce_buttons', 'simplr_filter_mce_button' );
-		add_filter( 'mce_external_plugins', 'simplr_filter_mce_plugin' );
+			wp_register_style('simplr-admin-style',$src); 
+			wp_enqueue_style('simplr-admin-style');
+		 } elseif( end($parts) == 'users.php' ) {
+			add_action('admin_print_footer_scripts','simplr_footer_scripts');
+		} 
 	}
 }
 
-function simplr_filter_mce_button( $buttons ) {
-	array_push( $buttons, '|', 'simplr_reg_button' );
-	return $buttons;
+/* 
+ * Print Admin Footer Scripts
+ */
+function simplr_footer_scripts() {
+	$screen = get_current_screen();
+	if( $screen->id == 'users' AND @$_GET['view_inactive'] == 'true' ) {
+	?>
+		<script>
+			jQuery(document).ready(function($) {
+				//add bulk actions
+				$('input[name="simplr_resend_activation"]').click( function(e) { e.preventDefault(); });
+				$('select[name="action"]').append('<option value="sreg-activate-selected">Activate</option>\n<option value="sreg-resend-emails">Resend Email</option>').after('<input name="view_inactive" value="true" type="hidden" />');
+			});
+			
+		</script>
+	<?php
+	} else {
+	?>
+		<script>
+			jQuery(document).ready(function($) {
+				$('.chzn').chosen();
+			});	
+		</script>
+	<?php
+	}
 }
 
-function simplr_filter_mce_plugin( $plugins ) {
-	// this plugin file will work the magic of our button
-	$plugins['simplr_reg'] = SIMPLR_URL . '/simplr_reg.js';
-	return $plugins;
+/**
+**
+** Enqueue Scripts
+**
+**/
+
+function simplr_admin_scripts() {
+	if(is_admin() AND @$_REQUEST['page'] == 'simplr_reg_set') 
+	{
+		wp_enqueue_script('jquery-ui-core');	
+		wp_enqueue_script('jquery-ui-sortable');
+	}
 }
+
+
+/**
+**
+** Set plugin location for tinyMCE access
+**
+**/
 
 function simplr_reg_scripts() {
 	?>
@@ -491,42 +234,683 @@ function simplr_reg_scripts() {
 	<?php
 }
 
-function simplr_premium_nag() {
+/**
+**
+** Add TinyMCE Button
+**
+**/
+
+function simplr_action_admin_init() {
+	// only hook up these filters if we're in the admin panel, and the current user has permission
+	// to edit posts and pages
+	if ( current_user_can( 'edit_posts' ) && current_user_can( 'edit_pages' ) ) 
+	{
+		add_filter( 'mce_buttons', 'simplr_filter_mce_button' );
+		add_filter( 'mce_external_plugins', 'simplr_filter_mce_plugin' );
+	}
+	global $simplr_options;	
+	
+	if( @$simplr_options->mod_on == 'yes') 
+	{
+		//only add these hooks if moderation is on
+		$mod_access = false;
+
+		//if roles haven't been saved use default
+		if( empty($simplr_options->mod_roles) ) 
+			$simplr_options->mod_roles = array('administrator');
+ 
+		foreach( $simplr_options->mod_roles as $role ) {
+			if( $mod_access) continue;
+			$mod_access = current_user_can($role);
+		}
+
+		if( $mod_access ) {
+			require_once(SIMPLR_DIR.'/lib/mod.php');
+			add_action('views_users', 'simplr_views_users');
+			add_action('pre_user_query','simplr_inactive_query');
+			add_filter('bulk_actions-users','simplr_users_bulk_action');
+		}
+	}
+	
+	add_filter('manage_users_columns', 'simplr_column');
+	add_filter('manage_users_custom_column','simplr_column_output',10,3);
+	add_filter('manage_users_sortable_columns','simplr_sortable_columns');
+	add_filter('pre_user_query','simplr_users_query');
+}
+
+/**
+ * Add button to tinymce
+*/
+function simplr_filter_mce_button( $buttons ) {
+	array_push( $buttons, '|', 'simplr_reg_button' );
+	return $buttons;
+}
+
+/**
+ * Load javascript for tinyMCE button
+*/
+function simplr_filter_mce_plugin( $plugins ) {
+	// this plugin file will work the magic of our button
+	$plugins['simplr_reg'] = SIMPLR_URL . '/assets/simplr_reg.js';
+	return $plugins;
+}
+
+
+/**
+ * Adds default fields upon installation
+*/
+
+function simplr_reg_default_fields() {
+	if(!get_option('simplr_reg_fields')) {
+		$fields = new StdClass(); 
+		$custom = array('first_name'=>array('key'=>'first_name','label'=>'First Name','required'=>false,'type'=>'text'), 'last_name'=>array('key'=>'last_name','label'=>'Last Name','last_name'=>'Last Name','required'=>false,'type'=>'text')
+		); 
+		$fields->custom = $custom;
+		update_option('simplr_reg_fields',$fields);
+	}
+	
+	//unset profile from free version
+	if(get_option('simplr_profile_fields')) {
+		delete_option('simplr_profile_fields');
+	}
+	
+}
+
+/*
+**
+** Facebook Autologin
+**
+*/
+
+function simplr_fb_auto_login() {
+	global $simplr_options;
+	//require_once(SIMPLR_DIR.'/lib/login.php');
+	global $facebook;
+	if($simplr_options->fb_connect_on == 'yes' AND !is_user_logged_in() AND !current_user_can('administrator')) {	
+		require_once(SIMPLR_DIR .'/lib/facebook.php');
+		include_once(SIMPLR_DIR .'/lib/fb.class.php');	
+		$facebook = new Facebook(Simplr_Facebook::get_fb_info());
+		try {
+			$uid = $facebook->getUser();
+			$user = $facebook->api('/me');
+		} catch (FacebookApiException $e) {}		
+		$auth = (isset($user))?simplr_fb_find_user($user):false;
+		$first_visit = get_user_meta($auth->ID,'first_visit',true);
+		if(isset($user) && (@$_REQUEST['loggedout'] == 'true' OR @$_REQUEST['action'] == 'logout')) {
+			wp_redirect($facebook->getLogoutUrl(array('next'=>get_bloginfo('url'))));
+		} elseif(isset($user) AND !is_wp_error($auth) ) {
+	    wp_set_current_user($auth->ID, $auth->user_login);
+			wp_set_auth_cookie($auth->ID);	
+			if(isset($simplr_options->thank_you) AND !is_page($simplr_options->thank_you)  ) {
+				update_user_meta($auth->ID,'first_visit',date('Y-m-d'));
+				$redirect = $simplr_options->thank_you != ''?get_permalink($simplr_options->thank_you):home_url();
+				wp_redirect($redirect);	
+			} elseif(isset($simplr_options->thank_you) AND is_page($simplr_options->thank_you)) {
+				//do nothing
+			} elseif(isset($first_visit)) {
+				wp_redirect(!$simplr_options->fb_login_redirect?get_bloginfo('url'):$simplr_options->register_redirect);
+			}
+		} elseif(isset($user) AND is_wp_error($auth)) {
+			global $error;
+			$error = __($auth->get_error_message(),'simplr-reg');
+		} else {
+
+			return;
+		}				
+	} else {
+		return;
+	}
+}
+
+
+/*
+**
+** Find Facebook User
+**
+*/
+
+function simplr_fb_find_user($fb_obj) {
+	global $wpdb,$simplr_options;
+	$query = $wpdb->prepare("SELECT user_id FROM $wpdb->usermeta WHERE meta_key = 'fbuser_id' AND meta_value = %d", $fb_obj['id'] );
+	$user_id = $wpdb->get_var($query);
+	
+	if(empty($user_id) AND isset($simplr_options->fb_auto_register)) {
+		$user_id = simplr_fb_auto_register();
+	} 
+	
+	$user_obj = get_userdata($user_id);
+	if(empty($user_obj)) {
+		return new WP_Error('login-error','No facebook account registered with this site');
+	} else {
+		return $user_obj;
+	}
+}
+
+function simplr_fb_auto_register() {
+	global $simplr_options;
+	require_once(SIMPLR_DIR .'/lib/facebook.php');
+	include_once(SIMPLR_DIR .'/lib/fb.class.php');	
+	$facebook = new Facebook(Simplr_Facebook::get_fb_info());
+	try {
+		$uid = $facebook->getUser();
+		$user = $facebook->api('/me');
+	} catch (FacebookApiException $e) {}		
+	
+	if(!empty($user)) {
+		$userdata = array(
+			'user_login' 	=> $user['username'],
+			'first_name' 	=> $user['first_name'],
+			'last_name' 	=> $user['last_name'],
+			'user_pass' 	=> wp_generate_password( 12, false ),
+			'user_email' 	=> 'fb-'.$user['id']."@website.com",
+		);
+	
+		// create user	
+		$user_id = wp_insert_user( $userdata );
+		update_user_meta($user_id, 'fbuser_id', $user['id']);
+		update_user_meta($user_id, 'fb_object', $user);
+		if(!is_wp_error($user_id)) {
+			//return the user 
+			wp_redirect($simplr_options->fb_login_redirect?$simplr_options->fb_login_redirect:home_url());
+		}
+	}
+	
+}
+
+/*
+**
+** Facebook Login Button
+**
+*/
+
+function get_fb_login_btn($content) {
+	$option = get_option('simplr_reg_options');
+	if($option->fb_connect_on == 'yes') {
+		$out = '';
+		require_once(SIMPLR_DIR .'/lib/facebook.php');
+		include_once(SIMPLR_DIR .'/lib/fb.class.php');	
+		global $facebook;
+		$login_url = $facebook->getLoginUrl();
+		$perms = implode(',',$option->fb_request_perms);
+		$out .= '<fb:login-button scope="'.$perms.'"></fb:login-button>';
+		//$out = '<p><div id="fblogin"><a href="'.$login_url.'"><img src="'.plugin_dir_url(__FILE__).'assets/images/fb-login.png" /></a></div></p>';
+		echo $out;
+	}
+}
+
+/*
+**
+** Facebook Login Button Styles
+**
+*/
+
+function simplr_fb_login_style() {
 	?>
-	<div id="message" class="updated simplr-message">
-		<p><strong><a href="http://www.mikevanwinkle.com/simplr-registration-form-plus/" title="Find out more about Simplr Registration Form Plus">Simplr Registration Form Plus is now available!</a></strong> Plus includes a user interface for adding fields, Facebook Connect API Integration, Recaptcha Integration and more. <a href="http://www.mikevanwinkle.com/simplr-registration-form-plus/" title="Find out more about Simplr Registration Form Plus">Find out more</a>.
-		<a href="#" id="simplr-remove-this"  style="font-size:10px;font-style:italic;">Remove this message.</a>
-		<div style="clear:both;"></div>
-		</p>
-	</div>
+	<style>
+	a.fb_button {
+		margin:10px 0px 10px 240px;
+		
+	}
+	</style>
 	<?php
 }
 
-$options = get_option('simplr_reg_options');
-if($options->premium_nag != '1') {
-	add_action('admin_notices','simplr_premium_nag'); 
-	add_action('admin_head','simplr_premium_nag_script');
-	add_action('wp_ajax_simplr-remove-nag','simplr_ajax_remove_nag');
-}
+/*
+**
+** Login Footer Script
+**
+*/
 
-function simplr_premium_nag_script() {
-	?>
-	<script>
-		jQuery.noConflict();
-		jQuery(document).ready(function() {
-			jQuery('a#simplr-remove-this').live('click',function(event) {
-				event.preventDefault(); 
-				jQuery.post(ajaxurl,{action:'simplr-remove-nag'},function(data) {});
-				jQuery(this).parent().parent().fadeOut();
-			});
-		});
-	</script>
+function simplr_fb_login_footer_scripts() {
+	$option = get_option('simplr_reg_options');
+	if(isset($option->fb_connect_on) AND $option->fb_connect_on == 'yes') {
+		require_once(SIMPLR_DIR .'/lib/facebook.php');
+		include_once(SIMPLR_DIR .'/lib/fb.class.php');	
+		$ap_info = Simplr_Facebook::get_fb_info();
+		?>
+		<div id="fb-root"></div>
+		<script>
+		window.fbAsyncInit = function() {
+		  FB.init({
+		    appId  : '<?php echo $ap_info['appId']; ?>',
+		    status : true, // check login status
+		    cookie : <?php echo $ap_info['cookie']; ?>, // enable cookies to allow the server to access the session
+		    xfbml  : true,  // parse XFBML
+		    oauth : true //enables OAuth 2.0
+		  });
+		
+			FB.Event.subscribe('auth.login', function(response) {
+	        window.location.reload();
+	    });
+	    FB.Event.subscribe('auth.logout', function(response) {
+	        window.location.reload();
+	    });
+		};
+		(function() {
+		  var e = document.createElement('script');
+		  e.src = document.location.protocol + '//connect.facebook.net/en_US/all.js';
+		  e.async = true;
+		  document.getElementById('fb-root').appendChild(e);
+		}());
+		</script>
 	<?php
+	}
 }
 
-function simplr_ajax_remove_nag() {
-	$options = get_option('simplr_reg_options');
-	$options->premium_nag = 1;
-	update_option('simplr_reg_options',$options);
+/*
+**
+** Add Fields to Profile Page
+**
+*/
+function simplr_reg_profile_form_fields($user) {
+	if(!class_exists('Form')) {
+		include_once(SIMPLR_DIR.'/lib/form.class.php'); 
+	}
+	$custom = new SREG_Fields();
+	if(!current_user_can('promote_users')) {
+		$fields = simplr_filter_profile_fields($custom->get_custom());
+	} else {
+		$fields = $custom->get_custom();
+	}
+	?>
+	<link href="<?php echo SIMPLR_URL; ?>/assets/admin-style.css" rel="stylesheet" ></link>
+	<h3>Other Information</h3>
+	<?php
+	foreach($fields as $field) {
+		if(!in_array($field['key'] ,array('first_name','last_name', 'user_login','username'))) {
+			$out = '';
+			if($field['key'] != '') {
+				$args = array(
+					'name'		=>$field['key'],
+					'label'		=>$field['label'],
+					'required'	=>$field['required']
+					);
+				//setup specific field values for date and callback
+				if($field['type'] == 'callback') {
+					$field['options_array'][1] = array( get_user_meta($user->ID,$field['key'],true) ) ;
+					SREG_Form::$field['type']( $args, get_user_meta($user->ID,$field['key'],true), '', $field['options_array']);
+				} elseif($field['type'] != '') {
+					SREG_Form::$field['type']($args, get_user_meta($user->ID,$field['key'],true), '', $field['options_array']);
+				}
+			}
+		}
+	}
 }
-?>
+
+
+/*
+**
+** Save Fields in Profile Page
+**
+*/
+add_action( 'personal_options_update', 'simplr_reg_profile_save_fields' );
+add_action( 'edit_user_profile_update', 'simplr_reg_profile_save_fields' );
+
+function simplr_reg_profile_save_fields($user_id ) {
+	$custom = new SREG_Fields();
+	$data = $_POST;
+	$fields = $custom->fields->custom;
+	foreach($fields as $field):
+		if(!in_array($field['key'] , simplr_get_excluded_profile_fields() )) {
+			if($field['type'] == 'date')
+			{
+				$dy = $data[$field['key'].'-dy'];
+				$mo = $data[$field['key'].'-mo'];
+				$yr = $data[$field['key'].'-yr'];
+				$dateinput = implode('-', array($yr,$mo,$dy));
+				update_user_meta($user_id,$field['key'],$dateinput);		
+			} else {
+				update_user_meta($user_id, $field['key'], $data[$field['key']]);
+			}
+		}
+	endforeach;
+}
+
+
+/*
+**
+** Exclude Fields From Profile
+**
+*/
+function simplr_get_excluded_profile_fields() {
+	$fields = array(
+		'about_you','first_name','last_name','aim','yim','jabber','nickname','display_name','user_login','username','user_email',
+	);
+	return apply_filters('simplr_excluded_profile_fields', $fields);
+}
+
+/*
+**
+** Register Redirect Function
+**
+*/
+
+function simplr_register_redirect() {
+	$file = parse_url($_SERVER['REQUEST_URI']);
+	$path = explode('/',@$file['path']);
+	global $simplr_options;
+	parse_str(@$file['query']);
+	if( @$simplr_options->login_redirect ) {
+		$post = get_post($simplr_options->login_redirect);
+		set_transient('login_post_data',$post);
+	}
+	if( ((end($path) == 'wp-login.php' AND $_GET['action']	 == 'register') OR (end($path) == 'wp-signup.php')) AND $simplr_options->register_redirect != '' ) {
+		wp_redirect(get_permalink($simplr_options->register_redirect));
+	} elseif(end($path) == 'profile.php' AND $simplr_options->profile_redirect != '') {
+		if(!current_user_can('administrator')) {
+			wp_redirect(get_permalink($simplr_options->profile_redirect.'?'.$file['query']));
+		}
+	} else {
+
+	}
+}
+
+function simplr_profile_redirect() {
+	global $simplr_options,$wpdb;
+	$profile = $wpdb->get_var($wpdb->prepare("SELECT post_name FROM {$wpdb->prefix}posts WHERE ID = %d",$simplr_options->profile_redirect));
+	$file = parse_url($_SERVER['REQUEST_URI']);
+	$path = explode('/',@$file['path']);
+	if(isset($profile) AND end($path) == $profile) {
+		if(!is_user_logged_in()) {
+			wp_redirect(home_url('/wp-login.php?action=register'));
+		}
+	}
+	wp_deregister_script('password-strength-meter');
+	do_action('simplr_profile_actions');
+}
+
+
+/*
+**
+** Ajax save sort
+**
+*/
+add_action('wp_ajax_simplr-save-sort','simplr_save_sort');
+function simplr_save_sort() {
+	extract($_REQUEST); 
+	if(isset($sort) and $page = 'simple_reg_set') {
+		update_option('simplr_field_sort',$sort);
+	}
+	die;
+}
+
+/*
+** Print admin messages
+**	
+*/
+
+function simplr_print_message() {
+	$simplr_messages = @$_COOKIE['simplr_messages'] ?: false;
+	$messages = stripslashes($simplr_messages);
+	$messages = str_replace('[','',str_replace(']','',$messages));
+	$messages = json_decode($messages);
+	if(!empty($messages)) {
+		if(count($messages) > 1) {
+			foreach($messages as $message) {
+				?>
+		
+				<?php
+			}
+		} else {
+		?>
+				<div id="message" class="<?php echo $messages->class; ?>"><p><?php echo $messages->content; ?></p></div>
+		<?php
+		}
+	}
+}
+
+
+/*
+** Set Admin Messages
+**	
+*/
+
+function simplr_set_message($class,$message) {
+	if(!session_id()) { session_start(); }
+
+	$messages = $_COOKIE['simplr_messages'];
+	$messages = stripslashes($simplr_messages);
+	$messages = str_replace('[','',str_replace(']','',$messages));
+	$messages = json_decode($messages);
+	$new = array();
+	$new['class'] = $class;
+	$new['content'] = $message;
+	$messages[] = $new;
+	setcookie('simplr_messages',json_encode($messages),time()+10,'/');
+	return true;
+}
+
+/*
+** Process admin forms
+**	@TODO consolidate steps
+*/
+add_action('admin_init','simplr_admin_actions');
+function simplr_admin_actions() {
+	if(isset($_GET['page']) AND $_GET['page'] == 'simplr_reg_set') {
+		
+		$data = $_POST; 
+		$simplr_reg = get_option('simplr_reg_options');
+		
+		//
+		if(isset($data['recaptcha-submit'])) {
+			
+			if(!wp_verify_nonce(-1, $data['reg-api']) && !current_user_can('manage_options')){ wp_die('Death to hackers!');}
+				$simplr_reg->recap_public = $data['recap_public'];
+				$simplr_reg->recap_private = $data['recap_private'];
+				$simplr_reg->recap_on = $data['recap_on'];
+				update_option('simplr_reg_options',$simplr_reg);
+		} elseif(isset($data['fb-submit'])) {
+			if(!wp_verify_nonce(-1, @$data['reg-fb']) && !current_user_can('manage_options')){ wp_die('Death to hackers!');}
+				$simplr_reg->fb_connect_on = $data['fb_connect_on'];
+				$simplr_reg->fb_app_id = @$data['fb_app_id'];
+				$simplr_reg->fb_app_key = @$data['fb_app_key'];
+				$simplr_reg->fb_app_secret = @$data['fb_app_secret'];	
+				$simplr_reg->fb_login_allow = @$data['fb_login_allow'];
+				$simplr_reg->fb_login_redirect = @$data['fb_login_redirect'];
+				$simplr_reg->fb_request_perms = @$data['fb_request_perms'];
+				$simplr_reg->fb_auto_register = @$data['fb_auto_register'];
+				update_option('simplr_reg_options',$simplr_reg);				
+				simplr_set_message('updated',"Your settings were saved");
+				wp_redirect($_SERVER['REQUEST_URI']);
+		}
+		
+		if(isset($data['main-submit'])) {
+			//security check 
+			if(!wp_verify_nonce(-1, $data['reg-main']) && !current_user_can('manage_options')){ wp_die('Death to hackers!');}
+			
+			$simplr_reg->email_message = $data['email_message'];
+			$simplr_reg->default_email = $data['default_email'];
+			$simplr_reg->stylesheet = $data['stylesheet'];
+			$simplr_reg->styles = $data['styles'];
+			$simplr_reg->style_skin = @$data['style_skin'] ?: 'default.css';
+			$simplr_reg->register_redirect = $data['register_redirect'];
+			$simplr_reg->thank_you = $data['thank_you'];
+			$simplr_reg->profile_redirect = $data['profile_redirect'];
+			update_option('simplr_reg_options',$simplr_reg);
+			simplr_set_message('updated',"Your settings were saved");
+			wp_redirect($_SERVER['REQUEST_URI']);
+			
+		}
+		
+		if(@$_GET['action'] == 'delete') {
+			
+			/*Security First*/
+			if( !check_admin_referer('delete','_wpnonce') ) { wp_die('Death to hackers'); }
+			$del = new SREG_Fields();
+			$del->delete_field($_GET['key']);
+			simplr_set_message('updated','Field deleted.');
+			wp_redirect(remove_query_arg('action'));
+			
+		} elseif(isset($_POST['mass-submit'])) {
+			
+			if(!check_admin_referer(-1,'_mass_edit')) { wp_die('Death to hackers'); }
+			foreach($_POST['field_to_delete'] as $key): 
+				$del = new SREG_Fields();
+				$del->delete_field($key);
+			endforeach;
+			simplr_set_message('updated',"Fields were deleted.");
+			wp_redirect(remove_query_arg('action'));
+			
+		}
+	
+		if(isset($_POST['submit-field'])) {
+			if( !check_admin_referer(-1, 'reg-field' ) ) wp_die("Death to Hackers");
+			$new = new SREG_Fields();
+			$key = $_POST['key'];
+			$response = $new->save_custom($_POST);	
+			simplr_set_message('updated',"Your Field was saved");
+			wp_redirect(remove_query_arg('action'));
+			
+		}			
+
+		add_action('admin_notices','simplr_print_message');
+	}
+	
+}
+
+/* 
+ * Activate a user(s)
+ * @params $ids (array) | an array of user_ids to activate. 
+ */
+function simplr_activate_users( $ids = false ) {
+	if( !$ids ) {
+		if( @$_REQUEST['action'] == 'sreg-activate-selected' AND !empty($_REQUEST['users']) ) {
+			simplr_activate_users( $_REQUEST['users'] );
+		}
+	}
+	else {
+		global $wpdb,$simplr_options;
+		foreach( $ids as $id )  {
+			$return = $wpdb->update( $wpdb->users, array( 'user_status'=> 0 ), array( 'ID' => $id ), array('%d'), array('%d') );
+			if( !$return ) { 
+				return new WP_Error( "error", "Could not activate requested user." );
+			}
+			$data = (array) get_userdata( $id );
+			$data = (array) $data['data'];
+			$data['blogname'] = get_option('blogname');
+			$subj = simplr_token_replace( $simplr_options->mod_email_activated_subj, $data );
+			$content = simplr_token_replace( $simplr_options->mod_email_activated, $data );
+			$headers = "From: ".$data['blogname']."<".get_option('admin_email').">\r\n";
+			wp_mail( $data['user_email'], $subj, $content); 
+			return $return;
+		}
+	}
+}
+
+/*
+ * Sends user moderation emails to selected users
+ */
+function simplr_resend_emails() {
+	if( @$_REQUEST['action'] == 'sreg-resend-emails' AND !empty($_REQUEST['users']) ) {	
+		include_once(SIMPLR_DIR.'/lib/mod.php');
+		foreach( $_REQUEST['users'] as $user ) {
+			simplr_resend_email($user);
+			simplr_set_notice('success', 'Emails resent');
+		}
+	}
+}
+
+/*
+ * Activation Listener 
+ */
+function simplr_activation_listen() {
+	if( isset( $_REQUEST['activation_key'] ) ) {
+		wp_enqueue_script('simplr-mod', SIMPLR_URL.'/assets/mod.js', array('jquery') );
+		wp_enqueue_style('simplr-mod', SIMPLR_URL.'/assets/mod.css'); 
+		global $wpdb,$sreg;
+		$user_id = $wpdb->get_var($wpdb->prepare("SELECT ID from $wpdb->users WHERE `user_activation_key` = %s", $_REQUEST['activation_key']));
+		$done = simplr_activate_users( array($user_id) );
+		if ( !$user_id OR is_wp_error($done) ) {
+			wp_localize_script('simplr-mod', 'sreg', array('state'=>'failure', 'message'=>__("Sorry, We could not find the requested account.",'simplr-reg')) );
+		} else {
+			wp_localize_script('simplr-mod', 'sreg', array('state'=>'success', 'message'=>__("Congratulations! Your Account was activated!",'simplr-reg')) );
+		}
+	}
+}
+
+
+function simplr_set_notice( $class, $message ) {
+	add_action( "admin_notices" , create_function('',"echo '<div class=\"updated $class\"><p>$message</p></div>';") );
+}
+
+/**
+ * Filter custom column output
+ * @params $out string (optional) | received output from the wp hook
+ * @params $column_name string (required) | unique column name corresponds to the field name
+ * @params $user_id INT
+ */
+if(!function_exists('simplr_column_output')):
+	function simplr_column_output($out='',$column_name,$user_id) {
+		$out = get_user_meta($user_id, $column_name,true);
+		return $out;
+	}
+endif;
+
+/**
+ * Add custom columns
+ * @params $columns (array) | received from manage_users_columns hook
+ */ 
+if(!function_exists('simplr_column')):
+	function simplr_column($columns) {
+		$cols = new SREG_Fields(); 
+		$cols = $cols->fields->custom;
+		foreach( $cols as $col ) {
+			if( @$col['custom_column'] != 'yes' ) continue;
+			$columns[$col['key']] = $col['label'];
+		}
+		return $columns;
+	}
+endif;
+
+/**
+ * Filter sortable columns
+ * @params $columns (array) | received from manage_users_sortable_columns hook
+*/
+if( !function_exists('simplr_sortable_columns') ) {
+	function simplr_sortable_columns($columns) {
+		$cols = new SREG_Fields(); 
+		$cols = $cols->fields->custom;
+		unset($columns['posts']);
+		foreach( $cols as $col ) {
+			if( @$col['custom_column'] != 'yes' ) continue;
+			$columns[$col['key']] = $col['key'];
+		}
+		$columns['post'] = 'Posts';
+		return $columns;
+	}
+}
+
+/**
+ * Modify the users query to sort columns on custom fields
+ * @params $query (array) | passed by pre_user_query hook
+*/
+if(!function_exists('simplr_users_query')):
+	function simplr_users_query($query) {
+		//if not on the user screen lets bail
+		$screen = get_current_screen();
+		if( !is_admin() ) return $query;
+		if( $screen->base != 'users' ) return $query;
+		
+		$var = @$_REQUEST['orderby'] ?: false;
+		if( !$var ) return $query;
+		//these fields are already sortable by wordpress
+		if( in_array( $var, array('first_name','last_name','email','login','name') ) ) return $query;
+		$order = @esc_attr($_REQUEST['order']) ?: '';
+		//get our custom fields
+		$cols = new SREG_Fields(); 
+		$cols = $cols->fields->custom;
+		if( array_key_exists( $var, $cols ) ) {
+			global $wpdb;
+			$query->query_from .= $wpdb->prepare(" LEFT JOIN {$wpdb->usermeta} um ON um.user_id = ID AND `meta_key` = %s", $var);
+			$query->query_orderby = " ORDER BY um.meta_value $order";
+		}
+		return $query;
+	}
+endif;
+
+//add_filter('query','simplr_log');
+function simplr_log($query) {
+	if( @$_REQUEST['debug'] == 'true' )
+		print $query;
+	return $query;
+}
