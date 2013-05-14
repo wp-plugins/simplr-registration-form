@@ -12,12 +12,12 @@ $defaults = (object) array(
 $simplr_reg = get_option('simplr_reg_options');
 //setup defaults
 foreach($defaults as $k => $v ) {
-	$simplr_reg->$k = $simplr_reg->$k ?: $defaults->$k;
+	$simplr_reg->$k = $simplr_reg->$k ? $simplr_reg->$k : $defaults->$k;
 }
 if(isset($data['mod-submit'])) {
 	if(!wp_verify_nonce(-1, $data['reg-mod']) && !current_user_can('manage_options')){ wp_die('Death to hackers!');}
 	foreach($data as $k => $v) {
-		$simplr_reg->$k = $v ?: $defaults->$k;
+		$simplr_reg->$k = $v ? $v : $defaults->$k;
 	}
 	update_option('simplr_reg_options', $simplr_reg);
 	echo '<div id="message" class="updated alert message"><p>'.__("Settings saved",'simplr-reg-form').'</p></div>';

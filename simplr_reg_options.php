@@ -89,7 +89,7 @@ $pages = get_pages();
 	text-shadow: inset 1px 1px 2px #666;
 }
 
-#reg-form input, #reg-form select, #reg-form textarea {
+#reg-form input[type=text], #reg-form select, #reg-form textarea {
 	float:left;
 	margin:10px 0;
 	padding:5px;
@@ -112,7 +112,7 @@ $pages = get_pages();
 }
 
 #sortable .item input {
-	margin-right:5px;
+	margin:0 5px 0 0;
 }
 small {
 	float:left;

@@ -1,14 +1,13 @@
 <?php
 /*
 Plugin Name: Simplr User Registration Form Plus
-Version: 2.2.0
+Version: 2.2.1
 Description: This a simple plugin for adding a custom user registration form to any post or page using shortcode.
 Author: Mike Van Winkle
 Author URI: http://www.mikevanwinkle.com
 Plugin URI: http://www.mikevanwinkle.com/wordpress/how-to/custom-wordpress-registration-page/
 License: GPL
 */
-//ini_set('display_errors', 1);error_reporting(E_ALL);
 //constants
 define("SIMPLR_URL", rtrim(WP_PLUGIN_URL,'/') . '/'.basename(dirname(__FILE__)) );
 define("SIMPLR_DIR", rtrim(dirname(__FILE__), '/'));
@@ -640,7 +639,7 @@ function simplr_save_sort() {
 */
 
 function simplr_print_message() {
-	$simplr_messages = @$_COOKIE['simplr_messages'] ?: false;
+	$simplr_messages = @$_COOKIE['simplr_messages'] ? $_COOKIE['simplr_messages'] : false;
 	$messages = stripslashes($simplr_messages);
 	$messages = str_replace('[','',str_replace(']','',$messages));
 	$messages = json_decode($messages);
@@ -722,7 +721,7 @@ function simplr_admin_actions() {
 			$simplr_reg->default_email = $data['default_email'];
 			$simplr_reg->stylesheet = $data['stylesheet'];
 			$simplr_reg->styles = $data['styles'];
-			$simplr_reg->style_skin = @$data['style_skin'] ?: 'default.css';
+			$simplr_reg->style_skin = @$data['style_skin'] ? $data['style_skin'] : 'default.css';
 			$simplr_reg->register_redirect = $data['register_redirect'];
 			$simplr_reg->thank_you = $data['thank_you'];
 			$simplr_reg->profile_redirect = $data['profile_redirect'];
@@ -891,11 +890,11 @@ if(!function_exists('simplr_users_query')):
 		if( !is_admin() ) return $query;
 		if( $screen->base != 'users' ) return $query;
 		
-		$var = @$_REQUEST['orderby'] ?: false;
+		$var = @$_REQUEST['orderby'] ? $_REQUEST['orderby'] : false;
 		if( !$var ) return $query;
 		//these fields are already sortable by wordpress
 		if( in_array( $var, array('first_name','last_name','email','login','name') ) ) return $query;
-		$order = @esc_attr($_REQUEST['order']) ?: '';
+		$order = @$_REQUEST['order'] ? esc_attr($_REQUEST['order']) : '';
 		//get our custom fields
 		$cols = new SREG_Fields(); 
 		$cols = $cols->fields->custom;
