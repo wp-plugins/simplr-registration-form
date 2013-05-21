@@ -2,7 +2,7 @@
 $data = $_POST;
 $defaults = (object) array(
 	'mod_on'			=> 'no',
-	'mod_email'			=> "You've successfully registered for %%blogname%% but before your account can be used you must activate it. To activate use the link below %%activate%%. ",
+	'mod_email'			=> "You've successfully registered for %%blogname%% but before your account can be used you must activate it. To activate use the link below %%link%%. ",
 	'mod_email_subj'		=> "Please activate your %%blogname%% account",
 	'mod_activation'		=> "auto",
 	'mod_email_activated' 		=> "Your account was activated.",
@@ -58,7 +58,7 @@ if(isset($data['mod-submit'])) {
 		'name'	=> 'mod_email',
 		'label'	=> 'Moderation Email',
 		'required'	=> false,
-		'comment'	=> "You can use user submitted values in this field by wrapping them in %%. For instance to use the value of the field 'first_name' you would type 'Welcome, %%first_name%% '. ",
+		'comment'	=> "You can use user submitted values in this field by wrapping them in %%. For instance to use the value of the field 'first_name' you would type 'Welcome, %%first_name%% '. Use %%link%% for the activation link. ",
 		'default'	=> "hello",
 		),
 		$simplr_reg->mod_email, 'textarea wide',
