@@ -4,7 +4,7 @@ Donate link: http://www.mikevanwinkle.com/
 Tags: registration, signup, wordpress 3.5, cms, users, user management
 Requires at least: 3.0
 Tested up to: 3.6
-Stable tag: 2.2.1
+Stable tag: 2.2.2
 
 This plugin allows users to easily add a custom user registration form anywhere on their site using simple shortcode.
 
@@ -136,3 +136,6 @@ Fixed tinyMCE bug
 
 = 2.2.1 = 
 -Fix for PHP 5.2 backward compatibility
+
+= 2.2.2 = 
+-Fix moderation comments and default email.
