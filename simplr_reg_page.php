@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: Simplr User Registration Form Plus
-Version: 2.2.2
+Version: 2.2.3
 Description: This a simple plugin for adding a custom user registration form to any post or page using shortcode.
 Author: Mike Van Winkle
 Author URI: http://www.mikevanwinkle.com
@@ -787,6 +787,7 @@ function simplr_activate_users( $ids = false ) {
 			$data = (array) get_userdata( $id );
 			$data = (array) $data['data'];
 			$data['blogname'] = get_option('blogname');
+			do_action('simplr_activated_user', $data);
 			$subj = simplr_token_replace( $simplr_options->mod_email_activated_subj, $data );
 			$content = simplr_token_replace( $simplr_options->mod_email_activated, $data );
 			$headers = "From: ".$data['blogname']."<".get_option('admin_email').">\r\n";
@@ -912,4 +913,16 @@ function simplr_log($query) {
 	if( @$_REQUEST['debug'] == 'true' )
 		print $query;
 	return $query;
+}
+
+add_filter('wp_authenticate_user','simplr_disable_login_inactive', 0);
+function simplr_disable_login_inactive($user) {
+
+	if( empty($user) || is_wp_error($user) ) 
+		return $user;
+	
+	if( $user->user_status == 2 ) 
+		return new WP_Error("error", __("<strong>ERROR</strong>: This account has not yet been approved by the moderator", 'simplr-reg') );
+
+        return $user;
 }
