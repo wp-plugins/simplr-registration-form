@@ -1,10 +1,14 @@
 <?php
 
 function simplr_validate($data,$atts) {
+
+	global $wp_version;
 	
 	//incluce necessary files, not required for WP3.1+
-	require_once(ABSPATH . WPINC . '/registration.php' );
-	require_once(ABSPATH . WPINC . '/pluggable.php' );
+	if( version_compare( $wp_version, "3.1", "<") ) {
+		require_once(ABSPATH . WPINC . '/registration.php' );
+		require_once(ABSPATH . WPINC . '/pluggable.php' );
+	}
 	
 	//empty errors array
 	$errors = array();
@@ -14,7 +18,7 @@ function simplr_validate($data,$atts) {
 	$custom = new SREG_Fields(); 
 	
 	//recaptcha check/
-	if($options->recap_on == 'yes') {
+	if( isset($options->recap_on) AND $options->recap_on == 'yes') {
 		$spam = recaptcha_check($data);
 		if($spam != false) {
 			$errors[] = $spam;
@@ -398,7 +402,7 @@ function simplr_build_form($data,$atts) {
 
 	//filter for adding profile fields
 	$form = apply_filters('simplr_add_form_fields', $form);
-	if($soptions->recap_on == 'yes') {
+	if( isset( $soptions->recap_on ) AND $soptions->recap_on == 'yes') {
 		$form .= sreg_recaptcha_field();
 	}
 	
@@ -424,7 +428,7 @@ function simplr_build_form($data,$atts) {
 	$form .= '<div style="clear:both;"></div>';
 	$form .=  '</form>';
 	$form .=  '</div>';
-	if($soptions->fb_connect_on == 'yes') {
+	if( isset($options->fb_connect_on) AND $soptions->fb_connect_on == 'yes') {
 		$form .= sreg_load_fb_script(); 
 	}
 	return $form;
@@ -432,6 +436,7 @@ function simplr_build_form($data,$atts) {
 }
 
 function sreg_basic($atts) {
+	require_once __DIR__.'/lib/sreg.class.php';
 	//Check if the user is logged in, if so he doesn't need the registration page
 	if ( is_user_logged_in() AND !current_user_can('administrator') ) {
 		global $user_ID;
@@ -446,19 +451,18 @@ function sreg_basic($atts) {
 	} else {
 		//Then check to see whether a form has been submitted, if so, I deal with it.
 		global $sreg;
+		if( !is_object($sreg) ) $sreg = new Sreg_Submit();
+		$out = '';
 		if(isset($sreg->success)) {
 			return $sreg->output;
-		} else {
-			if(is_array($sreg->errors)) {
-	        $out = '';
-	        foreach($sreg->errors as $mes) {
-	            $out .= '<div class="simplr-message error">'.$mes .'</div>';
-	        }
-	    } elseif(is_string($sreg->errors)) {
-	        $out = '<div class="simplr-message error">'.$message .'</div>';
-	    }
-	    return $out.simplr_build_form($_POST,$atts);
+		} elseif( isset($sreg->errors) AND is_array($sreg->errors)) {
+			foreach($sreg->errors as $mes) {
+		        	$out .= '<div class="simplr-message error">'.$mes .'</div>';
+	        	}
+		} elseif(is_string($sreg->errors)) {
+	        	$out = '<div class="simplr-message error">'.$message .'</div>';
 		}
+		return $out.simplr_build_form($_POST,$atts);
 
 	} //Close LOGIN Conditional
 
@@ -532,7 +536,7 @@ function recaptcha_check($data) {
 
 function sreg_fb_connect() {
 	$options = get_option('simplr_reg_options');
-	if($options->fb_connect_on != 'yes') {
+	if( !isset($options->fb_connect_on) OR $options->fb_connect_on != 'yes') {
 		return null;
 	} else {
 	

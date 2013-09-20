@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: Simplr User Registration Form Plus
-Version: 2.2.3
+Version: 2.2.4
 Description: This a simple plugin for adding a custom user registration form to any post or page using shortcode.
 Author: Mike Van Winkle
 Author URI: http://www.mikevanwinkle.com
@@ -160,7 +160,7 @@ function simplr_admin_style() {
 	$parts = explode('/', trim($url['path']));
 	if(is_admin()) 
 	{
-		if(@$_GET['page'] == 'simplr_reg_set' ) {
+		if( isset($_GET['page']) AND $_GET['page'] == 'simplr_reg_set' ) {
 			wp_register_style('chosen',SIMPLR_URL.'/assets/js/chosen/chosen/chosen.css');
 			wp_register_script('chosen',SIMPLR_URL.'/assets/js/chosen/chosen/chosen.jquery.js',array('jquery'));
 			add_action('admin_print_footer_scripts','simplr_footer_scripts');
@@ -325,7 +325,10 @@ function simplr_fb_auto_login() {
 	global $simplr_options;
 	//require_once(SIMPLR_DIR.'/lib/login.php');
 	global $facebook;
-	if($simplr_options->fb_connect_on == 'yes' AND !is_user_logged_in() AND !current_user_can('administrator')) {	
+	if( isset($simplr_options->fb_connect_on) 
+		AND $simplr_options->fb_connect_on == 'yes' 
+		AND !is_user_logged_in() 
+		AND !current_user_can('administrator')) {	
 		require_once(SIMPLR_DIR .'/lib/facebook.php');
 		include_once(SIMPLR_DIR .'/lib/fb.class.php');	
 		$facebook = new Facebook(Simplr_Facebook::get_fb_info());
@@ -424,7 +427,7 @@ function simplr_fb_auto_register() {
 
 function get_fb_login_btn($content) {
 	$option = get_option('simplr_reg_options');
-	if($option->fb_connect_on == 'yes') {
+	if( isset($option->fb_connect_on) AND $option->fb_connect_on == 'yes') {
 		$out = '';
 		require_once(SIMPLR_DIR .'/lib/facebook.php');
 		include_once(SIMPLR_DIR .'/lib/fb.class.php');	
@@ -435,6 +438,7 @@ function get_fb_login_btn($content) {
 		//$out = '<p><div id="fblogin"><a href="'.$login_url.'"><img src="'.plugin_dir_url(__FILE__).'assets/images/fb-login.png" /></a></div></p>';
 		echo $out;
 	}
+	return $content;
 }
 
 /*
@@ -593,7 +597,7 @@ function simplr_register_redirect() {
 		$post = get_post($simplr_options->login_redirect);
 		set_transient('login_post_data',$post);
 	}
-	if( ((end($path) == 'wp-login.php' AND $_GET['action']	 == 'register') OR (end($path) == 'wp-signup.php')) AND $simplr_options->register_redirect != '' ) {
+	if( ((end($path) == 'wp-login.php' AND @$_GET['action'] == 'register') OR (end($path) == 'wp-signup.php')) AND $simplr_options->register_redirect != '' ) {
 		wp_redirect(get_permalink($simplr_options->register_redirect));
 	} elseif(end($path) == 'profile.php' AND $simplr_options->profile_redirect != '') {
 		if(!current_user_can('administrator')) {

@@ -25,7 +25,7 @@ endif;
 
 if(!function_exists('simplr_inactive_query')):
 	function simplr_inactive_query( &$query ) {
-		if($_GET['view_inactive'] === 'true') {
+		if(@$_GET['view_inactive'] === 'true') {
 			$query->query_where = $query->query_where.' AND user_status = 2';
 		}
 		return $query;
