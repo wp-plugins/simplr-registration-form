@@ -322,8 +322,8 @@ function simplr_build_form($data,$atts) {
 	//if the user has not added their own user name field lets force one
 	if( !in_array('username',$fields) OR empty($custom->fields->custom['username']) ) {
 		$form .=  '<div class="simplr-field '.apply_filters('username_error_class','') .'">';
-		$form .=  '<label for="username" class="left">' .esc_attr(@$label_username ).' <span class="required">*</span></label>';
-		$form .=  '<input type="text" name="username" class="right" value="'.esc_attr(@$data['username']) .'" /><br/>';
+		$form .=  '<label for="username" class="left">' .@esc_attr($label_username ).' <span class="required">*</span></label>';
+		$form .=  '<input type="text" name="username" class="right" value="'.@esc_attr($data['username']) .'" /><br/>';
 		$form .=  '</div><div class="simplr-clr"></div>';
 	}
 
@@ -436,7 +436,7 @@ function simplr_build_form($data,$atts) {
 }
 
 function sreg_basic($atts) {
-	require_once __DIR__.'/lib/sreg.class.php';
+	require_once dirname(__FILE__).'/lib/sreg.class.php';
 	//Check if the user is logged in, if so he doesn't need the registration page
 	if ( is_user_logged_in() AND !current_user_can('administrator') ) {
 		global $user_ID;

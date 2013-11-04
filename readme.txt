@@ -147,3 +147,6 @@ Fixed tinyMCE bug
 = 2.2.4 = 
 -Fix "undefined" notices
 -Fix incompatibility with login_message filter
+
+= 2.2.5 =
+-fix backwar compatibility and sreg.class.php error
