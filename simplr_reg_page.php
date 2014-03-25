@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: Simplr User Registration Form Plus
-Version: 2.2.5
+Version: 2.2.6
 Description: This a simple plugin for adding a custom user registration form to any post or page using shortcode.
 Author: Mike Van Winkle
 Author URI: http://www.mikevanwinkle.com
@@ -20,7 +20,6 @@ $simplr_options = get_option('simplr_reg_options');
 include_once(SIMPLR_DIR.'/lib/fields.class.php');
 include_once(SIMPLR_DIR.'/lib/fields-table.class.php');
 include_once(SIMPLR_DIR.'/simplr_form_functions.php');
-require_once(SIMPLR_DIR.'/lib/plugin-update-checker.php');
 require_once(SIMPLR_DIR.'/lib/profile.php');
 //require_once(SIMPLR_DIR.'/lib/login.php');
 
@@ -59,14 +58,6 @@ if( @$simplr_options->mod_on == 'yes' ) {
 		add_action('wp','simplr_activation_listen');
 	}
 }
-
-/**
-**
-** Plugin Updater Class Constructor
-**
-**/
-
-//$simplr_update = new PluginUpdateChecker('http://www.mikevanwinkle.com/api/simplr-reg-form-plus.json',__FILE__,'simplr-registration-form-plus');
 
 /*
 **
