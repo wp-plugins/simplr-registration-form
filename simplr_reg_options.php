@@ -1,10 +1,19 @@
 <script>
 jQuery.noConflict();
 form = jQuery('#reg-form');
-submit = jQuery('#reg-submit');
+submit = jQuery('input#reg-submit');
 table = jQuery('#reg-form');
-
+close = jQuery('.media-modal-close,.media-modal-icon');
+backdrop = jQuery('.media-modal-backdrop');
 jQuery('#sortable').sortable();
+
+function sregCloseModal() {
+console.log('clise');
+	jQuery('.media-modal-backdrop').hide();
+	jQuery('div#reg-form').hide();
+}
+
+close.on('click', function() { sregCloseModal(); });
 
 form.hide();
 // handles the click event of the submit button
@@ -45,8 +54,7 @@ submit.click(function(){
 	// inserts the shortcode into the active editor
 	tinyMCE.activeEditor.execCommand('mceInsertContent', 0, shortcode);
 	// closes Thickbox
-	jQuery('#reg-form').hide();
-	jQuery('.media-modal-backdrop').remove();
+	sregCloseModal();
 });
 </script>
 <?php

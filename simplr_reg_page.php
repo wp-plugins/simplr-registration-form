@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: Simplr User Registration Form Plus
-Version: 2.2.6
+Version: 2.2.7
 Description: This a simple plugin for adding a custom user registration form to any post or page using shortcode.
 Author: Mike Van Winkle
 Author URI: http://www.mikevanwinkle.com
@@ -224,20 +224,27 @@ function simplr_reg_scripts() {
 	<?php
 }
 
+/** 
+ * Media Buttons
+ */
+
+add_action('media_buttons', 'simplr_media_button', 100);
+function simplr_media_button() {
+	wp_enqueue_script('simplr-reg', plugins_url('assets/simplr_reg.js',__FILE__), array('jquery'));
+?>
+  <a id="insert-registration-form" class="button" title="<?php esc_html_e( 'Add Registration Form', 'simplr-reg' ); ?>" data-editor="content" href="<?php echo SIMPLR_URL.'/simplr_reg_options.php?null=1'; ?>">
+    <span class="jetpack-contact-form-icon"></span> <?php esc_html_e( 'Add Registration Form', 'simplr-reg' ); ?>
+  </a>
+<?php 
+}
+
+
 /**
 **
 ** Add TinyMCE Button
 **
 **/
-
 function simplr_action_admin_init() {
-	// only hook up these filters if we're in the admin panel, and the current user has permission
-	// to edit posts and pages
-	if ( current_user_can( 'edit_posts' ) && current_user_can( 'edit_pages' ) ) 
-	{
-		add_filter( 'mce_buttons', 'simplr_filter_mce_button' );
-		add_filter( 'mce_external_plugins', 'simplr_filter_mce_plugin' );
-	}
 	global $simplr_options;	
 	
 	if( @$simplr_options->mod_on == 'yes') 
@@ -267,24 +274,6 @@ function simplr_action_admin_init() {
 	add_filter('manage_users_sortable_columns','simplr_sortable_columns');
 	add_filter('pre_user_query','simplr_users_query');
 }
-
-/**
- * Add button to tinymce
-*/
-function simplr_filter_mce_button( $buttons ) {
-	array_push( $buttons, '|', 'simplr_reg_button' );
-	return $buttons;
-}
-
-/**
- * Load javascript for tinyMCE button
-*/
-function simplr_filter_mce_plugin( $plugins ) {
-	// this plugin file will work the magic of our button
-	$plugins['simplr_reg'] = SIMPLR_URL . '/assets/simplr_reg.js';
-	return $plugins;
-}
-
 
 /**
  * Adds default fields upon installation
