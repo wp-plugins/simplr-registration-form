@@ -7,6 +7,8 @@ Author: Mike Van Winkle
 Author URI: http://www.mikevanwinkle.com
 Plugin URI: http://www.mikevanwinkle.com/wordpress/how-to/custom-wordpress-registration-page/
 License: GPL
+Text Domain: simplr-reg
+Domain Path: /lang/
 */
 //constants
 define("SIMPLR_URL", rtrim(WP_PLUGIN_URL,'/') . '/'.basename(dirname(__FILE__)) );
