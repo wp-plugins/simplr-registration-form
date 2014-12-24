@@ -1,5 +1,5 @@
 === Simplr Registration Form Plus+ ===
-Contributors: mpvanwinkle77
+Contributors: mpvanwinkle77, mpol
 Donate link: http://www.mikevanwinkle.com/
 Tags: registration, signup, wordpress 3.5, cms, users, user management
 Requires at least: 3.0
@@ -156,3 +156,6 @@ Fixed tinyMCE bug
 
 = 2.2.7 = 
 -updated modal to work with WordPress version 4.1
+
+= 2.2.8 =
+- Added settings link to main plugin page

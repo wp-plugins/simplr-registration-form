@@ -105,6 +105,21 @@ function simplr_reg_menu() {
 	register_setting ('simplr_reg_options', 'simplr_profile_fields', 'simplr_fields_settings_process');
 }
 
+
+/**
+** 
+** Add Settings link to the main plugin page
+**/
+
+function simplr_plugin_link( $links, $file ) {
+	if ( $file == plugin_basename( dirname(__FILE__).'/simplr_reg_page.php' ) ) {
+		$links[] = '<a href="' . admin_url( 'options-general.php?page=simplr_reg_set' ) . '">'.__( 'Settings' ).'</a>';
+	}
+	return $links;
+}
+add_filter( 'plugin_action_links', 'simplr_plugin_link', 10, 2 );
+
+
 /** 
 **
 ** Process Saved Settings (Deprecated)
