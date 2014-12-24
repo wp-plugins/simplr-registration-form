@@ -97,7 +97,7 @@ function simplr_reg_set() {
 **/
 
 function simplr_reg_menu() {
-	$page = add_submenu_page('options-general.php','Registration Forms', 'Registration Forms','manage_options','simplr_reg_set', 'simplr_reg_set');
+	$page = add_submenu_page('options-general.php','Registration Forms', __('Registration Forms', 'simplr-reg'), 'manage_options','simplr_reg_set', 'simplr_reg_set');
 	add_action('admin_print_styles-' . $page, 'simplr_admin_style');
 	register_setting ('simplr_reg_options', 'sreg_admin_email', '');
 	register_setting ('simplr_reg_options', 'sreg_email', '');
@@ -221,6 +221,15 @@ function simplr_admin_scripts() {
 		wp_enqueue_script('jquery-ui-sortable');
 	}
 }
+
+/**
+**
+** Load language files for frontend and backend
+**/
+function simplr_load_lang() {
+	load_plugin_textdomain( 'simplr-reg', false, dirname( plugin_basename( __FILE__ ) ) . '/lang' ); 
+}
+add_action('plugins_loaded', 'simplr_load_lang');
 
 
 /**
