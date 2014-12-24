@@ -90,11 +90,11 @@ function simplr_validate($data,$atts) {
 				{ 
 					if($data[$field['key'].'-mo'] == '' || $data[$field['key'].'-dy'] == '' || $data[$field['key'].'-yr'] == '') 
 					{
-					$errors[] = $field['label'] .' is a required field. Please enter a value.';
+					$errors[] = $field['label'] . __(" is a required field. Please enter a value.", 'simplr-reg');
 					add_filter($field['key'].'_error_class','_sreg_return_error');
 					}
 				} elseif(!isset($data[$field['key']]) || $data[$field['key']] == '' ) {
-					$errors[] = $field['label'] .' is a required field. Please enter a value.';
+					$errors[] = $field['label'] . __(" is a required field. Please enter a value.", 'simplr-reg');
 					add_filter($field['key'].'_error_class','_sreg_return_error');
 				} 
 			}
@@ -234,9 +234,9 @@ function simplr_setup_user($atts,$data) {
 	$data = array_merge( (array) $userdata->data , $data );
 	simplr_send_notifications($atts,$data,$passw);
 
-	$extra = "Please check your email for confirmation.";
+	$extra = __(" Please check your email for confirmation.", 'simplr-reg');
 	$extra = apply_filters('simplr_extra_message', __($extra,'simplr-reg') );
-	$confirm = '<div class="simplr-message success">Your Registration was successful. '.$extra .'</div>';
+	$confirm = '<div class="simplr-message success">' . __("Your Registration was successful.", 'simplr-reg') . $extra .'</div>';
 	
 	//Use this hook for multistage registrations
 	do_action('simplr_reg_next_action', array($data, $user_id, $confirm));
@@ -254,12 +254,12 @@ function simplr_send_notifications($atts, $data, $passw) {
 	$notify = @$atts['notify'];
 	$emessage = @$atts['message'];
 	$headers = "From: $name" . ' <' .get_option('admin_email') .'> ' ."\r\n\\";
-	wp_mail($notify, "A new user registered for $name", "A new user has registered for $name.\rUsername: $user_name\r Email: $email \r",$headers);
+	wp_mail($notify, __("A new user registered for", 'simplr-reg') . " " . $name, __("A new user has registered for", 'simplr-reg') . " " . $name."\rUsername: $user_name\r Email: $email \r",$headers);
 	$emessage = $emessage . "\r\r---\r";
 		if(!isset($data['password'])) {
-			$emessage .= "You should login and change your password as soon as possible.\r\r";
+			$emessage .= __("You should login and change your password as soon as possible.", 'simplr-reg') . "\r\r";
 		}
-	$emessage .= "Username: $user_name\r";
+	$emessage .= __("Username:", 'simplr-reg') . " $user_name\r";
 	$emessage .= (isset($data['fbuser_id']))?'Registered with Facebook':"Password: $passw\rLogin: $site";
 	if( @$simplr_options->mod_on == 'yes' AND @$simplr_options->mod_activation == 'auto')  {
 		$data['blogname'] = get_site_option('blogname');
@@ -270,7 +270,7 @@ function simplr_send_notifications($atts, $data, $passw) {
 		wp_mail( $data['user_email'], $subject, $content, $headers);
 	} else {
 		$emessage = simplr_token_replace( $emessage, $data );
-		wp_mail($data['email'],"$name - Registration Confirmation", apply_filters('simplr_email_confirmation_message',$emessage), $headers);
+		wp_mail($data['email'],"$name - " . __("Registration Confirmation", 'simplr-reg'), apply_filters('simplr_email_confirmation_message',$emessage), $headers);
 	}
 	
 }
@@ -415,7 +415,7 @@ function simplr_build_form($data,$atts) {
 	}
 	 
 	//submission button. Use filter to custommize
-	$form .=  apply_filters('simplr-reg-submit', '<input type="submit" name="submit-reg" value="Register" class="submit button">');
+	$form .=  apply_filters('simplr-reg-submit', '<input type="submit" name="submit-reg" value="' . __('Register','simplr-reg') . '" class="submit button">');
 	
 	//wordress nonce for security
 	$nonce = wp_create_nonce('simplr_nonce');
@@ -442,11 +442,11 @@ function sreg_basic($atts) {
 		global $user_ID;
 		$first_visit = get_user_meta($user_ID, 'first_visit',true);
 		if(empty($first_visit)) {
-			$message = !empty($atts['message'])?$atts['message']:"Thank you for registering.";
+			$message = !empty($atts['message'])?$atts['message']:__("Thank you for registering.", 'simplr-reg');
 			update_user_meta($user_ID,'first_visit',date('Y-m-d'));
 			echo '<div id="message" class="success"><p>'.$message.'</p></div>';
 		} else {
-			echo "You are already registered for this site!!!";
+			_e("You are already registered for this site!!!", 'simplr-reg');
 		}
 	} else {
 		//Then check to see whether a form has been submitted, if so, I deal with it.
@@ -507,7 +507,7 @@ function sreg_figure($atts) {
 		if($role != 'admin') {
 			$function = sreg_basic($atts);
 		} else { 
-			$function = 'You should not register admin users via a public form';
+			$function = __('You should not register admin users via a public form','simplr-reg');
 		}
 	return $function;
 }//End Function
@@ -527,8 +527,8 @@ function recaptcha_check($data) {
 
 	if (!$resp->is_valid) {
 		// What happens when the CAPTCHA was entered incorrectly
-		return "The reCAPTCHA wasn't entered correctly. Go back and try it again." .
-		     "(reCAPTCHA said: " . $resp->error . ")";
+		return __("The reCAPTCHA wasn't entered correctly. Go back and try it again. (reCAPTCHA said:", 'simplr-reg') .
+		     " " . $resp->error . ")";
 	} else {
 		return false;
 	}

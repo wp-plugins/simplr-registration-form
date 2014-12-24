@@ -717,7 +717,7 @@ function simplr_admin_actions() {
 				$simplr_reg->fb_request_perms = @$data['fb_request_perms'];
 				$simplr_reg->fb_auto_register = @$data['fb_auto_register'];
 				update_option('simplr_reg_options',$simplr_reg);				
-				simplr_set_message('updated',"Your settings were saved");
+				simplr_set_message('updated', __("Your settings were saved.", 'simplr-reg') );
 				wp_redirect($_SERVER['REQUEST_URI']);
 		}
 		
@@ -734,7 +734,7 @@ function simplr_admin_actions() {
 			$simplr_reg->thank_you = $data['thank_you'];
 			$simplr_reg->profile_redirect = $data['profile_redirect'];
 			update_option('simplr_reg_options',$simplr_reg);
-			simplr_set_message('updated',"Your settings were saved");
+			simplr_set_message('updated', __("Your settings were saved.", 'simplr-reg') );
 			wp_redirect($_SERVER['REQUEST_URI']);
 			
 		}
@@ -745,7 +745,7 @@ function simplr_admin_actions() {
 			if( !check_admin_referer('delete','_wpnonce') ) { wp_die('Death to hackers'); }
 			$del = new SREG_Fields();
 			$del->delete_field($_GET['key']);
-			simplr_set_message('updated','Field deleted.');
+			simplr_set_message('updated', __("Field deleted.", 'simplr-reg') );
 			wp_redirect(remove_query_arg('action'));
 			
 		} elseif(isset($_POST['mass-submit'])) {
@@ -755,7 +755,7 @@ function simplr_admin_actions() {
 				$del = new SREG_Fields();
 				$del->delete_field($key);
 			endforeach;
-			simplr_set_message('updated',"Fields were deleted.");
+			simplr_set_message('updated', __("Fields were deleted.", 'simplr-reg') );
 			wp_redirect(remove_query_arg('action'));
 			
 		}
@@ -765,7 +765,7 @@ function simplr_admin_actions() {
 			$new = new SREG_Fields();
 			$key = $_POST['key'];
 			$response = $new->save_custom($_POST);	
-			simplr_set_message('updated',"Your Field was saved");
+			simplr_set_message('updated', __("Your Field was saved.", 'simplr-reg') );
 			wp_redirect(remove_query_arg('action'));
 			
 		}			
@@ -790,7 +790,7 @@ function simplr_activate_users( $ids = false ) {
 		foreach( $ids as $id )  {
 			$return = $wpdb->update( $wpdb->users, array( 'user_status'=> 0 ), array( 'ID' => $id ), array('%d'), array('%d') );
 			if( !$return ) { 
-				return new WP_Error( "error", "Could not activate requested user." );
+				return new WP_Error( "error", __("Could not activate requested user.", 'simplr-reg') );
 			}
 			$data = (array) get_userdata( $id );
 			$data = (array) $data['data'];
@@ -813,7 +813,7 @@ function simplr_resend_emails() {
 		include_once(SIMPLR_DIR.'/lib/mod.php');
 		foreach( $_REQUEST['users'] as $user ) {
 			simplr_resend_email($user);
-			simplr_set_notice('success', 'Emails resent');
+			simplr_set_notice('success', __("Emails resent", 'simplr-reg') );
 		}
 	}
 }

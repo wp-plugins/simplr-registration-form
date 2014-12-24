@@ -137,23 +137,23 @@ small {
 		<div class="media-frame wp-core-ui">
 			<div class="media-frame-menu">
 				<div class="media-menu">
-					<a href="#" class='media-menu-item'>Registration Form</a>
+					<a href="#" class='media-menu-item'><?php _e("Registration Form", 'simplr-reg'); ?></a>
 				</div>
 			</div><!--.media-frame-menu-->
-			<div class="media-frame-title"><h1>Registration Form</h1></div>
+			<div class="media-frame-title"><h1><?php _e("Registration Form", 'simplr-reg'); ?></h1></div>
 			<div class="media-frame-router">
 				<div class="media-router">
-					<a href="#" class="media-menu-item active">Options</a>
+					<a href="#" class="media-menu-item active"><?php _e("Options", 'simplr-reg'); ?></a>
 				</div>
 			</div>
 			<div class="media-frame-content">
 				<div class="column-wrap">
 					<div class="column">
 						<div class="sreg-form-item">
-							<label for="reg-role">Role</label>	
-							<small>Specify the registration user role.</small>
+							<label for="reg-role"><?php _e("Role", 'simplr-reg'); ?></label>	
+							<small><?php _e("Specify the registration user role.", 'simplr-reg'); ?></small>
 							<select name="role" id="reg-role">
-								<option value="">Select role ... </option>
+								<option value=""><?php _e("Select role ...", 'simplr-reg'); ?> </option>
 								<?php global $wp_roles; ?>
 								<?php foreach($wp_roles->role_names as $k => $v): ?>
 									<?php if($k != 'administrator'): ?>
@@ -163,42 +163,42 @@ small {
 							</select>
 						</div>
 						<div class="sreg-form-item">
-							<label for="reg-thanks">Thank You page</label>
-							<small>Leave blank to display message on this page. </small>
+							<label for="reg-thanks"><?php _e("Thank You page", 'simplr-reg'); ?></label>
+							<small><?php _e("Leave blank to display message on this page.", 'simplr-reg'); ?></small>
 					
 							<select class="chzn" id="reg-thanks">
-								<option value="">Select</option>
+								<option value=""><?php _e("Select", 'simplr-reg'); ?></option>
 									<?php foreach($pages as $page): ?>
 									<option value="<?php echo $page->ID; ?>"><?php echo $page->post_title; ?></option>
 								<?php endforeach; ?>
 							</select>
 						</div>
 						<div class="sreg-form-item">
-							<label for="reg-role">Message</label>
-							<small>Confirmation for registered users. </small>
+							<label for="reg-role"><?php _e("Message", 'simplr-reg'); ?></label>
+							<small><?php _e("Confirmation for registered users.", 'simplr-reg'); ?></small>
 							<textarea id="reg-message" name="message" rows=10></textarea><br/>			
 						</div>
 				</div><!--.column-->
 				<div class="column">
 						<div class="sreg-form-item">
-							<label for="reg-role">Notifications</label>
-							<small>Notify these emails.</small>
+							<label for="reg-role"><?php _e("Notifications", 'simplr-reg'); ?></label>
+							<small><?php _e("Notify these emails.", 'simplr-reg'); ?></small>
 						
 							<input type="text" id="reg-notify" name="notify" value=""></input>
 						</div>
 				
 						<div class="sreg-form-item">
-							<label for="reg-password">Password</label>
+							<label for="reg-password"><?php _e("Password", 'simplr-reg'); ?></label>
 						
-							<small>Select "yes" to allow users to set their password.</small>			
+							<small><?php _e("Select \"yes\" to allow users to set their password.", 'simplr-reg'); ?></small>			
 							<select id="reg-password" name="password">
-								<option value="no">No</option>
-							<option value="yes">Yes</option>
+								<option value="no"><?php _e("No", 'simplr-reg'); ?></option>
+							<option value="yes"><?php _e("Yes", 'simplr-reg'); ?></option>
 							</select>
 						</div>
 
 					<div class="sreg-form-item">
-						<h4>Custom Fields</h4>
+						<h4><?php _e("Custom Fields", 'simplr-reg'); ?></h4>
 				
 						<!--<input id="fields" name="fields" class="fields" type="text" value="" /><br/>
 						Enter a comma-separated list of fields you would like to include in this form. Below are the available fields. <br/> <strong>Fields:</strong><br/>-->
