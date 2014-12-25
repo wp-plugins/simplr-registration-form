@@ -28,7 +28,9 @@ See plugin settings page for detailed instructions
 
 == Screenshots ==
 
-screenshot-1.(png|jpg|jpeg|gif)
+1. The page with the registration form on the frontend.
+2. The settings page with the first tab open.
+3. The modal where you can customize the shortcode that will be entered.
 
 == Changelog ==
 
