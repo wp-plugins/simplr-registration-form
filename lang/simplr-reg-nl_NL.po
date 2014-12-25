@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-12-24 23:01+0100\n"
-"PO-Revision-Date: 2014-12-24 23:07+0100\n"
+"POT-Creation-Date: 2014-12-24 23:24+0100\n"
+"PO-Revision-Date: 2014-12-25 14:03+0100\n"
 "Last-Translator: Marcel Pol <marcel@timelord.nl>\n"
 "Language-Team: NL <nl@li.org>\n"
 "Language: nl_NL\n"
@@ -22,17 +22,16 @@ msgid "Settings"
 msgstr "Instellingen"
 
 #: main_options_page.php:9
-#, fuzzy
 msgid "Fields"
-msgstr "Velden met  een * zijn verplicht."
+msgstr "Velden"
 
 #: main_options_page.php:10
 msgid "Moderation"
-msgstr ""
+msgstr "Moderatie"
 
 #: main_options_page.php:12
 msgid "Instructions"
-msgstr ""
+msgstr "Instructies"
 
 #: main_options_page.php:24
 msgid ""
@@ -48,28 +47,27 @@ msgstr ""
 #: simplr_form_functions.php:38
 msgid "You must enter a password to register for this site."
 msgstr ""
+"Een wachtwoord invoeren is verplicht om op deze website te registreren."
 
 #: simplr_form_functions.php:45
 msgid "You must enter a username."
-msgstr ""
+msgstr "Een gebruikersnaam invoeren is verplicht."
 
 #: simplr_form_functions.php:51
-#, fuzzy
 msgid "Invalid Username."
-msgstr "Ongeldige post ID opgegeven"
+msgstr "Ongeldige Gebruikersnaam."
 
 #: simplr_form_functions.php:57
-#, fuzzy
 msgid "This username already exists."
-msgstr "bericht was al gemarkeerd als spam en is niet veranderd. "
+msgstr "Deze gebruikersnaam bestaat al."
 
 #: simplr_form_functions.php:65 lib/profile.php:207
 msgid "You must enter an email."
-msgstr ""
+msgstr "Een e-mailadres invoeren is verplicht."
 
 #: simplr_form_functions.php:68
 msgid "The emails you entered do not match."
-msgstr ""
+msgstr "De e-mailadressen die je invoerde komen niet overeen."
 
 #: simplr_form_functions.php:72 lib/profile.php:213
 msgid "An account with this email has already been registered."
@@ -77,25 +75,23 @@ msgstr ""
 
 #: simplr_form_functions.php:76 lib/profile.php:217
 msgid "Please enter a valid email."
-msgstr ""
+msgstr "Voer svp. een geldig e-mailadres in."
 
 #: simplr_form_functions.php:93 simplr_form_functions.php:97
 msgid " is a required field. Please enter a value."
-msgstr ""
+msgstr " is een verplicht veld. Vul svp. een waarde in."
 
 #: simplr_form_functions.php:237
-msgid "Please check your email for confirmation."
-msgstr ""
+msgid " Please check your email for confirmation."
+msgstr " Controleer je e-mail voor bevestiging."
 
 #: simplr_form_functions.php:239
-#, fuzzy
 msgid "Your Registration was successful."
-msgstr "Registratie Forms"
+msgstr "Je Registratie was succesvol."
 
 #: simplr_form_functions.php:257
-#, fuzzy
 msgid "A new user registered for"
-msgstr "Nieuw"
+msgstr "Een nieuwe gebruiker registreerde voor"
 
 #: simplr_form_functions.php:257
 msgid "A new user has registered for"
@@ -106,56 +102,45 @@ msgid "You should login and change your password as soon as possible."
 msgstr ""
 
 #: simplr_form_functions.php:262
-#, fuzzy
 msgid "Username:"
-msgstr "Pagina %s"
+msgstr "Gebruikersnaam:"
 
 #: simplr_form_functions.php:273
-#, fuzzy
 msgid "Registration Confirmation"
-msgstr "Registratie Forms"
+msgstr "Registratie Bevestiging"
 
 #: simplr_form_functions.php:304
-#, fuzzy
 msgid "Email Address:"
-msgstr "E-mail"
+msgstr "E-mail adres:"
 
 #: simplr_form_functions.php:305
-#, fuzzy
 msgid "Confirm Email:"
-msgstr "E-mail"
+msgstr "Bevestig E-mail:"
 
 #: simplr_form_functions.php:306
-#, fuzzy
 msgid "Your Username:"
-msgstr "Voer je Facebook URL in"
+msgstr "Je Gebruikersnaam:"
 
 #: simplr_form_functions.php:307
 msgid "Choose a Password"
-msgstr ""
+msgstr "Kies een Wachtwoord"
 
 #: simplr_form_functions.php:308 lib/profile.php:131
 msgid "Confirm Password"
-msgstr ""
+msgstr "Bevestig Wachtwoord"
 
 #: simplr_form_functions.php:418 lib/login.php:480 lib/login.php:536
 #: lib/login.php:578
 msgid "Register"
-msgstr ""
+msgstr "Registreren"
 
 #: simplr_form_functions.php:445
-#, fuzzy
 msgid "Thank you for registering."
-msgstr "Bedankt voor je bericht."
+msgstr "Bedankt voor het registreren."
 
 #: simplr_form_functions.php:449
 msgid "You are already registered for this site!!!"
-msgstr ""
-
-#: simplr_form_functions.php:502
-#, fuzzy
-msgid "Thank you for registering"
-msgstr "Bedankt voor je bericht."
+msgstr "Je bent al geregistreerd op deze website !"
 
 #: simplr_form_functions.php:510
 msgid "You should not register admin users via a public form"
@@ -166,53 +151,48 @@ msgid ""
 "The reCAPTCHA wasn't entered correctly. Go back and try it again. (reCAPTCHA "
 "said:"
 msgstr ""
+"De reCAPTCHA was niet goed ingevuld. Ga terug en probeer het nogmaals. "
+"(reCAPTCHA zei:"
 
 #: simplr_reg_options.php:140 simplr_reg_options.php:143
-#, fuzzy
 msgid "Registration Form"
-msgstr "Formulier"
+msgstr "Registratie Formulier"
 
 #: simplr_reg_options.php:146
-#, fuzzy
 msgid "Options"
 msgstr "Opties"
 
 #: simplr_reg_options.php:153
 msgid "Role"
-msgstr ""
+msgstr "Rol"
 
 #: simplr_reg_options.php:154
 msgid "Specify the registration user role."
 msgstr ""
 
 #: simplr_reg_options.php:156
-#, fuzzy
 msgid "Select role ..."
-msgstr "Selecteer pagina"
+msgstr "Selecteer rol ..."
 
 #: simplr_reg_options.php:166
-#, fuzzy
 msgid "Thank You page"
-msgstr "Bedankt voor je bericht."
+msgstr "Bedankt-pagina"
 
 #: simplr_reg_options.php:167
 msgid "Leave blank to display message on this page."
 msgstr ""
 
 #: simplr_reg_options.php:170
-#, fuzzy
 msgid "Select"
-msgstr "Selecteer pagina"
+msgstr "Selecteren"
 
 #: simplr_reg_options.php:177
-#, fuzzy
 msgid "Message"
 msgstr "Bericht"
 
 #: simplr_reg_options.php:178
-#, fuzzy
 msgid "Confirmation for registered users."
-msgstr "De volgende gebruikers hebben zich aangemekd voor deze service:"
+msgstr "Bevestiging voor geregistreerde gebruikers."
 
 #: simplr_reg_options.php:184
 msgid "Notifications"
@@ -223,9 +203,8 @@ msgid "Notify these emails."
 msgstr ""
 
 #: simplr_reg_options.php:191 lib/login.php:558
-#, fuzzy
 msgid "Password"
-msgstr "Voer je wachtwoord in om reacties te lezen."
+msgstr "Wachtwoord"
 
 #: simplr_reg_options.php:193
 msgid "Select \"yes\" to allow users to set their password."
@@ -233,48 +212,43 @@ msgstr ""
 
 #: simplr_reg_options.php:195
 msgid "No"
-msgstr ""
+msgstr "Nee"
 
 #: simplr_reg_options.php:196
 msgid "Yes"
-msgstr ""
+msgstr "Ja"
 
 #: simplr_reg_options.php:201
-#, fuzzy
 msgid "Custom Fields"
-msgstr "Velden met  een * zijn verplicht."
+msgstr "Aangepaste Velden"
 
 #: simplr_reg_page.php:100
 msgid "Registration Forms"
 msgstr "Registratie Forms"
 
 #: simplr_reg_page.php:720 simplr_reg_page.php:737
-#, fuzzy
 msgid "Your settings were saved."
-msgstr "Je instellingen zijn opgeslagen"
+msgstr "Je instellingen zijn opgeslagen."
 
 #: simplr_reg_page.php:748
 msgid "Field deleted."
 msgstr ""
 
 #: simplr_reg_page.php:758
-#, fuzzy
 msgid "Fields were deleted."
-msgstr "Velden met  een * zijn verplicht."
+msgstr "Velden zijn verwijderd."
 
 #: simplr_reg_page.php:768
-#, fuzzy
 msgid "Your Field was saved."
-msgstr "Je instellingen zijn opgeslagen"
+msgstr "Je Veld is opgeslagen."
 
 #: simplr_reg_page.php:793
 msgid "Could not activate requested user."
 msgstr ""
 
 #: simplr_reg_page.php:816
-#, fuzzy
 msgid "Emails resent"
-msgstr "E-mail"
+msgstr "E-mails opnieuw verzonden"
 
 #: simplr_reg_page.php:832
 msgid "Sorry, We could not find the requested account."
@@ -330,9 +304,9 @@ msgid "Your session has expired. Please log-in again."
 msgstr ""
 
 #: lib/login.php:239
-#, fuzzy, php-format
+#, php-format
 msgid "&larr; Back to %s"
-msgstr "Pagina %s"
+msgstr "&larr; Terug naar %s"
 
 #: lib/login.php:280
 msgid "<strong>ERROR</strong>: Enter a username or e-mail address."
@@ -356,9 +330,9 @@ msgid "Someone requested that the password be reset for the following account:"
 msgstr ""
 
 #: lib/login.php:325
-#, fuzzy, php-format
+#, php-format
 msgid "Username: %s"
-msgstr "Pagina %s"
+msgstr "Gebruikersnaam: %s"
 
 #: lib/login.php:326
 msgid "If this was a mistake, just ignore this email and nothing will happen."
@@ -369,23 +343,21 @@ msgid "To reset your password, visit the following address:"
 msgstr ""
 
 #: lib/login.php:337
-#, fuzzy, php-format
+#, php-format
 msgid "[%s] Password Reset"
-msgstr "Pagina %s"
+msgstr "[%s] Wachtwoord Herstellen"
 
 #: lib/login.php:343
-#, fuzzy
 msgid "The e-mail could not be sent."
-msgstr "E-Mail"
+msgstr "De E-mail kon niet verzonden worden."
 
 #: lib/login.php:343
 msgid "Possible reason: your host may have disabled the mail() function..."
 msgstr ""
 
 #: lib/login.php:364 lib/login.php:367 lib/login.php:372
-#, fuzzy
 msgid "Invalid key"
-msgstr "Ongeldige post ID opgegeven"
+msgstr "Ongeldige sleutel"
 
 #: lib/login.php:407
 msgid "<strong>ERROR</strong>: Please enter a username."
@@ -425,48 +397,44 @@ msgid ""
 msgstr ""
 
 #: lib/login.php:469
-#, fuzzy
 msgid "Username or E-mail:"
-msgstr "E-Mail"
+msgstr "Gebruikersnaam of E-mail:"
 
 #: lib/login.php:478 lib/login.php:503 lib/login.php:534
 msgid "Log in"
 msgstr "Inloggen"
 
 #: lib/login.php:500
-#, fuzzy
 msgid "The passwords do not match."
-msgstr "OK, daar gaat ie dan !"
+msgstr "De wachtwoorden komen niet overeen."
 
 #: lib/login.php:503
 msgid "Password Reset"
-msgstr ""
+msgstr "Wachtwoord Herstellen"
 
 #: lib/login.php:503
 msgid "Your password has been reset."
-msgstr ""
+msgstr "Je wachtwoord is hersteld."
 
 #: lib/login.php:511
 msgid "Reset Password"
-msgstr ""
+msgstr "Wachtwoord Herstellen"
 
 #: lib/login.php:511
-#, fuzzy
 msgid "Enter your new password below."
-msgstr "Voer je wachtwoord in om reacties te lezen."
+msgstr "Voer je nieuwe wachtwoord hieronder in."
 
 #: lib/login.php:518
 msgid "New password"
-msgstr ""
+msgstr "Nieuw wachtwoord"
 
 #: lib/login.php:522
-#, fuzzy
 msgid "Confirm new password"
-msgstr "Voer je wachtwoord in om reacties te lezen."
+msgstr "Bevestig nieuw wachtwoord"
 
 #: lib/login.php:526
 msgid "Strength indicator"
-msgstr ""
+msgstr "Sterkte indicator"
 
 #: lib/login.php:527
 msgid ""
@@ -477,30 +445,27 @@ msgstr ""
 
 #: lib/login.php:554
 msgid "Username"
-msgstr ""
+msgstr "Gebruikersnaam"
 
 #: lib/login.php:579 lib/login.php:581
-#, fuzzy
 msgid "Password Lost and Found"
-msgstr "Voer je wachtwoord in om reacties te lezen."
+msgstr "Wachtwoord Verloren en Gevonden"
 
 #: lib/login.php:579 lib/login.php:581
-#, fuzzy
 msgid "Lost your password?"
-msgstr "Voer je wachtwoord in om reacties te lezen."
+msgstr "Wachtwoord vergeten?"
 
 #: lib/profile.php:32
-#, fuzzy
 msgid "Your profile was saved"
-msgstr "Je instellingen zijn opgeslagen"
+msgstr "Je profiel is opgeslagen"
 
 #: lib/profile.php:121
 msgid "Change Password"
-msgstr ""
+msgstr "Wijzig Wachtwoord"
 
 #: lib/profile.php:125
 msgid "New Password"
-msgstr ""
+msgstr "Nieuw Wachtwoord"
 
 #: lib/profile.php:127
 msgid ""
@@ -509,11 +474,13 @@ msgid ""
 msgstr ""
 
 #: views/api.php:81 views/api.php:166 views/main.php:107
-#, fuzzy
 msgid "Save Changes"
 msgstr "Opslaan"
 
 #: views/moderation.php:23
-#, fuzzy
 msgid "Settings saved"
 msgstr "Je instellingen zijn opgeslagen"
+
+#, fuzzy
+#~ msgid "Thank you for registering"
+#~ msgstr "Bedankt voor je bericht."
