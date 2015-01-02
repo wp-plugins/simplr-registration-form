@@ -1,14 +1,14 @@
-# Language file for Simplr REgistration Forms.
+# Language file for Simplr ReEgistration Forms.
 # Copyright (C) 2014 Marcel Pol
 # This file is distributed under the same license as the Simplr Registration Forms package.
 # Marcel Pol <marcel@timelord.nl>, 2014.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: \n"
+"Project-Id-Version: 2.0.7\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-12-24 23:24+0100\n"
-"PO-Revision-Date: 2014-12-25 14:03+0100\n"
+"PO-Revision-Date: 2015-01-01 16:19+0100\n"
 "Last-Translator: Marcel Pol <marcel@timelord.nl>\n"
 "Language-Team: NL <nl@li.org>\n"
 "Language: nl_NL\n"
@@ -39,10 +39,13 @@ msgid ""
 "registration change the membership setting on the <strong>Settings >> "
 "General</strong> menu."
 msgstr ""
+"Je site is niet ingesteld om gebruikerregistraties toe te staan. "
+"Gebruikerregistratie kun je toestaan in de instelling in het "
+"<strong>Instellingen >> Algemeen</strong> menu."
 
 #: simplr_form_functions.php:33
 msgid "The passwords you entered do not match."
-msgstr ""
+msgstr "De ingevoerde wachtwoorden komen niet overeen."
 
 #: simplr_form_functions.php:38
 msgid "You must enter a password to register for this site."
@@ -71,7 +74,7 @@ msgstr "De e-mailadressen die je invoerde komen niet overeen."
 
 #: simplr_form_functions.php:72 lib/profile.php:213
 msgid "An account with this email has already been registered."
-msgstr ""
+msgstr "Er is al een gebruiker geregistreerd met dit e-mailadres."
 
 #: simplr_form_functions.php:76 lib/profile.php:217
 msgid "Please enter a valid email."
@@ -95,11 +98,11 @@ msgstr "Een nieuwe gebruiker registreerde voor"
 
 #: simplr_form_functions.php:257
 msgid "A new user has registered for"
-msgstr ""
+msgstr "Eenn ieuwe gebruiker is geregistreerd voor"
 
 #: simplr_form_functions.php:260
 msgid "You should login and change your password as soon as possible."
-msgstr ""
+msgstr "Je wordt aangeraden om in te loggen en je wachtwoord te veranderen."
 
 #: simplr_form_functions.php:262
 msgid "Username:"
@@ -145,6 +148,7 @@ msgstr "Je bent al geregistreerd op deze website !"
 #: simplr_form_functions.php:510
 msgid "You should not register admin users via a public form"
 msgstr ""
+"Je zou geen admin gebruikers moeten registreren via een publijk formulier"
 
 #: simplr_form_functions.php:530
 msgid ""
@@ -168,7 +172,7 @@ msgstr "Rol"
 
 #: simplr_reg_options.php:154
 msgid "Specify the registration user role."
-msgstr ""
+msgstr "Geef de rol van de geregistreerde gebruiker op."
 
 #: simplr_reg_options.php:156
 msgid "Select role ..."
@@ -180,7 +184,7 @@ msgstr "Bedankt-pagina"
 
 #: simplr_reg_options.php:167
 msgid "Leave blank to display message on this page."
-msgstr ""
+msgstr "Laat leeg om het bericht op deze pagina te tonen."
 
 #: simplr_reg_options.php:170
 msgid "Select"
@@ -196,11 +200,11 @@ msgstr "Bevestiging voor geregistreerde gebruikers."
 
 #: simplr_reg_options.php:184
 msgid "Notifications"
-msgstr ""
+msgstr "Notificaties"
 
 #: simplr_reg_options.php:185
 msgid "Notify these emails."
-msgstr ""
+msgstr "Stuur bericht naar deze e-mailadressen."
 
 #: simplr_reg_options.php:191 lib/login.php:558
 msgid "Password"
@@ -209,6 +213,8 @@ msgstr "Wachtwoord"
 #: simplr_reg_options.php:193
 msgid "Select \"yes\" to allow users to set their password."
 msgstr ""
+"Selecteer \"ja\" om gebruikers te mogelijkheid te geven hun wachtwoord in te "
+"stellen."
 
 #: simplr_reg_options.php:195
 msgid "No"
@@ -232,7 +238,7 @@ msgstr "Je instellingen zijn opgeslagen."
 
 #: simplr_reg_page.php:748
 msgid "Field deleted."
-msgstr ""
+msgstr "Veld verwijderd."
 
 #: simplr_reg_page.php:758
 msgid "Fields were deleted."
@@ -244,7 +250,7 @@ msgstr "Je Veld is opgeslagen."
 
 #: simplr_reg_page.php:793
 msgid "Could not activate requested user."
-msgstr ""
+msgstr "Kon opgegeven gebruiker niet registreren."
 
 #: simplr_reg_page.php:816
 msgid "Emails resent"
@@ -252,25 +258,26 @@ msgstr "E-mails opnieuw verzonden"
 
 #: simplr_reg_page.php:832
 msgid "Sorry, We could not find the requested account."
-msgstr ""
+msgstr "Sorry, we konden het opgegeven account niet vinden."
 
 #: simplr_reg_page.php:834
 msgid "Congratulations! Your Account was activated!"
-msgstr ""
+msgstr "Gefeliciteerd! Je Account is geactiveerd."
 
 #: simplr_reg_page.php:933
 msgid ""
 "<strong>ERROR</strong>: This account has not yet been approved by the "
 "moderator"
 msgstr ""
+"<strong>FOUT</strong>: Dit account is nog niet goedgekeurd door een beheerder"
 
 #: lib/login.php:69
 msgid "Sorry, that key does not appear to be valid."
-msgstr ""
+msgstr "Sorry, die sleutel lijkt niet geldig te zijn."
 
 #: lib/login.php:114
 msgid "You have logged in successfully."
-msgstr ""
+msgstr "Je bent succesvol ingelogd."
 
 #: lib/login.php:143
 msgid ""
@@ -278,30 +285,33 @@ msgid ""
 "browser. You must <a href='http://www.google.com/cookies.html'>enable "
 "cookies</a> to use WordPress."
 msgstr ""
+"<strong>FOUT</strong>: Cookies worden geblokkeerd of worden niet ondersteund "
+"door je browser. Je moet <a href='http://www.google.com/cookies."
+"html'>cookies aanzetten</a> om WordPress te kunnen gebruiken. "
 
 #: lib/login.php:147
 msgid "You are now logged out."
-msgstr ""
+msgstr "Je bent nu uitgelogd."
 
 #: lib/login.php:149
 msgid "User registration is currently not allowed."
-msgstr ""
+msgstr "Gebruikerregistratie is op dit moment niet mogelijk."
 
 #: lib/login.php:151
 msgid "Check your e-mail for the confirmation link."
-msgstr ""
+msgstr "Controleer je e-mail voor de bevestigingslink."
 
 #: lib/login.php:153
 msgid "Check your e-mail for your new password."
-msgstr ""
+msgstr "Controleer je e-mail voor je nieuwe wachtwoord."
 
 #: lib/login.php:155
 msgid "Registration complete. Please check your e-mail."
-msgstr ""
+msgstr "Registratie is compleet. Controleer je e-mail."
 
 #: lib/login.php:157
 msgid "Your session has expired. Please log-in again."
-msgstr ""
+msgstr "Je sessie is verlopen. Log opnieuw in."
 
 #: lib/login.php:239
 #, php-format
@@ -310,24 +320,28 @@ msgstr "&larr; Terug naar %s"
 
 #: lib/login.php:280
 msgid "<strong>ERROR</strong>: Enter a username or e-mail address."
-msgstr ""
+msgstr "<strong>FOUT</strong>: Voer een gebruikersnaam of e-mailadres in."
 
 #: lib/login.php:285
 msgid ""
 "<strong>ERROR</strong>: There is no user registered with that email address."
 msgstr ""
+"<strong>FOUT</strong>: Er is geen gebruiker geregistreerd met dat e-"
+"mailadres."
 
 #: lib/login.php:297
 msgid "<strong>ERROR</strong>: Invalid username or e-mail."
-msgstr ""
+msgstr "<strong>FOUT</strong>: Ongeldige gebruikersnaam of e-mail."
 
 #: lib/login.php:311
 msgid "Password reset is not allowed for this user"
-msgstr ""
+msgstr "Wachtwoord herstellen is niet toegestaan voor deze gebruiker"
 
 #: lib/login.php:323
 msgid "Someone requested that the password be reset for the following account:"
 msgstr ""
+"Iemand deed een aanvraag om het wachtwoord te herstellen voor het volgende "
+"account:"
 
 #: lib/login.php:325
 #, php-format
@@ -337,10 +351,12 @@ msgstr "Gebruikersnaam: %s"
 #: lib/login.php:326
 msgid "If this was a mistake, just ignore this email and nothing will happen."
 msgstr ""
+"Als dit een vergissing was, negeer dan gewoon deze e-mail en er gebeurt "
+"niets."
 
 #: lib/login.php:327
 msgid "To reset your password, visit the following address:"
-msgstr ""
+msgstr "Om je wachtwoord te herstellen, ga naar het volgende adres:"
 
 #: lib/login.php:337
 #, php-format
@@ -353,7 +369,7 @@ msgstr "De E-mail kon niet verzonden worden."
 
 #: lib/login.php:343
 msgid "Possible reason: your host may have disabled the mail() function..."
-msgstr ""
+msgstr "Mogelijke reden: je server heeft de mail() functie uitstaan..."
 
 #: lib/login.php:364 lib/login.php:367 lib/login.php:372
 msgid "Invalid key"
@@ -361,33 +377,38 @@ msgstr "Ongeldige sleutel"
 
 #: lib/login.php:407
 msgid "<strong>ERROR</strong>: Please enter a username."
-msgstr ""
+msgstr "<strong>FOUT</strong>: Vul een gebruikersnaam in."
 
 #: lib/login.php:409
 msgid ""
 "<strong>ERROR</strong>: This username is invalid because it uses illegal "
 "characters. Please enter a valid username."
 msgstr ""
+"<strong>FOUT</strong>: Deze gebruikersnaam is ongeldig omdat het "
+"niettoegestane karakters bevat. Voer een geldige gebruikersnaam in."
 
 #: lib/login.php:412
 msgid ""
 "<strong>ERROR</strong>: This username is already registered, please choose "
 "another one."
 msgstr ""
+"<strong>FOUT</strong>: Deze gebruikersnaam is al geregistreerd, kies een "
+"andere."
 
 #: lib/login.php:417
 msgid "<strong>ERROR</strong>: Please type your e-mail address."
-msgstr ""
+msgstr "<strong>FOUT</strong>: Voer een e-mailadres in."
 
 #: lib/login.php:419
 msgid "<strong>ERROR</strong>: The email address isn&#8217;t correct."
-msgstr ""
+msgstr "<strong>FOUT</strong>: Het e-mailadres is niet geldig."
 
 #: lib/login.php:422
 msgid ""
 "<strong>ERROR</strong>: This email is already registered, please choose "
 "another one."
 msgstr ""
+"<strong>FOUT</strong>: Dit e-mailadres is al geregistreerd, kies een andere."
 
 #: lib/login.php:435
 #, php-format
@@ -395,6 +416,8 @@ msgid ""
 "<strong>ERROR</strong>: Couldn&#8217;t register you... please contact the <a "
 "href=\"mailto:%s\">webmaster</a> !"
 msgstr ""
+"<strong>FOUT</strong>: Kon je niet registreren... Neem contact op met de <a "
+"href=\"mailto:%s\">beheerder</a>!"
 
 #: lib/login.php:469
 msgid "Username or E-mail:"
@@ -442,6 +465,9 @@ msgid ""
 "stronger, use upper and lower case letters, numbers and symbols like ! \" ? "
 "$ % ^ &amp; )."
 msgstr ""
+"Hint: Het wachtwoord moet minimaal zeven karakters lang zijn. Om het sterker "
+"te maken, gebruik hoofd- en kleine letters, getallen en symbolen zoals ! "
+"\" ? $ % ^ &amp; )."
 
 #: lib/login.php:554
 msgid "Username"
@@ -472,6 +498,8 @@ msgid ""
 "If you would like to change the password type a new one. Otherwise leave "
 "this blank."
 msgstr ""
+"Als je het wachtwoord wilt wijzigen voer dan een nieuwe in. Laat het anders "
+"leeg."
 
 #: views/api.php:81 views/api.php:166 views/main.php:107
 msgid "Save Changes"
