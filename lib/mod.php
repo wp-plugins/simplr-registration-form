@@ -16,7 +16,7 @@ if(!function_exists('simplr_count_inactive')):
 	function simplr_count_inactive() {
 		if( !$count = wp_cache_get('inactive_count','users') ) {
 			global $wpdb;
-			$count = $wpdb->get_var($wpdb->prepare("SELECT COUNT(ID) FROM $wpdb->users WHERE user_status = 2", array()));
+			$count = $wpdb->get_var($wpdb->prepare("SELECT COUNT(ID) FROM $wpdb->users WHERE user_status = %d", array(2)));
 			wp_cache_set('inactivate_count', $count,'users', 3600);
 		}
 		return $count;
