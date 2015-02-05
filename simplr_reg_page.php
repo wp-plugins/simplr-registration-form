@@ -131,8 +131,8 @@ add_filter( 'plugin_action_links', 'simplr_plugin_link', 10, 2 );
 function simplr_fields_settings_process($input) {
 	if($input[aim][name] && $input[aim][label] == '') {$input[aim][label] = 'AIM';}
 	if($input[yim][name] && $input[yim][label] == '') {$input[yim][label] = 'YIM';}
-	if($input[website][name] && $input[website][label] == '') {$input[website][label] = 'Website';}
-	if($input[nickname][name] && $input[nickname][label] == '') {$input[nickname][label] = 'Nickname';}
+	if($input[website][name] && $input[website][label] == '') {$input[website][label] = __('Website', 'simplr-reg');}
+	if($input[nickname][name] && $input[nickname][label] == '') {$input[nickname][label] = __('Nickname', 'simplr-reg');}
 	return $input;
 }
 
@@ -194,7 +194,7 @@ function simplr_footer_scripts() {
 			jQuery(document).ready(function($) {
 				//add bulk actions
 				$('input[name="simplr_resend_activation"]').click( function(e) { e.preventDefault(); });
-				$('select[name="action"]').append('<option value="sreg-activate-selected">Activate</option>\n<option value="sreg-resend-emails">Resend Email</option>').after('<input name="view_inactive" value="true" type="hidden" />');
+				$('select[name="action"]').append('<option value="sreg-activate-selected"><?php _e('Activate', 'simplr-reg'); ?></option>\n<option value="sreg-resend-emails"><?php _e('Resend Email', 'simplr-reg'); ?></option>').after('<input name="view_inactive" value="true" type="hidden" />');
 			});
 
 		</script>
@@ -308,7 +308,9 @@ function simplr_action_admin_init() {
 function simplr_reg_default_fields() {
 	if(!get_option('simplr_reg_fields')) {
 		$fields = new StdClass();
-		$custom = array('first_name'=>array('key'=>'first_name','label'=>'First Name','required'=>false,'type'=>'text'), 'last_name'=>array('key'=>'last_name','label'=>'Last Name','last_name'=>'Last Name','required'=>false,'type'=>'text')
+		$custom = array(
+			'first_name'=>array('key'=>'first_name','label'=> __('First Name', 'simplr-reg'),'required'=>false,'type'=>'text'),
+			'last_name'=>array('key'=>'last_name','label'=> __('Last Name', 'simplr-reg'),'last_name'=> __('Last Name', 'simplr-reg'),'required'=>false,'type'=>'text')
 		);
 		$fields->custom = $custom;
 		update_option('simplr_reg_fields',$fields);
@@ -388,7 +390,7 @@ function simplr_fb_find_user($fb_obj) {
 
 	$user_obj = get_userdata($user_id);
 	if(empty($user_obj)) {
-		return new WP_Error('login-error','No facebook account registered with this site');
+		return new WP_Error( 'login-error', __('No facebook account registered with this site', 'simplr-reg') );
 	} else {
 		return $user_obj;
 	}
@@ -523,7 +525,7 @@ function simplr_reg_profile_form_fields($user) {
 	}
 	?>
 	<link href="<?php echo SIMPLR_URL; ?>/assets/admin-style.css" rel="stylesheet" ></link>
-	<h3>Other Information</h3>
+	<h3><?php _e('Other Information', 'simplr-reg'); ?></h3>
 	<?php
 	foreach($fields as $field) {
 		if(!in_array($field['key'] ,array('first_name','last_name', 'user_login','username'))) {
@@ -934,5 +936,5 @@ function simplr_disable_login_inactive($user) {
 	if( $user->user_status == 2 )
 		return new WP_Error("error", __("<strong>ERROR</strong>: This account has not yet been approved by the moderator", 'simplr-reg') );
 
-        return $user;
+	return $user;
 }
