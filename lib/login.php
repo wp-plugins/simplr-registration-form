@@ -12,7 +12,7 @@ function simplr_login_page() {
 		if(is_wp_error($errors)) {
 		$error_header = '<div id="login_error">' .@$errors->get_error_message()  . "</div>\n";
 		}
-	ob_start(); 
+	ob_start();
 	simplr_login_switch();
 	$form = ob_get_contents();
 	ob_end_clean();
@@ -37,18 +37,18 @@ function simplr_login_header() {
 
 function simplr_login_includes($post,$option,$file,$path) {
 	global $errors, $is_iphone, $interim_login, $current_site;
-	
+
 	$http_post = ('POST' == $_SERVER['REQUEST_METHOD']);
 	$options = get_option('simplr_reg_options');
-	
+
 	global $wp;
 
 	$action = @$_REQUEST['action'];
-	
-	if(@$_REQUEST['action'] == '' ) 
+
+	if(@$_REQUEST['action'] == '' )
 			wp_redirect('?action=login');
-	
-	if(isset($options->login_redirect) AND end($path) == $post->post_name) {		
+
+	if(isset($options->login_redirect) AND end($path) == $post->post_name) {
 
 		switch($action) {
 
@@ -63,19 +63,19 @@ function simplr_login_includes($post,$option,$file,$path) {
 					wp_safe_redirect( $redirect_to );
 					exit();
 				}
-				
+
 			}
-			
+
 			if ( isset($_GET['error']) && 'invalidkey' == $_GET['error'] ) $errors->add('invalidkey', __('Sorry, that key does not appear to be valid.'));
 			$redirect_to = apply_filters( 'lostpassword_redirect', !empty( $_REQUEST['redirect_to'] ) ? $_REQUEST['redirect_to'] : '' );
-			
-			do_action('lost_password');	
+
+			do_action('lost_password');
 			$user_login = isset($_POST['user_login']) ? stripslashes($_POST['user_login']) : '';
 		break;
-		
+
 		case 'login':
 		case 'default':
-				
+
 			$secure_cookie = '';
 			$interim_login = isset($_REQUEST['interim-login']);
 			// If the user wants ssl but the session is not ssl, force a secure cookie.
@@ -88,7 +88,7 @@ function simplr_login_includes($post,$option,$file,$path) {
 					}
 				}
 			}
-			
+
 			if ( isset( $_REQUEST['redirect_to'] ) ) {
 				$redirect_to = $_REQUEST['redirect_to'];
 				// Redirect to https if user wants ssl
@@ -97,18 +97,18 @@ function simplr_login_includes($post,$option,$file,$path) {
 			} else {
 				$redirect_to = admin_url();
 			}
-			
+
 			$reauth = empty($_REQUEST['reauth']) ? false : true;
 				// If the user was redirected to a secure login form from a non-secure admin page, and secure login is required but secure admin is not, then don't use a secure
 				// cookie and redirect back to the referring non-secure admin page.  This allows logins to always be POSTed over SSL while allowing the user to choose visiting
 				// the admin via http or https.
 				if ( !$secure_cookie && is_ssl() && force_ssl_login() && !force_ssl_admin() && ( 0 !== strpos($redirect_to, 'https') ) && ( 0 === strpos($redirect_to, 'http') ) )
 					$secure_cookie = false;
-				
+
 				$user = wp_signon('', $secure_cookie);
-				
+
 				$redirect_to = apply_filters('login_redirect', $redirect_to, isset( $_REQUEST['redirect_to'] ) ? $_REQUEST['redirect_to'] : '', $user);
-				
+
 				if ( !is_wp_error($user) && !$reauth ) {
 					if ( $interim_login ) {
 						$message = '<p class="message">' . __('You have logged in successfully.') . '</p>';
@@ -119,7 +119,7 @@ function simplr_login_includes($post,$option,$file,$path) {
 						</div></body></html>
 				<?php		exit;
 					}
-				
+
 					if ( ( empty( $redirect_to ) || $redirect_to == 'wp-admin/' || $redirect_to == admin_url() ) ) {
 						// If the user doesn't belong to a blog, send them to user admin. If the user can't edit posts, send them to their profile.
 						if ( is_multisite() && !get_active_blog_for_user($user->id) && !is_super_admin( $user->id ) )
@@ -132,16 +132,16 @@ function simplr_login_includes($post,$option,$file,$path) {
 					wp_safe_redirect($redirect_to);
 					exit();
 				}
-				
+
 				$errors = $user;
 				// Clear errors if loggedout is set.
 				if ( !empty($_GET['loggedout']) || $reauth )
 					$errors = new WP_Error();
-				
+
 				// If cookies are disabled we can't log in even with a valid user+pass
 				if ( isset($_POST['testcookie']) && empty($_COOKIE[TEST_COOKIE]) )
 					$errors->add('test_cookie', __("<strong>ERROR</strong>: Cookies are blocked or not supported by your browser. You must <a href='http://www.google.com/cookies.html'>enable cookies</a> to use WordPress."));
-				
+
 				// Some parts of this script use the main login form to display a message
 				if		( isset($_GET['loggedout']) && TRUE == $_GET['loggedout'] )
 					$errors->add('loggedout', __('You are now logged out.'), 'message');
@@ -155,11 +155,11 @@ function simplr_login_includes($post,$option,$file,$path) {
 					$errors->add('registered', __('Registration complete. Please check your e-mail.'), 'message');
 				elseif	( $interim_login )
 					$errors->add('expired', __('Your session has expired. Please log-in again.'), 'message');
-				
+
 				// Clear any stale cookies.
 				if ( $reauth )
 					wp_clear_auth_cookie();
-				
+
 				break;
 			}
 		}
@@ -452,18 +452,18 @@ switch ($action) {
 		case 'logout' :
 		check_admin_referer('log-out');
 		wp_logout();
-		
+
 		$redirect_to = !empty( $_REQUEST['redirect_to'] ) ? $_REQUEST['redirect_to'] : 'wp-login.php?loggedout=true';
 		wp_safe_redirect( $redirect_to );
 		exit();
-		
+
 		break;
-		
+
 		case 'lostpassword' :
 		case 'retrievepassword' :
-		
+
 		?>
-		
+
 		<form name="lostpasswordform" id="lostpasswordform" action="<?php echo get_permalink($options->login_redirect); ?>?action=lostpassword" method="post">
 		<p>
 			<label><?php _e('Username or E-mail:') ?><br />
@@ -473,29 +473,29 @@ switch ($action) {
 		<input type="hidden" name="redirect_to" value="<?php echo esc_attr( @$redirect_to ); ?>" />
 		<p class="submit"><input type="submit" name="wp-submit" id="wp-submit" class="button-primary" value="<?php esc_attr_e('Get New Password'); ?>" tabindex="100" /></p>
 		</form>
-		
+
 		<p id="nav">
 		<a href="<?php echo site_url('wp-login.php', 'login') ?>"><?php _e('Log in') ?></a>
 		<?php if (get_option('users_can_register')) : ?>
 		| <a href="<?php echo site_url('wp-login.php?action=register', 'login') ?>"><?php _e('Register') ?></a>
 		<?php endif; ?>
 		</p>
-		
+
 		<?php
 		login_footer('user_login');
 		break;
-		
+
 		case 'resetpass' :
 		case 'rp' :
 		$user = check_password_reset_key($_GET['key'], $_GET['login']);
-		
+
 		if ( is_wp_error($user) ) {
 			wp_redirect( site_url('wp-login.php?action=lostpassword&error=invalidkey') );
 			exit;
 		}
-		
+
 		$errors = '';
-		
+
 		if ( isset($_POST['pass1']) && $_POST['pass1'] != $_POST['pass2'] ) {
 			$errors = new WP_Error('password_reset_mismatch', __('The passwords do not match.'));
 		} elseif ( isset($_POST['pass1']) && !empty($_POST['pass1']) ) {
@@ -504,16 +504,16 @@ switch ($action) {
 			login_footer();
 			exit;
 		}
-		
+
 		wp_enqueue_script('utils');
 		wp_enqueue_script('user-profile');
-		
+
 		login_header(__('Reset Password'), '<p class="message reset-pass">' . __('Enter your new password below.') . '</p>', $errors );
-		
+
 		?>
 		<form name="resetpassform" id="resetpassform" action="<?php echo get_permalink($options->login_redirect).'?action=resetpass&key=' . urlencode($_GET['key']) . '&login=' . urlencode($_GET['login']); ?>" method="post">
 		<input type="hidden" id="user_login" value="<?php echo esc_attr( $_GET['login'] ); ?>" autocomplete="off" />
-		
+
 		<p>
 			<label><?php _e('New password') ?><br />
 			<input type="password" name="pass1" id="pass1" class="input" size="20" value="" autocomplete="off" /></label>
@@ -522,21 +522,21 @@ switch ($action) {
 			<label><?php _e('Confirm new password') ?><br />
 			<input type="password" name="pass2" id="pass2" class="input" size="20" value="" autocomplete="off" /></label>
 		</p>
-		
+
 		<div id="pass-strength-result" class="hide-if-no-js"><?php _e('Strength indicator'); ?></div>
 		<p class="description indicator-hint"><?php _e('Hint: The password should be at least seven characters long. To make it stronger, use upper and lower case letters, numbers and symbols like ! " ? $ % ^ &amp; ).'); ?></p>
-		
+
 		<br class="clear" />
 		<p class="submit"><input type="submit" name="wp-submit" id="wp-submit" class="button-primary" value="<?php esc_attr_e('Reset Password'); ?>" tabindex="100" /></p>
 		</form>
-		
+
 		<p id="nav">
 		<a href="<?php echo site_url('wp-login.php', 'login') ?>"><?php _e('Log in') ?></a>
 		<?php if (get_option('users_can_register')) : ?>
 		| <a href="<?php echo site_url('wp-login.php?action=register', 'login') ?>"><?php _e('Register') ?></a>
 		<?php endif; ?>
 		</p>
-		
+
 		<?php
 		login_footer('user_pass');
 		break;
@@ -548,7 +548,7 @@ switch ($action) {
 			$user_login = ( 'incorrect_password' == $errors->get_error_code() || 'empty_password' == $errors->get_error_code() ) ? esc_attr(stripslashes($_POST['log'])) : '';
 		$rememberme = ! empty( $_POST['rememberme'] );
 		?>
-		
+
 		<form name="loginform" id="loginform" action="<?php echo get_permalink($options->login_redirect); ?>?action=<?php echo $action; ?>" method="post">
 		<p>
 			<label><?php _e('Username') ?><br />
@@ -570,7 +570,7 @@ switch ($action) {
 			<input type="hidden" name="testcookie" value="1" />
 		</p>
 		</form>
-		
+
 		<?php if ( !isset($interim_login) ) { ?>
 		<p id="nav">
 		<?php if ( isset($_GET['checkemail']) && in_array( $_GET['checkemail'], array('confirm', 'newpass') ) ) : ?>
@@ -582,7 +582,7 @@ switch ($action) {
 		<?php endif; ?>
 		</p>
 		<?php } ?>
-		
+
 		<script type="text/javascript">
 		function wp_attempt_focus(){
 		setTimeout( function(){ try{
@@ -602,13 +602,13 @@ switch ($action) {
 		} catch(e){}
 		}, 200);
 		}
-		
+
 		<?php if ( !$error ) { ?>
 		wp_attempt_focus();
 		<?php } ?>
 		if(typeof wpOnload=='function')wpOnload();
 		</script>
-		
+
 		<?php
 		login_footer();
 		break;
