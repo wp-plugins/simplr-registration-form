@@ -66,7 +66,7 @@ function simplr_login_includes($post,$option,$file,$path) {
 
 			}
 
-			if ( isset($_GET['error']) && 'invalidkey' == $_GET['error'] ) $errors->add('invalidkey', __('Sorry, that key does not appear to be valid.'));
+			if ( isset($_GET['error']) && 'invalidkey' == $_GET['error'] ) $errors->add('invalidkey', __('Sorry, that key does not appear to be valid.','simplr-reg'));
 			$redirect_to = apply_filters( 'lostpassword_redirect', !empty( $_REQUEST['redirect_to'] ) ? $_REQUEST['redirect_to'] : '' );
 
 			do_action('lost_password');
@@ -111,11 +111,11 @@ function simplr_login_includes($post,$option,$file,$path) {
 
 				if ( !is_wp_error($user) && !$reauth ) {
 					if ( $interim_login ) {
-						$message = '<p class="message">' . __('You have logged in successfully.') . '</p>';
+						$message = '<p class="message">' . __('You have logged in successfully.','simplr-reg') . '</p>';
 						?>
 						<script type="text/javascript">setTimeout( function(){window.close()}, 8000);</script>
 						<p class="alignright">
-						<input type="button" class="button-primary" value="<?php esc_attr_e('Close'); ?>" onclick="window.close()" /></p>
+						<input type="button" class="button-primary" value="<?php esc_attr_e('Close','simplr-reg'); ?>" onclick="window.close()" /></p>
 						</div></body></html>
 				<?php		exit;
 					}
@@ -140,21 +140,21 @@ function simplr_login_includes($post,$option,$file,$path) {
 
 				// If cookies are disabled we can't log in even with a valid user+pass
 				if ( isset($_POST['testcookie']) && empty($_COOKIE[TEST_COOKIE]) )
-					$errors->add('test_cookie', __("<strong>ERROR</strong>: Cookies are blocked or not supported by your browser. You must <a href='http://www.google.com/cookies.html'>enable cookies</a> to use WordPress."));
+					$errors->add('test_cookie', __("<strong>ERROR</strong>: Cookies are blocked or not supported by your browser. You must <a href='http://www.google.com/cookies.html'>enable cookies</a> to use WordPress.",'simplr-reg'));
 
 				// Some parts of this script use the main login form to display a message
 				if		( isset($_GET['loggedout']) && TRUE == $_GET['loggedout'] )
-					$errors->add('loggedout', __('You are now logged out.'), 'message');
+					$errors->add('loggedout', __('You are now logged out.','simplr-reg'), 'message');
 				elseif	( isset($_GET['registration']) && 'disabled' == $_GET['registration'] )
-					$errors->add('registerdisabled', __('User registration is currently not allowed.'));
+					$errors->add('registerdisabled', __('User registration is currently not allowed.','simplr-reg'));
 				elseif	( isset($_GET['checkemail']) && 'confirm' == $_GET['checkemail'] )
-					$errors->add('confirm', __('Check your e-mail for the confirmation link.'), 'message');
+					$errors->add('confirm', __('Check your e-mail for the confirmation link.','simplr-reg'), 'message');
 				elseif	( isset($_GET['checkemail']) && 'newpass' == $_GET['checkemail'] )
-					$errors->add('newpass', __('Check your e-mail for your new password.'), 'message');
+					$errors->add('newpass', __('Check your e-mail for your new password.','simplr-reg'), 'message');
 				elseif	( isset($_GET['checkemail']) && 'registered' == $_GET['checkemail'] )
-					$errors->add('registered', __('Registration complete. Please check your e-mail.'), 'message');
+					$errors->add('registered', __('Registration complete. Please check your e-mail.','simplr-reg'), 'message');
 				elseif	( $interim_login )
-					$errors->add('expired', __('Your session has expired. Please log-in again.'), 'message');
+					$errors->add('expired', __('Your session has expired. Please log-in again.','simplr-reg'), 'message');
 
 				// Clear any stale cookies.
 				if ( $reauth )
@@ -236,7 +236,7 @@ function login_header($title = 'Log In', $message = '', $wp_error = '') {
  */
 function login_footer($input_id = '') {
 	?>
-	<p id="backtoblog"><a href="<?php bloginfo('url'); ?>/" title="<?php esc_attr_e('Are you lost?') ?>"><?php printf(__('&larr; Back to %s'), get_bloginfo('title', 'display' )); ?></a></p>
+	<p id="backtoblog"><a href="<?php bloginfo('url'); ?>/" title="<?php esc_attr_e('Are you lost?','simplr-reg') ?>"><?php printf(__('&larr; Back to %s','simplr-reg'), get_bloginfo('title', 'display' )); ?></a></p>
 	</div>
 <?php if ( !empty($input_id) ) : ?>
 <script type="text/javascript">
@@ -277,12 +277,12 @@ function retrieve_password() {
 	$errors = new WP_Error();
 
 	if ( empty( $_POST['user_login'] ) && empty( $_POST['user_email'] ) )
-		$errors->add('empty_username', __('<strong>ERROR</strong>: Enter a username or e-mail address.'));
+		$errors->add('empty_username', __('<strong>ERROR</strong>: Enter a username or e-mail address.','simplr-reg'));
 
 	if ( strpos($_POST['user_login'], '@') ) {
 		$user_data = get_user_by_email(trim($_POST['user_login']));
 		if ( empty($user_data) )
-			$errors->add('invalid_email', __('<strong>ERROR</strong>: There is no user registered with that email address.'));
+			$errors->add('invalid_email', __('<strong>ERROR</strong>: There is no user registered with that email address.','simplr-reg'));
 	} else {
 		$login = trim($_POST['user_login']);
 		$user_data = get_userdatabylogin($login);
@@ -294,7 +294,7 @@ function retrieve_password() {
 		return $errors;
 
 	if ( !$user_data ) {
-		$errors->add('invalidcombo', __('<strong>ERROR</strong>: Invalid username or e-mail.'));
+		$errors->add('invalidcombo', __('<strong>ERROR</strong>: Invalid username or e-mail.','simplr-reg'));
 		return $errors;
 	}
 
@@ -308,7 +308,7 @@ function retrieve_password() {
 	$allow = apply_filters('allow_password_reset', true, $user_data->ID);
 
 	if ( ! $allow )
-		return new WP_Error('no_password_reset', __('Password reset is not allowed for this user'));
+		return new WP_Error('no_password_reset', __('Password reset is not allowed for this user','simplr-reg'));
 	else if ( is_wp_error($allow) )
 		return $allow;
 
@@ -320,11 +320,11 @@ function retrieve_password() {
 		// Now insert the new md5 key into the db
 		$wpdb->update($wpdb->users, array('user_activation_key' => $key), array('user_login' => $user_login));
 	}
-	$message = __('Someone requested that the password be reset for the following account:') . "\r\n\r\n";
+	$message = __('Someone requested that the password be reset for the following account:','simplr-reg') . "\r\n\r\n";
 	$message .= network_site_url() . "\r\n\r\n";
-	$message .= sprintf(__('Username: %s'), $user_login) . "\r\n\r\n";
-	$message .= __('If this was a mistake, just ignore this email and nothing will happen.') . "\r\n\r\n";
-	$message .= __('To reset your password, visit the following address:') . "\r\n\r\n";
+	$message .= sprintf(__('Username: %s','simplr-reg'), $user_login) . "\r\n\r\n";
+	$message .= __('If this was a mistake, just ignore this email and nothing will happen.','simplr-reg') . "\r\n\r\n";
+	$message .= __('To reset your password, visit the following address:','simplr-reg') . "\r\n\r\n";
 	$message .= '<' . network_site_url("wp-login.php?action=rp&key=$key&login=" . rawurlencode($user_login), 'login') . ">\r\n";
 
 	if ( is_multisite() )
@@ -334,13 +334,13 @@ function retrieve_password() {
 		// we want to reverse this for the plain text arena of emails.
 		$blogname = wp_specialchars_decode(get_option('blogname'), ENT_QUOTES);
 
-	$title = sprintf( __('[%s] Password Reset'), $blogname );
+	$title = sprintf( __('[%s] Password Reset','simplr-reg'), $blogname );
 
 	$title = apply_filters('retrieve_password_title', $title);
 	$message = apply_filters('retrieve_password_message', $message, $key);
 
 	if ( $message && !wp_mail($user_email, $title, $message) )
-		wp_die( __('The e-mail could not be sent.') . "<br />\n" . __('Possible reason: your host may have disabled the mail() function...') );
+		wp_die( __('The e-mail could not be sent.','simplr-reg') . "<br />\n" . __('Possible reason: your host may have disabled the mail() function...','simplr-reg') );
 
 	return true;
 }
@@ -361,15 +361,15 @@ function check_password_reset_key($key, $login) {
 	$key = preg_replace('/[^a-z0-9]/i', '', $key);
 
 	if ( empty( $key ) || !is_string( $key ) )
-		return new WP_Error('invalid_key', __('Invalid key'));
+		return new WP_Error('invalid_key', __('Invalid key','simplr-reg'));
 
 	if ( empty($login) || !is_string($login) )
-		return new WP_Error('invalid_key', __('Invalid key'));
+		return new WP_Error('invalid_key', __('Invalid key','simplr-reg'));
 
 	$user = $wpdb->get_row($wpdb->prepare("SELECT * FROM $wpdb->users WHERE user_activation_key = %s AND user_login = %s", $key, $login));
 
 	if ( empty( $user ) )
-		return new WP_Error('invalid_key', __('Invalid key'));
+		return new WP_Error('invalid_key', __('Invalid key','simplr-reg'));
 
 	return $user;
 }
@@ -404,22 +404,22 @@ function register_new_user( $user_login, $user_email ) {
 
 	// Check the username
 	if ( $sanitized_user_login == '' ) {
-		$errors->add( 'empty_username', __( '<strong>ERROR</strong>: Please enter a username.' ) );
+		$errors->add( 'empty_username', __( '<strong>ERROR</strong>: Please enter a username.','simplr-reg' ) );
 	} elseif ( ! validate_username( $user_login ) ) {
-		$errors->add( 'invalid_username', __( '<strong>ERROR</strong>: This username is invalid because it uses illegal characters. Please enter a valid username.' ) );
+		$errors->add( 'invalid_username', __( '<strong>ERROR</strong>: This username is invalid because it uses illegal characters. Please enter a valid username.','simplr-reg' ) );
 		$sanitized_user_login = '';
 	} elseif ( username_exists( $sanitized_user_login ) ) {
-		$errors->add( 'username_exists', __( '<strong>ERROR</strong>: This username is already registered, please choose another one.' ) );
+		$errors->add( 'username_exists', __( '<strong>ERROR</strong>: This username is already registered, please choose another one.','simplr-reg' ) );
 	}
 
 	// Check the e-mail address
 	if ( $user_email == '' ) {
-		$errors->add( 'empty_email', __( '<strong>ERROR</strong>: Please type your e-mail address.' ) );
+		$errors->add( 'empty_email', __( '<strong>ERROR</strong>: Please type your e-mail address.','simplr-reg' ) );
 	} elseif ( ! is_email( $user_email ) ) {
-		$errors->add( 'invalid_email', __( '<strong>ERROR</strong>: The email address isn&#8217;t correct.' ) );
+		$errors->add( 'invalid_email', __( '<strong>ERROR</strong>: The email address isn&#8217;t correct.','simplr-reg' ) );
 		$user_email = '';
 	} elseif ( email_exists( $user_email ) ) {
-		$errors->add( 'email_exists', __( '<strong>ERROR</strong>: This email is already registered, please choose another one.' ) );
+		$errors->add( 'email_exists', __( '<strong>ERROR</strong>: This email is already registered, please choose another one.','simplr-reg' ) );
 	}
 
 	do_action( 'register_post', $sanitized_user_login, $user_email, $errors );
@@ -432,7 +432,7 @@ function register_new_user( $user_login, $user_email ) {
 	$user_pass = wp_generate_password( 12, false);
 	$user_id = wp_create_user( $sanitized_user_login, $user_pass, $user_email );
 	if ( ! $user_id ) {
-		$errors->add( 'registerfail', sprintf( __( '<strong>ERROR</strong>: Couldn&#8217;t register you... please contact the <a href="mailto:%s">webmaster</a> !' ), get_option( 'admin_email' ) ) );
+		$errors->add( 'registerfail', sprintf( __( '<strong>ERROR</strong>: Couldn&#8217;t register you... please contact the <a href="mailto:%s">webmaster</a> !','simplr-reg' ), get_option( 'admin_email' ) ) );
 		return $errors;
 	}
 
@@ -471,13 +471,13 @@ switch ($action) {
 		</p>
 		<?php do_action('lostpassword_form'); ?>
 		<input type="hidden" name="redirect_to" value="<?php echo esc_attr( @$redirect_to ); ?>" />
-		<p class="submit"><input type="submit" name="wp-submit" id="wp-submit" class="button-primary" value="<?php esc_attr_e('Get New Password'); ?>" tabindex="100" /></p>
+		<p class="submit"><input type="submit" name="wp-submit" id="wp-submit" class="button-primary" value="<?php esc_attr_e('Get New Password','simplr-reg'); ?>" tabindex="100" /></p>
 		</form>
 
 		<p id="nav">
 		<a href="<?php echo site_url('wp-login.php', 'login') ?>"><?php _e('Log in') ?></a>
 		<?php if (get_option('users_can_register')) : ?>
-		| <a href="<?php echo site_url('wp-login.php?action=register', 'login') ?>"><?php _e('Register') ?></a>
+		| <a href="<?php echo site_url('wp-login.php?action=register', 'login') ?>"><?php _e('Register','simplr-reg') ?></a>
 		<?php endif; ?>
 		</p>
 
@@ -497,10 +497,10 @@ switch ($action) {
 		$errors = '';
 
 		if ( isset($_POST['pass1']) && $_POST['pass1'] != $_POST['pass2'] ) {
-			$errors = new WP_Error('password_reset_mismatch', __('The passwords do not match.'));
+			$errors = new WP_Error('password_reset_mismatch', __('The passwords do not match.','simplr-reg'));
 		} elseif ( isset($_POST['pass1']) && !empty($_POST['pass1']) ) {
 			reset_password($user, $_POST['pass1']);
-			login_header(__('Password Reset'), '<p class="message reset-pass">' . __('Your password has been reset.') . ' <a href="' . site_url('wp-login.php', 'login') . '">' . __('Log in') . '</a></p>');
+			login_header(__('Password Reset','simplr-reg'), '<p class="message reset-pass">' . __('Your password has been reset.','simplr-reg') . ' <a href="' . site_url('wp-login.php', 'login') . '">' . __('Log in','simplr-reg') . '</a></p>');
 			login_footer();
 			exit;
 		}
@@ -508,32 +508,32 @@ switch ($action) {
 		wp_enqueue_script('utils');
 		wp_enqueue_script('user-profile');
 
-		login_header(__('Reset Password'), '<p class="message reset-pass">' . __('Enter your new password below.') . '</p>', $errors );
+		login_header(__('Reset Password','simplr-reg'), '<p class="message reset-pass">' . __('Enter your new password below.','simplr-reg') . '</p>', $errors );
 
 		?>
 		<form name="resetpassform" id="resetpassform" action="<?php echo get_permalink($options->login_redirect).'?action=resetpass&key=' . urlencode($_GET['key']) . '&login=' . urlencode($_GET['login']); ?>" method="post">
 		<input type="hidden" id="user_login" value="<?php echo esc_attr( $_GET['login'] ); ?>" autocomplete="off" />
 
 		<p>
-			<label><?php _e('New password') ?><br />
+			<label><?php _e('New password','simplr-reg') ?><br />
 			<input type="password" name="pass1" id="pass1" class="input" size="20" value="" autocomplete="off" /></label>
 		</p>
 		<p>
-			<label><?php _e('Confirm new password') ?><br />
+			<label><?php _e('Confirm new password','simplr-reg') ?><br />
 			<input type="password" name="pass2" id="pass2" class="input" size="20" value="" autocomplete="off" /></label>
 		</p>
 
-		<div id="pass-strength-result" class="hide-if-no-js"><?php _e('Strength indicator'); ?></div>
-		<p class="description indicator-hint"><?php _e('Hint: The password should be at least seven characters long. To make it stronger, use upper and lower case letters, numbers and symbols like ! " ? $ % ^ &amp; ).'); ?></p>
+		<div id="pass-strength-result" class="hide-if-no-js"><?php _e('Strength indicator','simplr-reg'); ?></div>
+		<p class="description indicator-hint"><?php _e('Hint: The password should be at least seven characters long. To make it stronger, use upper and lower case letters, numbers and symbols like ! " ? $ % ^ &amp; ).','simplr-reg'); ?></p>
 
 		<br class="clear" />
-		<p class="submit"><input type="submit" name="wp-submit" id="wp-submit" class="button-primary" value="<?php esc_attr_e('Reset Password'); ?>" tabindex="100" /></p>
+		<p class="submit"><input type="submit" name="wp-submit" id="wp-submit" class="button-primary" value="<?php esc_attr_e('Reset Password','simplr-reg'); ?>" tabindex="100" /></p>
 		</form>
 
 		<p id="nav">
-		<a href="<?php echo site_url('wp-login.php', 'login') ?>"><?php _e('Log in') ?></a>
+		<a href="<?php echo site_url('wp-login.php', 'login') ?>"><?php _e('Log in','simplr-reg') ?></a>
 		<?php if (get_option('users_can_register')) : ?>
-		| <a href="<?php echo site_url('wp-login.php?action=register', 'login') ?>"><?php _e('Register') ?></a>
+		| <a href="<?php echo site_url('wp-login.php?action=register', 'login') ?>"><?php _e('Register','simplr-reg') ?></a>
 		<?php endif; ?>
 		</p>
 
@@ -551,17 +551,17 @@ switch ($action) {
 
 		<form name="loginform" id="loginform" action="<?php echo get_permalink($options->login_redirect); ?>?action=<?php echo $action; ?>" method="post">
 		<p>
-			<label><?php _e('Username') ?><br />
+			<label><?php _e('Username','simplr-reg') ?><br />
 			<input type="text" name="log" id="user_login" class="input" value="<?php echo esc_attr(@$user_login); ?>" size="20" tabindex="10" /></label>
 		</p>
 		<p>
-			<label><?php _e('Password') ?><br />
+			<label><?php _e('Password','simplr-reg') ?><br />
 			<input type="password" name="pwd" id="user_pass" class="input" value="" size="20" tabindex="20" /></label>
 		</p>
 		<?php do_action('login_form'); ?>
-		<p class="forgetmenot"><label><input name="rememberme" type="checkbox" id="rememberme" value="forever" tabindex="90"<?php checked( $rememberme ); ?> /> <?php esc_attr_e('Remember Me'); ?></label></p>
+		<p class="forgetmenot"><label><input name="rememberme" type="checkbox" id="rememberme" value="forever" tabindex="90"<?php checked( $rememberme ); ?> /> <?php esc_attr_e('Remember Me','simplr-reg'); ?></label></p>
 		<p class="submit">
-			<input type="submit" name="wp-submit" id="wp-submit" class="button-primary" value="<?php esc_attr_e('Log In'); ?>" tabindex="100" />
+			<input type="submit" name="wp-submit" id="wp-submit" class="button-primary" value="<?php esc_attr_e('Log In','simplr-reg'); ?>" tabindex="100" />
 		<?php	if ( isset($interim_login) ) { ?>
 			<input type="hidden" name="interim-login" value="1" />
 		<?php	} else { ?>
@@ -575,10 +575,10 @@ switch ($action) {
 		<p id="nav">
 		<?php if ( isset($_GET['checkemail']) && in_array( $_GET['checkemail'], array('confirm', 'newpass') ) ) : ?>
 		<?php elseif ( get_option('users_can_register') ) : ?>
-		<a href="<?php echo site_url('wp-login.php?action=register', 'login') ?>"><?php _e('Register') ?></a> |
-		<a href="<?php echo site_url('wp-login.php?action=lostpassword', 'login') ?>" title="<?php _e('Password Lost and Found') ?>"><?php _e('Lost your password?') ?></a>
+		<a href="<?php echo site_url('wp-login.php?action=register', 'login') ?>"><?php _e('Register','simplr-reg') ?></a> |
+		<a href="<?php echo site_url('wp-login.php?action=lostpassword', 'login') ?>" title="<?php _e('Password Lost and Found','simplr-reg') ?>"><?php _e('Lost your password?','simplr-reg') ?></a>
 		<?php else : ?>
-		<a href="<?php echo site_url('wp-login.php?action=lostpassword', 'login') ?>" title="<?php _e('Password Lost and Found') ?>"><?php _e('Lost your password?') ?></a>
+		<a href="<?php echo site_url('wp-login.php?action=lostpassword', 'login') ?>" title="<?php _e('Password Lost and Found','simplr-reg') ?>"><?php _e('Lost your password?','simplr-reg') ?></a>
 		<?php endif; ?>
 		</p>
 		<?php } ?>

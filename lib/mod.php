@@ -7,7 +7,7 @@
 if(!function_exists('simplr_views_users')):
 	function simplr_views_users( $views ) {
 		$class = (@$_GET['view_inactive'] == true) ? 'current':'';
-		$views['view_inactive'] = '<a href="'.add_query_arg(array('view_inactive' => 'true')).'" class="'.$class.'" >Inactive Users ('.simplr_count_inactive().')</a>';
+		$views['view_inactive'] = '<a href="'.add_query_arg(array('view_inactive' => 'true')).'" class="'.$class.'" >'. __('Inactive Users','simplr-reg') . ' ('.simplr_count_inactive().')</a>';
 		return $views;
 	}
 endif;
@@ -35,7 +35,7 @@ endif;
 if(!function_exists("simplr_users_bulk_action")):
 	function simplr_users_bulk_action($actions) {
 		if(@$_GET['view_inactive'] === 'true') {
-			$actions['activate'] = 'Activate Users';
+			$actions['activate'] = __('Activate Users','simplr-reg');
 		}
 		return $actions;
 	}
@@ -44,8 +44,8 @@ endif;
 if( !function_exists('simplr_resend_email') ) {
 	function simplr_resend_email( $id ) {
 		global $simplr_options,$blog_id;
-	 	$data = (array) get_userdata( $id );
-                $data = (array) $data['data'] ;
+		$data = (array) get_userdata( $id );
+		$data = (array) $data['data'] ;
 		$data['blogname'] = get_option('blogname');
 		$subj = simplr_token_replace( $simplr_options->mod_email_subj, $data );
 		$content = simplr_token_replace( $simplr_options->mod_email, $data );
