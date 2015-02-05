@@ -17,11 +17,11 @@ close.on('click', function() { sregCloseModal(); });
 
 form.hide();
 // handles the click event of the submit button
-submit.click(function(){	
+submit.click(function(){
 	// defines the options and their default values
 	// again, this is not the most elegant way to do this
 	// but well, this gets the job done nonetheless
-	var options = { 
+	var options = {
 		'role'    : 'subscriber',
 		'message' : '',
 		'notify' : '',
@@ -30,15 +30,15 @@ submit.click(function(){
 		'fields': ''
 		};
 	var shortcode = '[register';
-	
+
 	for( var index in options) {
 		if(index == 'fields') {
-				
+
 				//set cfields
 				var vals = new Array();
 				jQuery('input[name="cfield"]:checked').each(function(i,obj) {
 						vals[i] = jQuery(obj).attr('rel');
-				});	
+				});
 				console.log(vals);
 				shortcode += ' fields="'+vals.join()+'"';
 		} else {
@@ -48,9 +48,9 @@ submit.click(function(){
 			}
 		}
 	}
-	
+
 	shortcode += ']';
-	
+
 	// inserts the shortcode into the active editor
 	tinyMCE.activeEditor.execCommand('mceInsertContent', 0, shortcode);
 	// closes Thickbox
@@ -60,7 +60,7 @@ submit.click(function(){
 <?php
 $wp_load = '../../../wp-load.php';
 $wp_load = (!file_exists($wp_load)) ? rtrim( ABSPATH , '/' ) . 'wp-load.php' : $wp_load;
-require_once($wp_load); 
+require_once($wp_load);
 $pages = get_pages();
 ?>
 <style>
@@ -76,7 +76,7 @@ $pages = get_pages();
 	padding:10px;
 }
 
-#reg-submit { 
+#reg-submit {
 	float:left;
 	margin: 10px 0 0 20px;
 }
@@ -150,7 +150,7 @@ small {
 				<div class="column-wrap">
 					<div class="column">
 						<div class="sreg-form-item">
-							<label for="reg-role"><?php _e("Role", 'simplr-reg'); ?></label>	
+							<label for="reg-role"><?php _e("Role", 'simplr-reg'); ?></label>
 							<small><?php _e("Specify the registration user role.", 'simplr-reg'); ?></small>
 							<select name="role" id="reg-role">
 								<option value=""><?php _e("Select role ...", 'simplr-reg'); ?> </option>
@@ -165,7 +165,7 @@ small {
 						<div class="sreg-form-item">
 							<label for="reg-thanks"><?php _e("Thank You page", 'simplr-reg'); ?></label>
 							<small><?php _e("Leave blank to display message on this page.", 'simplr-reg'); ?></small>
-					
+
 							<select class="chzn" id="reg-thanks">
 								<option value=""><?php _e("Select", 'simplr-reg'); ?></option>
 									<?php foreach($pages as $page): ?>
@@ -176,21 +176,21 @@ small {
 						<div class="sreg-form-item">
 							<label for="reg-role"><?php _e("Message", 'simplr-reg'); ?></label>
 							<small><?php _e("Confirmation for registered users.", 'simplr-reg'); ?></small>
-							<textarea id="reg-message" name="message" rows=10></textarea><br/>			
+							<textarea id="reg-message" name="message" rows=10></textarea><br/>
 						</div>
 				</div><!--.column-->
 				<div class="column">
 						<div class="sreg-form-item">
 							<label for="reg-role"><?php _e("Notifications", 'simplr-reg'); ?></label>
 							<small><?php _e("Notify these emails.", 'simplr-reg'); ?></small>
-						
+
 							<input type="text" id="reg-notify" name="notify" value=""></input>
 						</div>
-				
+
 						<div class="sreg-form-item">
 							<label for="reg-password"><?php _e("Password", 'simplr-reg'); ?></label>
-						
-							<small><?php _e("Select \"yes\" to allow users to set their password.", 'simplr-reg'); ?></small>			
+
+							<small><?php _e("Select \"yes\" to allow users to set their password.", 'simplr-reg'); ?></small>
 							<select id="reg-password" name="password">
 								<option value="no"><?php _e("No", 'simplr-reg'); ?></option>
 							<option value="yes"><?php _e("Yes", 'simplr-reg'); ?></option>
@@ -199,16 +199,16 @@ small {
 
 					<div class="sreg-form-item">
 						<h4><?php _e("Custom Fields", 'simplr-reg'); ?></h4>
-				
+
 						<!--<input id="fields" name="fields" class="fields" type="text" value="" /><br/>
 						Enter a comma-separated list of fields you would like to include in this form. Below are the available fields. <br/> <strong>Fields:</strong><br/>-->
 						<?php $list = new SREG_Fields(); ?>
 						<div id="sortable">
-						<?php foreach($list->custom_fields as $field): 
+						<?php foreach($list->custom_fields as $field):
 							echo '<div class="item"><input type="checkbox" name="cfield" value="1" rel="'.$field['key'].'"> '. $field['label'] . ' ( <em>'.$field['key'].'</em> )<br/></div>';
 						endforeach; ?>
 						</div>
-					</div>		
+					</div>
 				</div><!--.column-->
 			</div><!--.column-wrap-->
 		</div><!--.media-frame-content-->
