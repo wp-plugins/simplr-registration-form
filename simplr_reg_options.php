@@ -132,7 +132,7 @@ small {
 </style>
 <div id="reg-form">
 <div class="media-modal wp-core-ui">
-	<a class="media-modal-close" href="#" title="Close"><span class="media-modal-icon"></span></a>
+	<a class="media-modal-close" href="#" title="<?php _e("Close", 'simplr-reg'); ?>"><span class="media-modal-icon"></span></a>
 	<div class="media-modal-content">
 		<div class="media-frame wp-core-ui">
 			<div class="media-frame-menu">
@@ -213,7 +213,7 @@ small {
 			</div><!--.column-wrap-->
 		</div><!--.media-frame-content-->
 		<div class="media-frame-toolbar">
-			<input type="submit" id="reg-submit" class="button-primary" value="Insert Registration Form" name="submit" />
+			<input type="submit" id="reg-submit" class="button-primary" value="<?php _e("Insert Registration Form", 'simplr-reg'); ?>" name="submit" />
 		</div>
 	</div><!--.media-frame-->
 	</div><!--.media-modal-content-->
