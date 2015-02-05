@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-12-24 23:24+0100\n"
+"POT-Creation-Date: 2015-02-05 17:38+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: main_options_page.php:8 simplr_reg_page.php:116
+#: main_options_page.php:8 simplr_reg_page.php:118
 msgid "Settings"
 msgstr ""
 
@@ -97,6 +97,14 @@ msgstr ""
 msgid "A new user has registered for"
 msgstr ""
 
+#: simplr_form_functions.php:257 lib/login.php:554
+msgid "Username"
+msgstr ""
+
+#: simplr_form_functions.php:257
+msgid "Email"
+msgstr ""
+
 #: simplr_form_functions.php:260
 msgid "You should login and change your password as soon as possible."
 msgstr ""
@@ -105,8 +113,24 @@ msgstr ""
 msgid "Username:"
 msgstr ""
 
+#: simplr_form_functions.php:263
+msgid "Registered with Facebook"
+msgstr ""
+
+#: simplr_form_functions.php:263 simplr_reg_options.php:191 lib/login.php:558
+msgid "Password"
+msgstr ""
+
+#: simplr_form_functions.php:263
+msgid "Login"
+msgstr ""
+
 #: simplr_form_functions.php:273
 msgid "Registration Confirmation"
+msgstr ""
+
+#: simplr_form_functions.php:297
+msgid "Connected via Facebook as"
 msgstr ""
 
 #: simplr_form_functions.php:304
@@ -142,6 +166,10 @@ msgstr ""
 msgid "You are already registered for this site!!!"
 msgstr ""
 
+#: simplr_form_functions.php:502
+msgid "Thank you for registering"
+msgstr ""
+
 #: simplr_form_functions.php:510
 msgid "You should not register admin users via a public form"
 msgstr ""
@@ -150,6 +178,14 @@ msgstr ""
 msgid ""
 "The reCAPTCHA wasn't entered correctly. Go back and try it again. (reCAPTCHA "
 "said:"
+msgstr ""
+
+#: simplr_form_functions.php:563
+msgid "Register using Facebook"
+msgstr ""
+
+#: simplr_reg_options.php:135
+msgid "Close"
 msgstr ""
 
 #: simplr_reg_options.php:140 simplr_reg_options.php:143
@@ -200,10 +236,6 @@ msgstr ""
 msgid "Notify these emails."
 msgstr ""
 
-#: simplr_reg_options.php:191 lib/login.php:558
-msgid "Password"
-msgstr ""
-
 #: simplr_reg_options.php:193
 msgid "Select \"yes\" to allow users to set their password."
 msgstr ""
@@ -220,43 +252,79 @@ msgstr ""
 msgid "Custom Fields"
 msgstr ""
 
-#: simplr_reg_page.php:100
+#: simplr_reg_options.php:216
+msgid "Insert Registration Form"
+msgstr ""
+
+#: simplr_reg_page.php:102
 msgid "Registration Forms"
 msgstr ""
 
-#: simplr_reg_page.php:720 simplr_reg_page.php:737
+#: simplr_reg_page.php:134
+msgid "Website"
+msgstr ""
+
+#: simplr_reg_page.php:135
+msgid "Nickname"
+msgstr ""
+
+#: simplr_reg_page.php:197
+msgid "Activate"
+msgstr ""
+
+#: simplr_reg_page.php:197
+msgid "Resend Email"
+msgstr ""
+
+#: simplr_reg_page.php:312
+msgid "First Name"
+msgstr ""
+
+#: simplr_reg_page.php:313
+msgid "Last Name"
+msgstr ""
+
+#: simplr_reg_page.php:393
+msgid "No facebook account registered with this site"
+msgstr ""
+
+#: simplr_reg_page.php:528
+msgid "Other Information"
+msgstr ""
+
+#: simplr_reg_page.php:724 simplr_reg_page.php:741
 msgid "Your settings were saved."
 msgstr ""
 
-#: simplr_reg_page.php:748
+#: simplr_reg_page.php:752
 msgid "Field deleted."
 msgstr ""
 
-#: simplr_reg_page.php:758
+#: simplr_reg_page.php:762
 msgid "Fields were deleted."
 msgstr ""
 
-#: simplr_reg_page.php:768
+#: simplr_reg_page.php:772
 msgid "Your Field was saved."
 msgstr ""
 
-#: simplr_reg_page.php:793
+#: simplr_reg_page.php:797
 msgid "Could not activate requested user."
 msgstr ""
 
-#: simplr_reg_page.php:816
+#: simplr_reg_page.php:820
 msgid "Emails resent"
 msgstr ""
 
-#: simplr_reg_page.php:832
+#: simplr_reg_page.php:836
 msgid "Sorry, We could not find the requested account."
 msgstr ""
 
-#: simplr_reg_page.php:834
+#: simplr_reg_page.php:838
 msgid "Congratulations! Your Account was activated!"
 msgstr ""
 
-#: simplr_reg_page.php:933
+#: simplr_reg_page.php:937
 msgid ""
 "<strong>ERROR</strong>: This account has not yet been approved by the "
 "moderator"
@@ -439,10 +507,6 @@ msgid ""
 "Hint: The password should be at least seven characters long. To make it "
 "stronger, use upper and lower case letters, numbers and symbols like ! \" ? "
 "$ % ^ &amp; )."
-msgstr ""
-
-#: lib/login.php:554
-msgid "Username"
 msgstr ""
 
 #: lib/login.php:579 lib/login.php:581
