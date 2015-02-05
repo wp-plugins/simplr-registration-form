@@ -113,8 +113,8 @@ class SREG_Form {
 	<div class="option-field page_select <?php echo apply_filters($option['name'].'_error_class',''); ?>">
 			<div id="preview" style="<?php if(!$vals) { ?>display:none;<?php } ?>"><?php if($vals) { ?><img src="<?php echo $vals; ?>"/><?php } ?></div>
 			<input id="upload_image" type="text" size="36" name="<?php echo $option['name']; ?>" value="<?php echo esc_attr($vals); ?>" class="<?php echo @$class; ?> <?php echo $class; ?>"/>
-			<input id="upload_image_button" class="button" type="button" value="Upload Image" />
-			<span class="comment">Enter a URL or upload an image for your custom logo.</span>
+			<input id="upload_image_button" class="button" type="button" value="<?php _e('Upload Image','simplr-reg'); ?>" />
+			<span class="comment"><?php _e('Enter a URL or upload an image for your custom logo.','simplr-reg'); ?></span>
 	</div>
 	<div class="simplr-clr"></div>
 	<?
@@ -171,36 +171,36 @@ class SREG_Form {
 		<label for="<?php echo $option['name']; ?>"><?php echo $option['label'] . show_required($option); ?></label>
 		<div class="simplr-clr"></div>
 		<select name="<?php echo $option['name']. '-mo'; ?>" id="<?php echo $option['name']. '-mo'; ?>" class="<?php echo @$class; ?>">
-		<option value="">Select Month ...</option>
-		<option value="01" <?php if($lmo == '01') {echo 'selected'; } ?>>Jan</option>
-		<option value="02" <?php if($lmo == '02') {echo 'selected'; } ?>>Feb</option>
-		<option value="03" <?php if($lmo == '03') {echo 'selected'; } ?>>Mar</option>
-		<option value="04" <?php if($lmo == '04') {echo 'selected'; } ?>>Apr</option>
-		<option value="05" <?php if($lmo == '05') {echo 'selected'; } ?>>May</option>
-		<option value="06" <?php if($lmo == '06') {echo 'selected'; } ?>>Jun</option>
-		<option value="07" <?php if($lmo == '07') {echo 'selected'; } ?>>Jul</option>
-		<option value="08" <?php if($lmo == '08') {echo 'selected'; } ?>>Aug</option>
-		<option value="09" <?php if($lmo == '09') {echo 'selected'; } ?>>Sep</option>
-		<option value="10" <?php if($lmo == '10') {echo 'selected'; } ?>>Oct</option>
-		<option value="11" <?php if($lmo == '11') {echo 'selected'; } ?>>Nov</option>
-		<option value="12" <?php if($lmo == '12') {echo 'selected'; } ?>>Dec</option>
+		<option value=""><?php _e('Select Month...','simplr-reg'); ?></option>
+		<option value="01" <?php if($lmo == '01') {echo 'selected'; } ?>><?php _e('Jan','simplr-reg'); ?></option>
+		<option value="02" <?php if($lmo == '02') {echo 'selected'; } ?>><?php _e('Feb','simplr-reg'); ?></option>
+		<option value="03" <?php if($lmo == '03') {echo 'selected'; } ?>><?php _e('Mar','simplr-reg'); ?></option>
+		<option value="04" <?php if($lmo == '04') {echo 'selected'; } ?>><?php _e('Apr','simplr-reg'); ?></option>
+		<option value="05" <?php if($lmo == '05') {echo 'selected'; } ?>><?php _e('May','simplr-reg'); ?></option>
+		<option value="06" <?php if($lmo == '06') {echo 'selected'; } ?>><?php _e('Jun','simplr-reg'); ?></option>
+		<option value="07" <?php if($lmo == '07') {echo 'selected'; } ?>><?php _e('Jul','simplr-reg'); ?></option>
+		<option value="08" <?php if($lmo == '08') {echo 'selected'; } ?>><?php _e('Aug','simplr-reg'); ?></option>
+		<option value="09" <?php if($lmo == '09') {echo 'selected'; } ?>><?php _e('Sep','simplr-reg'); ?></option>
+		<option value="10" <?php if($lmo == '10') {echo 'selected'; } ?>><?php _e('Oct','simplr-reg'); ?></option>
+		<option value="11" <?php if($lmo == '11') {echo 'selected'; } ?>><?php _e('Nov','simplr-reg'); ?></option>
+		<option value="12" <?php if($lmo == '12') {echo 'selected'; } ?>><?php _e('Dec','simplr-reg'); ?></option>
 		</select>
 		<select name="<?php echo $option['name'] . '-dy'; ?>" id="<?php echo $option['name']. '-dy'; ?>" class="<?php echo @$class; ?>">
-		<option value="">Select Day ...</option>
+		<option value=""><?php _e('Select Day...','simplr-reg'); ?></option>
 		<?php $i = 1; while($i <= 31) {
 		if($i == "$ldy") { $selected = 'selected'; } else { $selected = '';}
 		if($i < 10) {
-		$y = sprintf('%02d',$i);
-		echo '<option value="' .$y .'" ' .$selected .'>'.$y.'</option>';
+			$y = sprintf('%02d',$i);
+			echo '<option value="' .$y .'" ' .$selected .'>'.$y.'</option>';
 		} else {
-		echo '<option value="'.$i .'" ' .$selected .'>' .$i .'</option>';
+			echo '<option value="'.$i .'" ' .$selected .'>' .$i .'</option>';
 		}
 		$i++;
 		}
 		?>
 		</select>
 		<select name="<?php echo $option['name'] . '-yr'; ?>" id="<?php echo $option['name']. '-yr'; ?>" class="<?php echo @$class; ?>">
-		<option value="">Select Year ...</option>
+		<option value=""><?php _e('Select Year...','simplr-reg'); ?></option>
 		<?php $i = $years[0]; while($i >= $years[0] && $i <= $years[1]) {
 		if($i == "$lyr") { $selected = 'selected'; } else { $selected = '';}
 		echo '<option value="'.$i .'" ' .$selected .'>' .$i .'</option>'; $i++;} ?>
@@ -229,7 +229,7 @@ class SREG_Form {
 			'style'=>'',
 			'id'=>'submit',
 			'class'=>'button-primary',
-			'value'=>'Submit'
+			'value'=>__('Submit','simplr-reg')
 		);
 		$args = array_merge($defaults,$args);
  		extract($args);
