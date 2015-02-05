@@ -2,30 +2,30 @@
 /**
 **
 ** Form Class
-**	-This class contains what are essentially helper functions to make form building a little easier and more consistent. 
+**	-This class contains what are essentially helper functions to make form building a little easier and more consistent.
 **
 **/
 
 class SREG_Form {
-	
+
 	// static functions that handle form fields
-	
-	static function text($option, $vals, $class = 'wide') { 
-	?>	
+
+	static function text($option, $vals, $class = 'wide') {
+	?>
 		<div class="option-field <?php echo apply_filters($option['name'].'_error_class',''); ?>">
 			<label for="<?php echo $option['name']; ?>"><?php echo $option['label'] . show_required($option); ?></label>
-			<input type="text" name="<?php echo $option['name']; ?>" id="<?php echo $option['name']; ?>" value="<?php echo esc_attr($vals); ?>" class="<?php echo @$class; ?> <?php echo @$class; ?>"/>	
+			<input type="text" name="<?php echo $option['name']; ?>" id="<?php echo $option['name']; ?>" value="<?php echo esc_attr($vals); ?>" class="<?php echo @$class; ?> <?php echo @$class; ?>"/>
 			<?php if(isset($option['comment'])) { echo '<div class="form-comment">'.$option['comment'].'</div>'; } ?>
 		</div>
 		<div class="simplr-clr"></div>
 	<?php
 	}
-	
+
 	static function hidden($option, $vals, $class, $options_array) { ?>
 		<?php $vals = ($options_array) ? $options_array[0] : $vals; ?>
-		<input type="hidden" name="<?php echo $option['name']; ?>" id="<?php echo $option['name']; ?>" value="<?php echo esc_attr($vals); ?>"/>	
-	<?php } 
-	
+		<input type="hidden" name="<?php echo $option['name']; ?>" id="<?php echo $option['name']; ?>" value="<?php echo esc_attr($vals); ?>"/>
+	<?php }
+
 	static function select($option, $vals, $class, $options_array) { ?>
 	<div class="option-field select <?php echo apply_filters($option['name'].'_error_class',''); ?>">
 	<?php $vals = (!is_array($vals)) ? array($vals) : $vals; ?>
@@ -48,7 +48,7 @@ class SREG_Form {
  	<div class="simplr-clr"></div>
 	<?php
 	}
-	
+
 	static function textarea($option, $vals, $class, $size) { ?>
 	<?php if(@$option['tiny_mce'] == true) { $div_id = 'markItUp'; } else { $div_id = $option['name']; } ?>
 	<?php $size = (!empty($size)) ? $size : $option['size']; ?>
@@ -59,7 +59,7 @@ class SREG_Form {
 	<div class="simplr-clr"></div>
 	<?php
 	}
-	
+
 	static function related_select($option, $vals, $class) { ?>
 	<div class="option-field page_select <?php echo apply_filters($option['name'].'_error_class',''); ?>">
 	<label for="<?php echo $option['name']; ?>"><?php echo $option['label'] . show_required($option); ?></label>
@@ -76,19 +76,19 @@ class SREG_Form {
 	<div class="simplr-clr"></div>
 	<?php
 	}
-	
+
 	static function checkbox($option, $vals, $class) {
 		?>
 		<div class="option-field checkbox <?php echo apply_filters($option['name'].'_error_class',''); ?>">
 		<?php $sel = ('on' == $vals)?'checked':''; ?>
 		<label for="<?php echo $option['name']; ?>"><?php echo $option['label'] . show_required($option); ?></label>
-			<input type="checkbox" name="<?php echo $option['name']; ?>" id="<?php echo $option['name']; ?>" value="on" class="<?php echo @$class; ?>" <?php echo $sel; ?>/>	
+			<input type="checkbox" name="<?php echo $option['name']; ?>" id="<?php echo $option['name']; ?>" value="on" class="<?php echo @$class; ?>" <?php echo $sel; ?>/>
 		<?php if(isset($option['comment'])) { echo '<div class="form-comment">'.$option['comment'].'</div>'; } ?>
 		</div>
 		<div class="simplr-clr"></div>
 		<?php
 	}
-	
+
 	static function checkbox_group($option,$vals,$class,$options_array) {
 		?>
 		<?php $vals = (!is_array($vals)) ? array($vals) : $vals; ?>
@@ -104,11 +104,11 @@ class SREG_Form {
 		<div class="simplr-clr"></div>
 		<?php
 	}
-	
+
 	static function media_uploader($option, $vals, $class) { ?>
 	<script>
-		jQuery.noConflict(); 
-		jQuery.get('<?php echo BSD_URL; ?>/library/js/options.js'); 
+		jQuery.noConflict();
+		jQuery.get('<?php echo BSD_URL; ?>/library/js/options.js');
 	</script>
 	<div class="option-field page_select <?php echo apply_filters($option['name'].'_error_class',''); ?>">
 			<div id="preview" style="<?php if(!$vals) { ?>display:none;<?php } ?>"><?php if($vals) { ?><img src="<?php echo $vals; ?>"/><?php } ?></div>
@@ -119,26 +119,26 @@ class SREG_Form {
 	<div class="simplr-clr"></div>
 	<?
 	}
-	
+
 	static function category_select($option, $vals, $class) { ?>
 		<div class="option-field select <?php echo apply_filters($option['name'].'_error_class',''); ?>">
 	<label for="<?php echo $option['name']; ?>"><?php echo $option['label'] . show_required($option); ?></label>
-		<?php 
+		<?php
 		wp_dropdown_categories(array(
-			'name' => $option['name'], 
-			'id'=> $option['name'] , 
+			'name' => $option['name'],
+			'id'=> $option['name'] ,
 			'hide_empty'=> 0,
 			'show_count'=>1,
 			'selected' =>$vals,
 			'taxonomy' => $option['options']['taxonomy'])
-			); 
+			);
 		?>
 		<?php if(isset($option['comment'])) : ?><span class="comment"><?php echo $option['comment']; ?></span><?php endif; ?>
 	</div>
 	<div class="simplr-clr"></div>
 	<?php
 	}
-	
+
 	static function radio($option, $vals, $class,$options_array) {
 		$default = (isset($option['default'])) ? $option['default'] : '';
 		$vals = ($vals != '') ? array($vals) : array($default) ;
@@ -155,10 +155,10 @@ class SREG_Form {
 		<div class="simplr-clr"></div>
 		<?php
 	}
-	
-	static function date($option, $vals, $class, $options_array) { 
+
+	static function date($option, $vals, $class, $options_array) {
 		//set up variables
-		$list = $vals; 
+		$list = $vals;
 		if(!empty($list)) {
 			$list = explode('-',$list);
 			$lmo = $list[1];
@@ -189,19 +189,19 @@ class SREG_Form {
 		<option value="">Select Day ...</option>
 		<?php $i = 1; while($i <= 31) {
 		if($i == "$ldy") { $selected = 'selected'; } else { $selected = '';}
-		if($i < 10) { 
-		$y = sprintf('%02d',$i); 
+		if($i < 10) {
+		$y = sprintf('%02d',$i);
 		echo '<option value="' .$y .'" ' .$selected .'>'.$y.'</option>';
 		} else {
-		echo '<option value="'.$i .'" ' .$selected .'>' .$i .'</option>'; 
+		echo '<option value="'.$i .'" ' .$selected .'>' .$i .'</option>';
 		}
 		$i++;
-		} 
+		}
 		?>
 		</select>
 		<select name="<?php echo $option['name'] . '-yr'; ?>" id="<?php echo $option['name']. '-yr'; ?>" class="<?php echo @$class; ?>">
 		<option value="">Select Year ...</option>
-		<?php $i = $years[0]; while($i >= $years[0] && $i <= $years[1]) { 
+		<?php $i = $years[0]; while($i >= $years[0] && $i <= $years[1]) {
 		if($i == "$lyr") { $selected = 'selected'; } else { $selected = '';}
 		echo '<option value="'.$i .'" ' .$selected .'>' .$i .'</option>'; $i++;} ?>
 		</select>
@@ -209,20 +209,20 @@ class SREG_Form {
 		<div class="simplr-clr"></div>
 		<?php
 	}
-	
+
 	static function callback($option, $vals, $class, $args) {
 		if(empty($args) OR !function_exists( $args[0] ) ) {
 			return true;
 		} else {
-			@call_user_func_array($args[0], $args[1]);	
+			@call_user_func_array($args[0], $args[1]);
 		}
 	}
-	
+
 	static function helper($name) {
 	 	include(dirname(__FILE__).'/helpers/'.$name .'.php');
 	 	return ${$name};
 	}
-	
+
 	static function submit($args = array()) {
 		$defaults = array(
 			'name'=>'submit',
@@ -238,11 +238,11 @@ class SREG_Form {
 		<input type="submit" class="<?php echo $class; ?>" id="<?php echo $id; ?>" name="<?php echo $name; ?>" value="<?php echo esc_attr($value); ?>" style="<?php echo $style; ?>" />
 		</p>
 		<?php
-	}	
-	
+	}
+
 }
 
-//misc 
+//misc
 function show_required($option) {
 		if(@$option['required'] == 'yes') {
 			$out = '<span class="required">*</span>';
