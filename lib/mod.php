@@ -2,7 +2,7 @@
 
 /**
 * Filter the user views list for inactives
-*	@params $views (string) 
+*	@params $views (string)
 */
 if(!function_exists('simplr_views_users')):
 	function simplr_views_users( $views ) {
@@ -19,7 +19,7 @@ if(!function_exists('simplr_count_inactive')):
 			$count = $wpdb->get_var($wpdb->prepare("SELECT COUNT(ID) FROM $wpdb->users WHERE user_status = 2", array()));
 			wp_cache_set('inactivate_count', $count,'users', 3600);
 		}
-		return $count; 
+		return $count;
 	}
 endif;
 
@@ -29,7 +29,7 @@ if(!function_exists('simplr_inactive_query')):
 			$query->query_where = $query->query_where.' AND user_status = 2';
 		}
 		return $query;
-	}	
+	}
 endif;
 
 if(!function_exists("simplr_users_bulk_action")):
