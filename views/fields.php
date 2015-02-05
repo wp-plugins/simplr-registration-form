@@ -7,7 +7,7 @@
 <?php $table = new SREG_Fields_Table(); ?>
 <form id="mass-edit" action="?page=simplr_reg_set&regview=fields" method="post">
 <?php
-echo $table->header(); 
+echo $table->header();
 echo $table->rows();
 echo $table->footer();
 ?>
@@ -19,7 +19,7 @@ echo $table->footer();
 </form>
 <script type="text/javascript">
 jQuery(document).ready(function() {
-	
+
 	function update_field_sort(event,ui) {
 		var sort = {};
 		jQuery('table#fields-table tbody#the-list tr').each(function(i) {
@@ -28,16 +28,16 @@ jQuery(document).ready(function() {
 		jQuery.post(ajaxurl,{action:'simplr-save-sort',sort:sort});
 		jQuery('.ajaxloading').toggle();
 	}
-		
-	jQuery('table#fields-table tbody#the-list').sortable({stop:function() { 
+
+	jQuery('table#fields-table tbody#the-list').sortable({stop:function() {
 		jQuery('.ajaxloading').toggle();
-		update_field_sort(); } 
-	}); 
-		
+		update_field_sort(); }
+	});
+
 });
 </script>
 <?php
-} else { 
+} else {
 ?>
 <div id="simplr-sub-nav">
 <div class="add-field-button">
@@ -45,10 +45,10 @@ jQuery(document).ready(function() {
 </div>
 </div>
 <p>Use the form below to add a registration field. These fields can then be selected on any registration form on the site.</p>
-<?php 
+<?php
 }
 
-if(@$_GET['action'] == 'edit' OR @$_GET['action'] == 'add') { 
+if(@$_GET['action'] == 'edit' OR @$_GET['action'] == 'add') {
 	if($_GET['action'] == 'edit') {
 		$field = new SREG_Fields();
 		$field = (object) $field->custom_fields->{$_GET['key']};
@@ -61,7 +61,7 @@ jQuery(document).ready(function() {
 		jQuery(this).hide();
 		jQuery('input[name="options_array"]').after('<div class="info"><a id="show-info">What are my options?</a></div>');
 	});
-	
+
 	jQuery('#show-info').live('click',function(e) {
 		e.preventDefault();
 		jQuery('#choices').find('.form-comment').toggle();
