@@ -30,21 +30,21 @@ class SREG_Fields_Table extends SREG_Fields {
 			} else {
 				jQuery('table.wp-list-table').find('#delete-field').attr('checked',true);
 			}
-			
+
 		});
 	});
 	</script>
-	<table id="fields-table" class="wp-list-table widefat" cellspacing="0"> 
-	<thead> 
-	<tr> 
+	<table id="fields-table" class="wp-list-table widefat" cellspacing="0">
+	<thead>
+	<tr>
 		<th scope='col' id='cb' class='manage-column column-cb check-column'  style="">
-		 <input type="checkbox" id="delete-all" /> 
+		 <input type="checkbox" id="delete-all" />
 		</th>
 		<?php foreach($this->cols as $col): $col = (object) $col; ?>
-		<?php 
+		<?php
 		if(isset($_GET['order'])):
-			$sort = ($_GET['order'] == 'asc') ? 'desc' : 'asc'; 
-		endif; 
+			$sort = ($_GET['order'] == 'asc') ? 'desc' : 'asc';
+		endif;
 		?>
 		<th scope='col' id='<?php echo $col->key; ?>' class='manage-column column-title sortable <?php echo $sort; ?>'  style="">
 		<?php echo $col->label; ?>
@@ -52,16 +52,16 @@ class SREG_Fields_Table extends SREG_Fields {
 		<?php endforeach; ?>
 		<th scope="col" id="action" class="action-column" style="">Action</th>
 		</tr>
-	</thead> 
+	</thead>
 	<?php
 	}
-	
+
 	function footer() {
 		?>
 		</table>
 		<?php
 	}
-	
+
 	function rows($type = null) { ?>
 	<?php echo '<tbody id="the-list">'; ?>
 	<?php if($this->get_custom()): ?>
