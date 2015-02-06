@@ -1,5 +1,5 @@
-<?php 
-$data = $_POST; 
+<?php
+$data = $_POST;
 $simplr_reg = get_option('simplr_reg_options');
 if(isset($data['main-submit'])) {
 	if(!wp_verify_nonce(-1, $data['reg-main']) && !current_user_can('manage_options')){ wp_die('Death to hackers!');}
@@ -19,7 +19,7 @@ if(isset($data['main-submit'])) {
 ?>
 <form action="?page=simplr_reg_set&regview=main" method="post" id="add-field">
 	<h3>Core Settings</h3>
-	<?php 
+	<?php
 	SREG_Form::related_select(array(
 		'name'=>'register_redirect',
 		'label'=>'Redirect default signup action to this page',
@@ -28,7 +28,7 @@ if(isset($data['main-submit'])) {
 		@$simplr_reg->register_redirect,
 		'wide chzn'
 	);
-	
+
 	/*SREG_Form::related_select(array(
 		'name'=>'login_redirect',
 		'label'=>'Redirect default login action to this page',
@@ -37,7 +37,7 @@ if(isset($data['main-submit'])) {
 		$simplr_reg->login_redirect,
 		'wide'
 		);*/
-	
+
 	SREG_Form::related_select(array(
 		'name'=>'profile_redirect',
 		'label'=>'Redirect default profile page',
@@ -47,7 +47,7 @@ if(isset($data['main-submit'])) {
 		@$simplr_reg->profile_redirect,
 		'wide chzn'
 		);
-	
+
 	SREG_Form::related_select(array(
 		'name'			=>'thank_you',
 		'label'			=>'Custom Thank You Page',
@@ -57,7 +57,7 @@ if(isset($data['main-submit'])) {
 		@$simplr_reg->thank_you,
 		'wide chzn',''
 	);
-	
+
 	SREG_Form::text(array(
 		'name'=>'default_email',
 		'label'=>'Default FROM Email',
@@ -92,7 +92,7 @@ if( $simplr_reg->styles != 'yes' ):
 	@$simplr_reg->stylesheet, 'wide'
 	);
 endif;
-	/*Deprecated: All registration forms now have custom messages. 
+	/*Deprecated: All registration forms now have custom messages.
 	SREG_Form::textarea(array(
 		'name'=>'email_message',
 		'label'=>'Email Message',

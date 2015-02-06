@@ -23,7 +23,7 @@ if(isset($data['mod-submit'])) {
 	echo '<div id="message" class="updated alert message"><p>'.__("Settings saved",'simplr-reg-form').'</p></div>';
 }
 ?>
-<form id="add-field" action="" method="post" >
+<form id="add-field" action="" method="post">
 <h3>Moderation</h3>
 <p>These settings allow you to enable and control moderation<p>
 <?php SREG_Form::select(array(
@@ -37,7 +37,7 @@ if(isset($data['mod-submit'])) {
 ?>
 
 <div class="mod-choices" <?php if($simplr_reg->mod_on == 'no' ) { echo 'style="display:none;"'; } ?>>
-	<?php SREG_Form::select(array(	
+	<?php SREG_Form::select(array(
 		'name'	=> 'mod_activation',
 		'label'	=> 'Approval Mode',
 		'required'	=> false,
@@ -52,7 +52,7 @@ if(isset($data['mod-submit'])) {
 		'label'=> 'Email Subject Line',
 		'required'=>false,
 		'default'	=> "Welecome to %%blogname%%",
-		), $simplr_reg->mod_email_subj, 'text input'); 
+		), $simplr_reg->mod_email_subj, 'text input');
 	?>
 	<?php SREG_Form::textarea(array(
 		'name'	=> 'mod_email',
@@ -72,7 +72,7 @@ if(isset($data['mod-submit'])) {
 		'comment'	=> "Which user roles can moderate new users.",
 		'required'	=> true), $simplr_reg->mod_roles, 'wide chzn alignleft', $roles->get_names()
 		);
-	?> 
+	?>
 	<?php SREG_Form::text(array(
                 'name' => 'mod_email_activated_subj',
                 'label'=> 'Account Activated Email Subject Line',
