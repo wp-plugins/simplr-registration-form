@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-02-05 17:38+0100\n"
+"POT-Creation-Date: 2015-02-05 20:49+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -330,6 +330,114 @@ msgid ""
 "moderator"
 msgstr ""
 
+#: lib/fields-table.class.php:12
+msgid "Field Name"
+msgstr ""
+
+#: lib/fields-table.class.php:13
+msgid "Field Key"
+msgstr ""
+
+#: lib/fields-table.class.php:14
+msgid "Required"
+msgstr ""
+
+#: lib/fields-table.class.php:15
+msgid "Field Type"
+msgstr ""
+
+#: lib/fields-table.class.php:16
+msgid "Profile?"
+msgstr ""
+
+#: lib/fields-table.class.php:53
+msgid "Action"
+msgstr ""
+
+#: lib/fields-table.class.php:78
+msgid "Edit"
+msgstr ""
+
+#: lib/fields-table.class.php:79
+msgid "Are you sure you want to do this?"
+msgstr ""
+
+#: lib/fields-table.class.php:79
+msgid "Delete"
+msgstr ""
+
+#: lib/form.class.php:116
+msgid "Upload Image"
+msgstr ""
+
+#: lib/form.class.php:117
+msgid "Enter a URL or upload an image for your custom logo."
+msgstr ""
+
+#: lib/form.class.php:174
+msgid "Select Month..."
+msgstr ""
+
+#: lib/form.class.php:175
+msgid "Jan"
+msgstr ""
+
+#: lib/form.class.php:176
+msgid "Feb"
+msgstr ""
+
+#: lib/form.class.php:177
+msgid "Mar"
+msgstr ""
+
+#: lib/form.class.php:178
+msgid "Apr"
+msgstr ""
+
+#: lib/form.class.php:179
+msgid "May"
+msgstr ""
+
+#: lib/form.class.php:180
+msgid "Jun"
+msgstr ""
+
+#: lib/form.class.php:181
+msgid "Jul"
+msgstr ""
+
+#: lib/form.class.php:182
+msgid "Aug"
+msgstr ""
+
+#: lib/form.class.php:183
+msgid "Sep"
+msgstr ""
+
+#: lib/form.class.php:184
+msgid "Oct"
+msgstr ""
+
+#: lib/form.class.php:185
+msgid "Nov"
+msgstr ""
+
+#: lib/form.class.php:186
+msgid "Dec"
+msgstr ""
+
+#: lib/form.class.php:189
+msgid "Select Day..."
+msgstr ""
+
+#: lib/form.class.php:203
+msgid "Select Year..."
+msgstr ""
+
+#: lib/form.class.php:232
+msgid "Submit"
+msgstr ""
+
 #: lib/login.php:69
 msgid "Sorry, that key does not appear to be valid."
 msgstr ""
@@ -515,6 +623,14 @@ msgstr ""
 
 #: lib/login.php:579 lib/login.php:581
 msgid "Lost your password?"
+msgstr ""
+
+#: lib/mod.php:10
+msgid "Inactive Users"
+msgstr ""
+
+#: lib/mod.php:38
+msgid "Activate Users"
 msgstr ""
 
 #: lib/profile.php:32

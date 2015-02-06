@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 2.0.7\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-02-05 17:38+0100\n"
-"PO-Revision-Date: 2015-02-05 17:41+0100\n"
+"POT-Creation-Date: 2015-02-05 20:49+0100\n"
+"PO-Revision-Date: 2015-02-05 20:52+0100\n"
 "Last-Translator: Marcel Pol <marcel@timelord.nl>\n"
 "Language-Team: NL <nl@li.org>\n"
 "Language: nl_NL\n"
@@ -339,6 +339,114 @@ msgid ""
 msgstr ""
 "<strong>FOUT</strong>: Dit account is nog niet goedgekeurd door een beheerder"
 
+#: lib/fields-table.class.php:12
+msgid "Field Name"
+msgstr "Veldnaam"
+
+#: lib/fields-table.class.php:13
+msgid "Field Key"
+msgstr "Veldsleutel"
+
+#: lib/fields-table.class.php:14
+msgid "Required"
+msgstr "Verplicht"
+
+#: lib/fields-table.class.php:15
+msgid "Field Type"
+msgstr "Veldtype"
+
+#: lib/fields-table.class.php:16
+msgid "Profile?"
+msgstr "Profiel?"
+
+#: lib/fields-table.class.php:53
+msgid "Action"
+msgstr "Actie"
+
+#: lib/fields-table.class.php:78
+msgid "Edit"
+msgstr "Bewerken"
+
+#: lib/fields-table.class.php:79
+msgid "Are you sure you want to do this?"
+msgstr "Weet je zeker dat je dit wilt doen?"
+
+#: lib/fields-table.class.php:79
+msgid "Delete"
+msgstr "Verwijderen"
+
+#: lib/form.class.php:116
+msgid "Upload Image"
+msgstr "Afbeelding uploaden"
+
+#: lib/form.class.php:117
+msgid "Enter a URL or upload an image for your custom logo."
+msgstr ""
+
+#: lib/form.class.php:174
+msgid "Select Month..."
+msgstr "Selecteer Maand..."
+
+#: lib/form.class.php:175
+msgid "Jan"
+msgstr ""
+
+#: lib/form.class.php:176
+msgid "Feb"
+msgstr ""
+
+#: lib/form.class.php:177
+msgid "Mar"
+msgstr ""
+
+#: lib/form.class.php:178
+msgid "Apr"
+msgstr ""
+
+#: lib/form.class.php:179
+msgid "May"
+msgstr ""
+
+#: lib/form.class.php:180
+msgid "Jun"
+msgstr ""
+
+#: lib/form.class.php:181
+msgid "Jul"
+msgstr ""
+
+#: lib/form.class.php:182
+msgid "Aug"
+msgstr ""
+
+#: lib/form.class.php:183
+msgid "Sep"
+msgstr ""
+
+#: lib/form.class.php:184
+msgid "Oct"
+msgstr ""
+
+#: lib/form.class.php:185
+msgid "Nov"
+msgstr ""
+
+#: lib/form.class.php:186
+msgid "Dec"
+msgstr ""
+
+#: lib/form.class.php:189
+msgid "Select Day..."
+msgstr "Selecteer Dag..."
+
+#: lib/form.class.php:203
+msgid "Select Year..."
+msgstr "Selecteer Jaar..."
+
+#: lib/form.class.php:232
+msgid "Submit"
+msgstr "Verzenden"
+
 #: lib/login.php:69
 msgid "Sorry, that key does not appear to be valid."
 msgstr "Sorry, die sleutel lijkt niet geldig te zijn."
@@ -544,6 +652,14 @@ msgstr "Wachtwoord Verloren en Gevonden"
 #: lib/login.php:579 lib/login.php:581
 msgid "Lost your password?"
 msgstr "Wachtwoord vergeten?"
+
+#: lib/mod.php:10
+msgid "Inactive Users"
+msgstr "Inactieve Gebruikers"
+
+#: lib/mod.php:38
+msgid "Activate Users"
+msgstr "Activeer Gebruikers"
 
 #: lib/profile.php:32
 msgid "Your profile was saved"
