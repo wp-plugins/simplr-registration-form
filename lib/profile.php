@@ -37,18 +37,18 @@ function simplr_profile_page() {
 
 		ob_start();
 
-		echo '<h3>User Login: '.$current_user->user_login.' / Registered: '.date(get_option('date_format'),strtotime($current_user->user_registered)).'</h3>';
+		echo '<h3>' . __('User Login','simplr-reg') . ': '.$current_user->user_login.' / ' . __('Registered','simplr-reg') . ': ' . date_i18n(get_option('date_format'),strtotime($current_user->user_registered)) . '</h3>';
 
 		echo '<form id="simplr-form" method="post" action="" >';
 
 		SREG_Form::text(array(
 			'name'=>'user_nicename',
-			'label'=>'Nickname',
+			'label'=>__('Nickname','simplr-reg'),
 			'required'=>false),$current_user->user_nicename,'wide');
 
 		SREG_Form::text(array(
 			'name'=>'user_email',
-			'label'=>'Email',
+			'label'=>__('Email','simplr-reg'),
 			'required'=>true),$current_user->user_email,'wide');
 		if(!empty($fields))
 		{
@@ -122,13 +122,13 @@ function simplr_change_password() {
 	<div class="simplr-passwords">
 
 		<div class="option-field password">
-		<label for="pass1"><?php _e('New Password'); ?></label>
+		<label for="pass1"><?php _e('New Password','simplr-reg'); ?></label>
 		<input type="password" name="pass1" id="pass1" size="16" value="" autocomplete="off" />
-		<p class="description"><?php _e("If you would like to change the password type a new one. Otherwise leave this blank."); ?></p>
+		<p class="description"><?php _e("If you would like to change the password type a new one. Otherwise leave this blank.",'simplr-reg'); ?></p>
 		</div>
 
 		<div class="option-field password_confirm">
-				<label for="pass1"><?php _e('Confirm Password'); ?></label>
+				<label for="pass1"><?php _e('Confirm Password','simplr-reg'); ?></label>
 		<input type="password" name="pass2" id="pass2" size="16" value="" autocomplete="off" />
 		</div>
 
@@ -232,11 +232,11 @@ function simplr_validate_profile($data,$fields) {
 				{
 					if($data[$field['key'].'-mo'] == '' || $data[$field['key'].'-dy'] == '' || $data[$field['key'].'-yr'] == '')
 					{
-					$errors[] = $field['label'] .' is a required field. Please enter a value.';
+					$errors[] = $field['label'] . __(' is a required field. Please enter a value.','simplr-reg');
 					add_filter($field['key'].'_error_class','_sreg_return_error');
 					}
 				} elseif(!isset($data[$field['key']]) || $data[$field['key']] == '' ) {
-					$errors[] = $field['label'] .' is a required field. Please enter a value.';
+					$errors[] = $field['label'] . __(' is a required field. Please enter a value.','simplr-reg');
 					add_filter($field['key'].'_error_class','_sreg_return_error');
 				}
 			}
@@ -245,7 +245,7 @@ function simplr_validate_profile($data,$fields) {
 
 	if(isset($data['pass1']) || isset($data['pass2'])) {
 		if($data['pass1'] !== $data['pass2']) {
-			$errors[] = 'The passwords you entered do not match';
+			$errors[] = __('The passwords you entered do not match','simplr-reg');
 			add_filter('password_error_class','_sreg_return_error');
 		}
 	}
@@ -261,7 +261,7 @@ function simplr_validate_profile($data,$fields) {
 }
 
 function simplr_profile_success_message($messages) {
-	$messages = 'Your Profile Was Saved';
+	$messages = __('Your Profile Was Saved','simplr-reg');
 	return $messages;
 }
 ?>
