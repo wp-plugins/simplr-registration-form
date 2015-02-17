@@ -1,7 +1,7 @@
 === Simplr Registration Form Plus+ ===
 Contributors: mpvanwinkle77, mpol
 Donate link: http://www.mikevanwinkle.com/
-Tags: registration, signup, profile, cms, users, user management
+Tags: registration, signup, profile, cms, users, user management, user profile
 Requires at least: 3.0
 Tested up to: 4.1
 Stable tag: 2.2.7
@@ -24,7 +24,7 @@ The plugin also creates an interface for adding/removing fields to be used in th
 
 == Frequently Asked Questions ==
 
-See plugin settings page for detailed instructions
+See plugin settings page for detailed instructions.
 
 == Screenshots ==
 
@@ -35,8 +35,10 @@ See plugin settings page for detailed instructions
 == Changelog ==
 
 = 2.2.8 =
-* Added settings link to main plugin page
+* Add settings link to main plugin page.
+* Fix defaults field sort (first_name and last_name should be in it).
 * Add translation files and load them.
+* Add nl_NL.
 
 = 2.2.7 =
 * updated modal to work with WordPress version 4.1
