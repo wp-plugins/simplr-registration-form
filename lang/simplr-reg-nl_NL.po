@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 2.0.7\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-02-05 20:49+0100\n"
-"PO-Revision-Date: 2015-02-05 20:52+0100\n"
+"POT-Creation-Date: 2015-02-17 16:50+0100\n"
+"PO-Revision-Date: 2015-02-17 16:51+0100\n"
 "Last-Translator: Marcel Pol <marcel@timelord.nl>\n"
 "Language-Team: NL <nl@li.org>\n"
 "Language: nl_NL\n"
@@ -25,7 +25,7 @@ msgstr "Instellingen"
 msgid "Fields"
 msgstr "Velden"
 
-#: main_options_page.php:10
+#: main_options_page.php:10 views/moderation.php:27
 msgid "Moderation"
 msgstr "Moderatie"
 
@@ -81,6 +81,7 @@ msgid "Please enter a valid email."
 msgstr "Voer svp. een geldig e-mailadres in."
 
 #: simplr_form_functions.php:93 simplr_form_functions.php:97
+#: lib/profile.php:235 lib/profile.php:239
 msgid " is a required field. Please enter a value."
 msgstr " is een verplicht veld. Vul svp. een waarde in."
 
@@ -104,7 +105,7 @@ msgstr "Eenn ieuwe gebruiker is geregistreerd voor"
 msgid "Username"
 msgstr "Gebruikersnaam"
 
-#: simplr_form_functions.php:257
+#: simplr_form_functions.php:257 lib/profile.php:51
 msgid "Email"
 msgstr "E-mail"
 
@@ -198,7 +199,7 @@ msgstr "Sluiten"
 msgid "Registration Form"
 msgstr "Registratie Formulier"
 
-#: simplr_reg_options.php:146
+#: simplr_reg_options.php:146 views/fields.php:90
 msgid "Options"
 msgstr "Opties"
 
@@ -222,7 +223,7 @@ msgstr "Bedankt-pagina"
 msgid "Leave blank to display message on this page."
 msgstr "Laat leeg om het bericht op deze pagina te tonen."
 
-#: simplr_reg_options.php:170
+#: simplr_reg_options.php:170 lib/form.class.php:67
 msgid "Select"
 msgstr "Selecteren"
 
@@ -272,7 +273,7 @@ msgstr "Registratie Forms"
 msgid "Website"
 msgstr "Website"
 
-#: simplr_reg_page.php:135
+#: simplr_reg_page.php:135 lib/profile.php:46
 msgid "Nickname"
 msgstr "Schuilnaam"
 
@@ -343,7 +344,7 @@ msgstr ""
 msgid "Field Name"
 msgstr "Veldnaam"
 
-#: lib/fields-table.class.php:13
+#: lib/fields-table.class.php:13 views/fields.php:74
 msgid "Field Key"
 msgstr "Veldsleutel"
 
@@ -375,6 +376,10 @@ msgstr "Weet je zeker dat je dit wilt doen?"
 msgid "Delete"
 msgstr "Verwijderen"
 
+#: lib/form.class.php:34
+msgid "Select ..."
+msgstr "Selecteren ..."
+
 #: lib/form.class.php:116
 msgid "Upload Image"
 msgstr "Afbeelding uploaden"
@@ -405,7 +410,7 @@ msgstr ""
 
 #: lib/form.class.php:179
 msgid "May"
-msgstr ""
+msgstr "Mei"
 
 #: lib/form.class.php:180
 msgid "Jun"
@@ -443,7 +448,7 @@ msgstr "Selecteer Dag..."
 msgid "Select Year..."
 msgstr "Selecteer Jaar..."
 
-#: lib/form.class.php:232
+#: lib/form.class.php:232 views/moderation.php:95
 msgid "Submit"
 msgstr "Verzenden"
 
@@ -665,6 +670,14 @@ msgstr "Activeer Gebruikers"
 msgid "Your profile was saved"
 msgstr "Je profiel is opgeslagen"
 
+#: lib/profile.php:40
+msgid "User Login"
+msgstr "Gebruikerslogin"
+
+#: lib/profile.php:40
+msgid "Registered"
+msgstr "Geregistreerd"
+
 #: lib/profile.php:121
 msgid "Change Password"
 msgstr "Wijzig Wachtwoord"
@@ -681,10 +694,398 @@ msgstr ""
 "Als je het wachtwoord wilt wijzigen voer dan een nieuwe in. Laat het anders "
 "leeg."
 
-#: views/api.php:81 views/api.php:166 views/main.php:107
+#: lib/profile.php:248
+msgid "The passwords you entered do not match"
+msgstr "De ingevoerde wachtwoorden komen niet overeen"
+
+#: lib/profile.php:264
+msgid "Your Profile Was Saved"
+msgstr "Je Profiel is Opgeslagen"
+
+#: views/api.php:24
+msgid "reCAPTCHA"
+msgstr "reCAPTCHA"
+
+#: views/api.php:48
+msgid ""
+"If you would like to use reCAPTCHA for blocking spam registrations, enter "
+"you API keys below:"
+msgstr ""
+
+#: views/api.php:52
+msgid "Enable reCAPTCHA?"
+msgstr "reCAPTCHA Gebruiken?"
+
+#: views/api.php:53
+msgid ""
+"In order to use reCAPTCHA anti-spam protection you first need to set you an "
+"API account here: http://www.google.com/recaptcha"
+msgstr ""
+
+#: views/api.php:65
+msgid "reCAPTCHA Public Key"
+msgstr ""
+
+#: views/api.php:72
+msgid "reCAPTCHA Private Key"
+msgstr ""
+
+#: views/api.php:81 views/api.php:166 views/fields.php:97 views/main.php:107
 msgid "Save Changes"
 msgstr "Opslaan"
+
+#: views/api.php:86
+msgid "Facebook"
+msgstr "Facebook"
+
+#: views/api.php:87
+msgid "If you intend to use Facebook for Authentication complete form below:"
+msgstr ""
+
+#: views/api.php:91
+#, fuzzy
+msgid "Enable Facebook Connect?"
+msgstr "Facebook"
+
+#: views/api.php:93
+msgid ""
+"In order to user Facebook Connect you will need to have set up an "
+"application at http://www.facebook.com/developer"
+msgstr ""
+
+#: views/api.php:104
+#, fuzzy
+msgid "Facebook App ID"
+msgstr "Facebook"
+
+#: views/api.php:120
+#, fuzzy
+msgid "Facebook Application Secret"
+msgstr "Facebook"
+
+#: views/api.php:128
+msgid "Permissions to Request"
+msgstr ""
+
+#: views/api.php:137
+msgid "Allow users to login using their Facebook account?"
+msgstr ""
+
+#: views/api.php:149
+#, fuzzy
+msgid "Facebook Login Redirect"
+msgstr "Inloggen"
+
+#: views/api.php:151
+msgid "Where should the user be redirected after logging in with Facebook."
+msgstr ""
+
+#: views/api.php:158
+msgid "Auto-Register"
+msgstr "Auto-Registreren"
+
+#: views/api.php:160
+msgid ""
+"Enabling this option will automatically register and login the user after "
+"agreeing to connect your application to his/her profile."
+msgstr ""
+
+#: views/fields.php:4 views/fields.php:97
+msgid "Add Field"
+msgstr "Veld Toevoegen"
+
+#: views/fields.php:15
+#, fuzzy
+msgid "Saving sort"
+msgstr "Er ging iets fout bij het opslaan."
+
+#: views/fields.php:17
+msgid "Delete Selected"
+msgstr "Verwijder Selectie"
+
+#: views/fields.php:17
+msgid "Are you sure you want to delete all the selected fields?"
+msgstr ""
+
+#: views/fields.php:44
+msgid "Back to Field List"
+msgstr "Terug naar Veldenlijst"
+
+#: views/fields.php:47
+msgid ""
+"Use the form below to add a registration field. These fields can then be "
+"selected on any registration form on the site."
+msgstr ""
+
+#: views/fields.php:62
+#, fuzzy
+msgid "What are my options?"
+msgstr "Opties"
+
+#: views/fields.php:73
+msgid "Field Label"
+msgstr "Veldlabel"
+
+#: views/fields.php:73
+msgid "Human readable name for display to users"
+msgstr ""
+
+#: views/fields.php:74
+msgid "Machine readable name to represent this field in the Database"
+msgstr ""
+
+#: views/fields.php:76
+msgid "Show this field on user admin screens?"
+msgstr ""
+
+#: views/fields.php:78
+msgid "Is this field required?"
+msgstr "Is dit veld verplicht?"
+
+#: views/fields.php:79
+msgid "Show this field in user profile?"
+msgstr ""
+
+#: views/fields.php:80
+msgid "Type"
+msgstr "Type\t"
+
+#: views/fields.php:80
+msgid "Text Field"
+msgstr "Textveld"
+
+#: views/fields.php:80
+msgid "Textarea"
+msgstr "Tekstarea"
+
+#: views/fields.php:80
+msgid "Multiple Choice: Select Box"
+msgstr "Multiple Choice: Select Dropdown"
+
+#: views/fields.php:80
+msgid "Multiple Choice: Radio Buttons"
+msgstr "Multiple Choice: Radio Knoppen"
+
+#: views/fields.php:80
+msgid "Date Field"
+msgstr "Datumveld"
+
+#: views/fields.php:80
+msgid "Checkbox"
+msgstr "Checkbox"
+
+#: views/fields.php:80
+msgid "Hidden Field"
+msgstr "Verborgen Veld"
+
+#: views/fields.php:80
+msgid "Callback Function"
+msgstr "Callback Functie"
+
+#: views/fields.php:83
+msgid "<strong>Checkbox: </strong> Option not used."
+msgstr ""
+
+#: views/fields.php:84
+msgid "<strong>Text Field:</strong> Option is not used."
+msgstr ""
+
+#: views/fields.php:85
+msgid ""
+"<strong>Multiple Choice:</strong> Separate multiple options with a comma (i."
+"e. yes,no)."
+msgstr ""
+
+#: views/fields.php:86
+msgid ""
+"<strong>Date:</strong> Option is used to determine range of available dates. "
+"Enter two years separated by commas. i.e. 2000,2015."
+msgstr ""
+
+#: views/fields.php:87
+msgid ""
+"<strong>Textarea:</strong> Option is used to determine height and width of "
+"text box. Enter dimensions width them height, separated by a comma (i.e. "
+"<em>300px,100px</em> would generate a box that is 300 pixels wide and 100 "
+"pixels tall)."
+msgstr ""
+
+#: views/fields.php:88
+msgid ""
+"<strong>Hidden Field:</strong> Option determines the value that will be "
+"passed to the hidden field."
+msgstr ""
+
+#: views/instructions.php:2
+#, fuzzy
+msgid "How to use"
+msgstr "Gebruik reCAPTCHA"
+
+#: views/instructions.php:4
+msgid ""
+"Simply navigate to the edit screen for the post or page on which you would "
+"like the form to appear and click the Registration button on the TinyMCE "
+"(shown at the right)."
+msgstr ""
+
+#: views/instructions.php:7
+#, fuzzy
+msgid "For updates please visit:"
+msgstr "Bezoek gastenboek"
+
+#: views/instructions.php:7
+msgid "Simplr Registration Form"
+msgstr "Simplr Registration Formulier"
+
+#: views/main.php:21
+msgid "Core Settings"
+msgstr "Hoofdinstellingen"
+
+#: views/main.php:25
+msgid "Redirect default signup action to this page"
+msgstr ""
+
+#: views/main.php:27
+msgid ""
+"Use this option to redirect the default WordPress wp-login.php?"
+"action=redirect action. This will not redirect your login page as a whole."
+msgstr ""
+
+#: views/main.php:43
+msgid "Redirect default profile page"
+msgstr ""
+
+#: views/main.php:46
+msgid ""
+"Use this option to force users to access only their \"front\" end profile "
+"page ... i.e. the page with the [profile_page] shortcode"
+msgstr ""
+
+#: views/main.php:53
+msgid "Custom Thank You Page"
+msgstr "Aangepaste Bedankt Pagina"
+
+#: views/main.php:56
+msgid ""
+"You can leave this field blank. The default behavior outputs a confirmation "
+"on the page which the registration shortcode is save. Use this only if you "
+"want to redirect the user elsewhere after registration."
+msgstr ""
+
+#: views/main.php:63
+msgid "Default FROM Email"
+msgstr "Standaard VAN E-mail"
+
+#: views/main.php:70
+#, fuzzy
+msgid "Disable Plugin Styles"
+msgstr "De plugin is gedeactiveerd."
+
+#: views/main.php:80
+msgid "Select a style"
+msgstr "Selecteer een stijl"
+
+#: views/main.php:88
+#, fuzzy
+msgid "Override Default Stylesheet"
+msgstr "Standaard VAN E-mail"
+
+#: views/main.php:90
+msgid ""
+"Specify a custom stylesheet. Will not apply if \"Plugin Styles\" are disabled"
+msgstr ""
+
+#: views/moderation.php:5
+#, php-format
+msgid ""
+"You've successfully registered for %%blogname%% but before your account can "
+"be used you must activate it. To activate use the link below %%link%%. "
+msgstr ""
+
+#: views/moderation.php:6
+#, php-format
+msgid "Please activate your %%blogname%% account"
+msgstr ""
+
+#: views/moderation.php:8
+#, fuzzy
+msgid "Your account was activated."
+msgstr "Gefeliciteerd! Je Account is geactiveerd."
+
+#: views/moderation.php:9
+#, fuzzy, php-format
+msgid "Your %%blogname%% account was activated."
+msgstr "Gefeliciteerd! Je Account is geactiveerd."
 
 #: views/moderation.php:23
 msgid "Settings saved"
 msgstr "Je instellingen zijn opgeslagen"
+
+#: views/moderation.php:28
+msgid "These settings allow you to enable and control moderation"
+msgstr ""
+
+#: views/moderation.php:31
+msgid "Enable Moderation?"
+msgstr "Moderatie gebruiken?"
+
+#: views/moderation.php:42
+msgid "Approval Mode"
+msgstr ""
+
+#: views/moderation.php:45
+msgid ""
+"In *automatic* mode, the user is activated/approved as soon as the "
+"activation link in the moderation email is clicked. In *manual* mode the "
+"user is only approved after a site admin has approved that account."
+msgstr ""
+
+#: views/moderation.php:46
+msgid "Automatic"
+msgstr "Automatisch"
+
+#: views/moderation.php:46
+msgid "Manual"
+msgstr "Handmatig"
+
+#: views/moderation.php:52
+msgid "Email Subject Line"
+msgstr "E-mail onderwerpregel"
+
+#: views/moderation.php:54
+#, php-format
+msgid "Welcome to %%blogname%%"
+msgstr "Welkom op %%blogname%%"
+
+#: views/moderation.php:59
+msgid "Moderation Email"
+msgstr "Modereer E-mail"
+
+#: views/moderation.php:61
+#, php-format
+msgid ""
+"You can use user submitted values in this field by wrapping them in %%. For "
+"instance to use the value of the field 'first_name' you would type 'Welcome, "
+"%%first_name%% '. Use %%link%% for the activation link. "
+msgstr ""
+
+#: views/moderation.php:62
+msgid "hello"
+msgstr "hallo"
+
+#: views/moderation.php:70
+msgid "Roles"
+msgstr "Rollen"
+
+#: views/moderation.php:72
+msgid "Which user roles can moderate new users."
+msgstr ""
+
+#: views/moderation.php:78
+msgid "Account Activated Email Subject Line"
+msgstr "Geactiveerd Account E-mail onderwerpregel"
+
+#: views/moderation.php:84
+#, fuzzy
+msgid "Account Activated Email"
+msgstr "Geactiveerd Account E-mail onderwerpregel"
