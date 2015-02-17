@@ -31,7 +31,7 @@ class SREG_Form {
 	<?php $vals = (!is_array($vals)) ? array($vals) : $vals; ?>
 	<label for="<?php echo $option['name']; ?>"><?php echo $option['label'] . show_required($option); ?></label>
 		<select name="<?php echo $option['name']; ?>" class="<?php echo @$class; ?>" <?php if(@$option['multiple']) { echo 'multiple'; } ?>>
-			<option value="">Select ... </option>
+			<option value=""><?php _e('Select ...','simplr-reg'); ?> </option>
 			<?php $options_array = (!$options_array) ? SREG_Form::helper($option['helper']) : $options_array; ?>
 			<?php foreach($options_array as $k => $v): ?>
 				<?php if(is_numeric($k)) { $k = $v; } ?>
@@ -64,7 +64,7 @@ class SREG_Form {
 	<div class="option-field page_select <?php echo apply_filters($option['name'].'_error_class',''); ?>">
 	<label for="<?php echo $option['name']; ?>"><?php echo $option['label'] . show_required($option); ?></label>
 		<select name="<?php echo $option['name']; ?>" class="<?php echo $class; ?>">
-			<option value="">Select <?php echo @$option['options']['post_type']; ?>... </option>
+			<option value=""><?php echo __('Select') . ' ' . @$option['options']['post_type']; ?>... </option>
 			<?php $posts = get_posts(array('post_type'=>$option['post_type'],'orderby'=>'post_title','order'=>'ASC','showposts'=>-1)); ?>
 			<?php foreach($posts as $post): ?>
 				<?php if(!empty($vals)) { ?><?php $sel = ($post->ID == $vals) ? 'selected' : ''; ?><?php } ?>
@@ -121,7 +121,7 @@ class SREG_Form {
 	}
 
 	static function category_select($option, $vals, $class) { ?>
-		<div class="option-field select <?php echo apply_filters($option['name'].'_error_class',''); ?>">
+	<div class="option-field select <?php echo apply_filters($option['name'].'_error_class',''); ?>">
 	<label for="<?php echo $option['name']; ?>"><?php echo $option['label'] . show_required($option); ?></label>
 		<?php
 		wp_dropdown_categories(array(
