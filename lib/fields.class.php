@@ -18,19 +18,19 @@ class SREG_Fields {
 		}
 	}
 
-function get_custom() {
-	    $obj = (object) $this->fields->custom;
-	    $fields = new stdClass;
-	    $order = get_option('simplr_field_sort');
-	    if( !empty($order) ) {
-	        foreach($order as $field) {
-						if($field != '') {
-	            $fields->$field = $obj->$field;
-						}
-	        }
-	    } else {
-	        $fields = $obj;
-	    }
+	function get_custom() {
+		$obj = (object) $this->fields->custom;
+		$fields = new stdClass;
+		$order = get_option('simplr_field_sort');
+		if( !empty($order) ) {
+			foreach($order as $field) {
+				if($field != '') {
+					$fields->$field = $obj->$field;
+				}
+			}
+		} else {
+			$fields = $obj;
+		}
 		//clean up and empty fields
 		foreach( $fields as $key => $field ) {
 			if( empty($field) ) {
@@ -38,13 +38,13 @@ function get_custom() {
 			}
 		}
 
-	    return $fields;
-    }
+		return $fields;
+	}
 
 	function save_custom($data) {
-	 	$name = sanitize_key($data['key']);
-	 	$custom = (array) $this->custom_fields;
-	 	$order = get_option('simplr_field_sort', array('first_name','last_name'));
+		$name = sanitize_key($data['key']);
+		$custom = (array) $this->custom_fields;
+		$order = get_option('simplr_field_sort', array('first_name','last_name'));
 		foreach($data as $key => $value):
 			if($key == 'options_array')
 			{
