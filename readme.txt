@@ -37,6 +37,7 @@ See plugin settings page for detailed instructions.
 = 2.2.8 =
 * Add settings link to main plugin page.
 * Fix defaults field sort (first_name and last_name should be in it).
+* Add username to activation-succes email.
 * Add translation files and load them.
 * Add nl_NL.
 

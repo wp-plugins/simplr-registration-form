@@ -8,7 +8,7 @@ backdrop = jQuery('.media-modal-backdrop');
 jQuery('#sortable').sortable();
 
 function sregCloseModal() {
-console.log('clise');
+	console.log('close simplr');
 	jQuery('.media-modal-backdrop').hide();
 	jQuery('div#reg-form').hide();
 }

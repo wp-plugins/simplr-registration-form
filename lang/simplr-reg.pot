@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-02-17 16:50+0100\n"
+"POT-Creation-Date: 2015-02-28 17:52+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -313,19 +313,19 @@ msgstr ""
 msgid "Could not activate requested user."
 msgstr ""
 
-#: simplr_reg_page.php:820
+#: simplr_reg_page.php:822
 msgid "Emails resent"
 msgstr ""
 
-#: simplr_reg_page.php:836
+#: simplr_reg_page.php:838
 msgid "Sorry, We could not find the requested account."
 msgstr ""
 
-#: simplr_reg_page.php:838
+#: simplr_reg_page.php:840
 msgid "Congratulations! Your Account was activated!"
 msgstr ""
 
-#: simplr_reg_page.php:937
+#: simplr_reg_page.php:939
 msgid ""
 "<strong>ERROR</strong>: This account has not yet been approved by the "
 "moderator"
@@ -968,7 +968,8 @@ msgid "Please activate your %%blogname%% account"
 msgstr ""
 
 #: views/moderation.php:8
-msgid "Your account was activated."
+#, php-format
+msgid "Your account was activated. Your username is %%username%%."
 msgstr ""
 
 #: views/moderation.php:9

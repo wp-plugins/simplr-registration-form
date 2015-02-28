@@ -1,13 +1,13 @@
 <?php
 $data = $_POST;
 $defaults = (object) array(
-	'mod_on'			=> 'no',
-	'mod_email'			=> __("You've successfully registered for %%blogname%% but before your account can be used you must activate it. To activate use the link below %%link%%. ",'simplr-reg'),
-	'mod_email_subj'		=> __("Please activate your %%blogname%% account",'simplr-reg'),
-	'mod_activation'		=> "auto",
-	'mod_email_activated' 		=> __("Your account was activated.",'simplr-reg'),
-	'mod_email_activated_subj' 	=> __("Your %%blogname%% account was activated.",'simplr-reg'),
-	'mod_roles'			=> array('administrator'),
+	'mod_on'                    => 'no',
+	'mod_email'                 => __("You've successfully registered for %%blogname%% but before your account can be used you must activate it. To activate use the link below %%link%%. ",'simplr-reg'),
+	'mod_email_subj'            => __("Please activate your %%blogname%% account",'simplr-reg'),
+	'mod_activation'            => "auto",
+	'mod_email_activated'       => __("Your account was activated. Your username is %%username%%.",'simplr-reg'),
+	'mod_email_activated_subj'  => __("Your %%blogname%% account was activated.",'simplr-reg'),
+	'mod_roles'                 => array('administrator'),
 );
 $simplr_reg = get_option('simplr_reg_options');
 //setup defaults

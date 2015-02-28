@@ -796,9 +796,11 @@ function simplr_activate_users( $ids = false ) {
 			if( !$return ) {
 				return new WP_Error( "error", __("Could not activate requested user.", 'simplr-reg') );
 			}
-			$data = (array) get_userdata( $id );
+			$userdata = get_userdata( $id );
+			$data = (array) $userdata;
 			$data = (array) $data['data'];
 			$data['blogname'] = get_option('blogname');
+			$data['username'] = $userdata->user_login;
 			do_action('simplr_activated_user', $data);
 			$subj = simplr_token_replace( $simplr_options->mod_email_activated_subj, $data );
 			$content = simplr_token_replace( $simplr_options->mod_email_activated, $data );
