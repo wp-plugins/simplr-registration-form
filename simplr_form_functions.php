@@ -304,8 +304,8 @@ function simplr_build_form($data,$atts) {
 	$label_email = apply_filters('simplr_label_email', __('Email Address:','simplr-reg') );
 	$label_confirm_email = apply_filters('simplr_label_confirm_email', __('Confirm Email:','simplr-reg') );
 	$label_username = apply_filters('simplr_label_username', __('Your Username:','simplr-reg') );
-	$label_pass = apply_filters('simplr_label_password', __('Choose a Password','simpr-reg'));
-	$label_confirm = apply_filters('simplr_label_confirm', __('Confirm Password','simpr-reg'));
+	$label_pass = apply_filters('simplr_label_password', __('Choose a Password','simplr-reg'));
+	$label_confirm = apply_filters('simplr_label_confirm', __('Confirm Password','simplr-reg'));
 
 	//POST FORM
 	$form = '';
