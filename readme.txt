@@ -31,6 +31,7 @@ See plugin settings page for detailed instructions.
 This plugin is licensed under the GPL.
 
 For the banners we credit:
+
 * Woman in black/yellow [Yoshiaka](http://www.freeimages.com/photo/1276430)
 * Sculptures [xxl7](http://www.freeimages.com/photo/1433708)
 * Toy Soldier [Zela](http://www.freeimages.com/photo/1418049)
