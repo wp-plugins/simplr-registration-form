@@ -46,11 +46,13 @@ For the banners we credit:
 
 = 2.2.9 =
 * 2015-03-27
+* Fix bug when no activeEditor, add to textarea#content instead.
 * Load js after html in simplr_reg_options.
 * Fix typo in MCE button.
 * Use different onclick listener, close.on() seems to break in IE11.
 * Use correct name attributes, Firefox prefers that.
 * Check capability in simplr_reg_options.
+* Add button doesn't need a href value.
 
 = 2.2.8 =
 * Add settings link to main plugin page.

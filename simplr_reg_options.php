@@ -189,7 +189,7 @@ jQuery('#sortable').sortable();
 
 function sregCloseModal() {
 	if (typeof console != "undefined") {
-		console.log('close simplr');
+		console.log('Simplr: Closing');
 	}
 	jQuery('.media-modal-backdrop').hide();
 	jQuery('div#reg-form').hide();
@@ -228,7 +228,7 @@ submit.click(function(){
 			});
 
 			if (typeof console != "undefined") {
-				console.log('simplr values: ' + vals);
+				console.log('Simplr values: ' + vals);
 			}
 			shortcode += ' fields="'+vals.join()+'"';
 		} else {
@@ -241,14 +241,23 @@ submit.click(function(){
 
 	shortcode += ']';
 
-	// inserts the shortcode into the active editor
-	tinyMCE.activeEditor.execCommand('mceInsertContent', 0, shortcode);
+	if ( tinyMCE.activeEditor == null || tinyMCE.activeEditor == 'null' ) {
+		// No active MCE editor, insert in the textarea#content
+		if (typeof console != "undefined") {
+			console.log('Simplr: No active MCE editor, appending to textarea#content.');
+		}
+		var textarea = document.getElementById( 'content' );
+		var txt = document.createTextNode( shortcode );
+		textarea.appendChild( txt );
+	} else {
+		// inserts the shortcode into the active editor
+		tinyMCE.activeEditor.execCommand('mceInsertContent', 0, shortcode);
+	}
 
 	// closes Thickbox
 	sregCloseModal();
+
 });
 </script>
-
-
 
 

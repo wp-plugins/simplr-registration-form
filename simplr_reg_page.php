@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: Simplr User Registration Form Plus
-Version: 2.2.8
+Version: 2.2.9
 Description: This a simple plugin for adding a custom user registration form to any post or page using shortcode.
 Author: Mike Van Winkle
 Author URI: http://www.mikevanwinkle.com
@@ -257,11 +257,11 @@ function simplr_reg_scripts() {
 add_action('media_buttons', 'simplr_media_button', 100);
 function simplr_media_button() {
 	wp_enqueue_script('simplr-reg', plugins_url('assets/simplr_reg.js',__FILE__), array('jquery'));
-?>
-  <a id="insert-registration-form" class="button" title="<?php esc_html_e( 'Add Registration Form', 'simplr-reg' ); ?>" data-editor="content" href="<?php echo SIMPLR_URL.'/simplr_reg_options.php?null=1'; ?>">
-    <span class="jetpack-contact-form-icon"></span> <?php esc_html_e( 'Add Registration Form', 'simplr-reg' ); ?>
-  </a>
-<?php
+	?>
+	<a id="insert-registration-form" class="button" title="<?php esc_html_e( 'Add Registration Form', 'simplr-reg' ); ?>" data-editor="content" href="#">
+		<span class="jetpack-contact-form-icon"></span> <?php esc_html_e( 'Add Registration Form', 'simplr-reg' ); ?>
+	</a>
+	<?php
 }
 
 
