@@ -4,7 +4,7 @@ Donate link: http://www.mikevanwinkle.com/
 Tags: registration, signup, profile, cms, users, user management, user profile
 Requires at least: 3.0
 Tested up to: 4.1
-Stable tag: 2.2.8
+Stable tag: 2.2.9
 
 This plugin allows users to easily add a custom user registration form anywhere on their site using simple shortcode.
 
