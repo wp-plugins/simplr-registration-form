@@ -109,8 +109,8 @@ small {
 							<label for="reg-role"><?php _e("Role", 'simplr-reg'); ?></label>
 							<small><?php _e("Specify the registration user role.", 'simplr-reg'); ?></small>
 
-							<select name="role" id="reg-role">
-								<option value=""><?php _e("Select role ...", 'simplr-reg'); ?> </option>
+							<select name="reg-role" id="reg-role">
+								<option value=""><?php _e("Select role ...", 'simplr-reg'); ?></option>
 								<?php global $wp_roles; ?>
 								<?php foreach($wp_roles->role_names as $k => $v): ?>
 									<?php if($k != 'administrator'): ?>
@@ -123,7 +123,7 @@ small {
 							<label for="reg-thanks"><?php _e("Thank You page", 'simplr-reg'); ?></label>
 							<small><?php _e("Leave blank to display message on this page.", 'simplr-reg'); ?></small>
 
-							<select class="chzn" id="reg-thanks">
+							<select class="chzn" id="reg-thanks" name="reg-thanks">
 								<option value=""><?php _e("Select", 'simplr-reg'); ?></option>
 								<?php foreach($pages as $page): ?>
 									<option value="<?php echo $page->ID; ?>"><?php echo $page->post_title; ?></option>
@@ -131,24 +131,24 @@ small {
 							</select>
 						</div>
 						<div class="sreg-form-item">
-							<label for="reg-role"><?php _e("Message", 'simplr-reg'); ?></label>
+							<label for="reg-message"><?php _e("Message", 'simplr-reg'); ?></label>
 							<small><?php _e("Confirmation for registered users.", 'simplr-reg'); ?></small>
-							<textarea id="reg-message" name="message" rows=10></textarea><br/>
+							<textarea id="reg-message" name="reg-message" rows="10"></textarea><br/>
 						</div>
 					</div><!--.column-->
 					<div class="column">
 						<div class="sreg-form-item">
-							<label for="reg-role"><?php _e("Notifications", 'simplr-reg'); ?></label>
+							<label for="reg-notify"><?php _e("Notifications", 'simplr-reg'); ?></label>
 							<small><?php _e("Notify these emails.", 'simplr-reg'); ?></small>
 
-							<input type="text" id="reg-notify" name="notify" value=""></input>
+							<input type="text" id="reg-notify" name="reg-notify" value=""></input>
 						</div>
 
 						<div class="sreg-form-item">
 							<label for="reg-password"><?php _e("Password", 'simplr-reg'); ?></label>
 
 							<small><?php _e("Select \"yes\" to allow users to set their password.", 'simplr-reg'); ?></small>
-							<select id="reg-password" name="password">
+							<select id="reg-password" name="reg-password">
 								<option value="no"><?php _e("No", 'simplr-reg'); ?></option>
 								<option value="yes"><?php _e("Yes", 'simplr-reg'); ?></option>
 							</select>
@@ -161,18 +161,18 @@ small {
 							Enter a comma-separated list of fields you would like to include in this form. Below are the available fields. <br/> <strong>Fields:</strong><br/>-->
 							<?php $list = new SREG_Fields(); ?>
 							<div id="sortable">
-							<?php foreach($list->custom_fields as $field):
-								echo '<div class="item"><input type="checkbox" name="cfield" value="1" rel="'.$field['key'].'"> '. $field['label'] . ' ( <em>'.$field['key'].'</em> )<br/></div>';
-							endforeach; ?>
+								<?php foreach($list->custom_fields as $field):
+									echo '<div class="item"><input type="checkbox" name="cfield" value="1" rel="'.$field['key'].'"> '. $field['label'] . ' ( <em>'.$field['key'].'</em> )<br/></div>';
+								endforeach; ?>
+							</div>
 						</div>
-					</div>
-				</div><!--.column-->
-			</div><!--.column-wrap-->
-		</div><!--.media-frame-content-->
-		<div class="media-frame-toolbar">
-			<input type="submit" id="reg-submit" class="button-primary" value="<?php _e("Insert Registration Form", 'simplr-reg'); ?>" name="submit" />
-		</div>
-	</div><!--.media-frame-->
+					</div><!--.column-->
+				</div><!--.column-wrap-->
+			</div><!--.media-frame-content-->
+			<div class="media-frame-toolbar">
+				<input type="submit" id="reg-submit" class="button-primary" value="<?php _e("Insert Registration Form", 'simplr-reg'); ?>" name="submit" />
+			</div>
+		</div><!--.media-frame-->
 	</div><!--.media-modal-content-->
 </div><!--.media-modal-->
 </div><!--#reg-form-->

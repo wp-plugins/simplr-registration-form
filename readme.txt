@@ -49,6 +49,7 @@ For the banners we credit:
 * Load js after html in simplr_reg_options.
 * Fix typo in MCE button.
 * Use different onclick listener, close.on() seems to break in IE11.
+* Use correct name attributes, Firefox prefers that.
 * Check capability in simplr_reg_options.
 
 = 2.2.8 =
