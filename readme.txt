@@ -44,6 +44,13 @@ For the banners we credit:
 
 == Changelog ==
 
+= 2.2.9 =
+* 2015-03-27
+* Load js after html in simplr_reg_options.
+* Fix typo in MCE button.
+* Use different onclick listener, close.on() seems to break in IE11.
+* Check capability in simplr_reg_options.
+
 = 2.2.8 =
 * Add settings link to main plugin page.
 * Fix default field sort (first_name and last_name should be in it).

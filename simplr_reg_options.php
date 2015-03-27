@@ -1,68 +1,24 @@
-<script>
-jQuery.noConflict();
-form = jQuery('#reg-form');
-submit = jQuery('input#reg-submit');
-table = jQuery('#reg-form');
-close = jQuery('.media-modal-close,.media-modal-icon');
-backdrop = jQuery('.media-modal-backdrop');
-jQuery('#sortable').sortable();
-
-function sregCloseModal() {
-	console.log('close simplr');
-	jQuery('.media-modal-backdrop').hide();
-	jQuery('div#reg-form').hide();
-}
-
-close.on('click', function() { sregCloseModal(); });
-
-form.hide();
-// handles the click event of the submit button
-submit.click(function(){
-	// defines the options and their default values
-	// again, this is not the most elegant way to do this
-	// but well, this gets the job done nonetheless
-	var options = {
-		'role'    : 'subscriber',
-		'message' : '',
-		'notify' : '',
-		'password' : 'no',
-		'thanks'	: '',
-		'fields': ''
-		};
-	var shortcode = '[register';
-
-	for( var index in options) {
-		if(index == 'fields') {
-
-				//set cfields
-				var vals = new Array();
-				jQuery('input[name="cfield"]:checked').each(function(i,obj) {
-						vals[i] = jQuery(obj).attr('rel');
-				});
-				console.log(vals);
-				shortcode += ' fields="'+vals.join()+'"';
-		} else {
- 			var value = table.find('#reg-' + index).val();
-			if ( value !== options[index]) {
-				shortcode += ' ' + index + '="' + value + '"';
-			}
-		}
-	}
-
-	shortcode += ']';
-
-	// inserts the shortcode into the active editor
-	tinyMCE.activeEditor.execCommand('mceInsertContent', 0, shortcode);
-	// closes Thickbox
-	sregCloseModal();
-});
-</script>
 <?php
+
 $wp_load = '../../../wp-load.php';
 $wp_load = (!file_exists($wp_load)) ? rtrim( ABSPATH , '/' ) . 'wp-load.php' : $wp_load;
 require_once($wp_load);
+
+// Only logged in users with the right capability get this thing
+if ( function_exists('current_user_can') && !current_user_can('edit_posts') ) {
+	?>
+	<script>
+	if (typeof console != "undefined") {
+		console.log('Simplr: No permission to edit posts!');
+	}
+	</script>
+	<?php
+	return;
+}
+
 $pages = get_pages();
 ?>
+
 <style>
 .column-wrap {
 	background:#f7f7f7;
@@ -109,14 +65,14 @@ $pages = get_pages();
 }
 
 #sortable .item {
-        background: #f7f7f7;
-        border:1px solid #ccc;
-        padding: 5px;
-        margin: 5px;
+	background: #f7f7f7;
+	border:1px solid #ccc;
+	padding: 5px;
+	margin: 5px;
 }
 
 #sortable .item:hover {
-        cursor:move;
+	cursor:move;
 }
 
 #sortable .item input {
@@ -152,12 +108,13 @@ small {
 						<div class="sreg-form-item">
 							<label for="reg-role"><?php _e("Role", 'simplr-reg'); ?></label>
 							<small><?php _e("Specify the registration user role.", 'simplr-reg'); ?></small>
+
 							<select name="role" id="reg-role">
 								<option value=""><?php _e("Select role ...", 'simplr-reg'); ?> </option>
 								<?php global $wp_roles; ?>
 								<?php foreach($wp_roles->role_names as $k => $v): ?>
 									<?php if($k != 'administrator'): ?>
-									<option value="<?php echo $k; ?>" <?php if($k == 'subscriber') { echo 'selected'; } ?>><?php echo $v; ?></option>
+										<option value="<?php echo $k; ?>" <?php if($k == 'subscriber') { echo 'selected'; } ?>><?php echo $v; ?></option>
 									<?php endif; ?>
 								<?php endforeach; ?>
 							</select>
@@ -168,7 +125,7 @@ small {
 
 							<select class="chzn" id="reg-thanks">
 								<option value=""><?php _e("Select", 'simplr-reg'); ?></option>
-									<?php foreach($pages as $page): ?>
+								<?php foreach($pages as $page): ?>
 									<option value="<?php echo $page->ID; ?>"><?php echo $page->post_title; ?></option>
 								<?php endforeach; ?>
 							</select>
@@ -178,8 +135,8 @@ small {
 							<small><?php _e("Confirmation for registered users.", 'simplr-reg'); ?></small>
 							<textarea id="reg-message" name="message" rows=10></textarea><br/>
 						</div>
-				</div><!--.column-->
-				<div class="column">
+					</div><!--.column-->
+					<div class="column">
 						<div class="sreg-form-item">
 							<label for="reg-role"><?php _e("Notifications", 'simplr-reg'); ?></label>
 							<small><?php _e("Notify these emails.", 'simplr-reg'); ?></small>
@@ -193,20 +150,20 @@ small {
 							<small><?php _e("Select \"yes\" to allow users to set their password.", 'simplr-reg'); ?></small>
 							<select id="reg-password" name="password">
 								<option value="no"><?php _e("No", 'simplr-reg'); ?></option>
-							<option value="yes"><?php _e("Yes", 'simplr-reg'); ?></option>
+								<option value="yes"><?php _e("Yes", 'simplr-reg'); ?></option>
 							</select>
 						</div>
 
-					<div class="sreg-form-item">
-						<h4><?php _e("Custom Fields", 'simplr-reg'); ?></h4>
+						<div class="sreg-form-item">
+							<h4><?php _e("Custom Fields", 'simplr-reg'); ?></h4>
 
-						<!--<input id="fields" name="fields" class="fields" type="text" value="" /><br/>
-						Enter a comma-separated list of fields you would like to include in this form. Below are the available fields. <br/> <strong>Fields:</strong><br/>-->
-						<?php $list = new SREG_Fields(); ?>
-						<div id="sortable">
-						<?php foreach($list->custom_fields as $field):
-							echo '<div class="item"><input type="checkbox" name="cfield" value="1" rel="'.$field['key'].'"> '. $field['label'] . ' ( <em>'.$field['key'].'</em> )<br/></div>';
-						endforeach; ?>
+							<!--<input id="fields" name="fields" class="fields" type="text" value="" /><br/>
+							Enter a comma-separated list of fields you would like to include in this form. Below are the available fields. <br/> <strong>Fields:</strong><br/>-->
+							<?php $list = new SREG_Fields(); ?>
+							<div id="sortable">
+							<?php foreach($list->custom_fields as $field):
+								echo '<div class="item"><input type="checkbox" name="cfield" value="1" rel="'.$field['key'].'"> '. $field['label'] . ' ( <em>'.$field['key'].'</em> )<br/></div>';
+							endforeach; ?>
 						</div>
 					</div>
 				</div><!--.column-->
@@ -219,3 +176,79 @@ small {
 	</div><!--.media-modal-content-->
 </div><!--.media-modal-->
 </div><!--#reg-form-->
+
+
+<script>
+jQuery.noConflict();
+form     = jQuery('#reg-form');
+submit   = jQuery('input#reg-submit');
+table    = jQuery('#reg-form');
+backdrop = jQuery('.media-modal-backdrop');
+
+jQuery('#sortable').sortable();
+
+function sregCloseModal() {
+	if (typeof console != "undefined") {
+		console.log('close simplr');
+	}
+	jQuery('.media-modal-backdrop').hide();
+	jQuery('div#reg-form').hide();
+}
+
+/* Writing it like close.on() breaks in IE11. */
+jQuery('.media-modal-close .media-modal-icon').click(function() {
+	sregCloseModal();
+});
+
+// Hide it initially
+form.hide();
+
+// handles the click event of the submit button
+submit.click(function(){
+	// defines the options and their default values
+	// again, this is not the most elegant way to do this
+	// but well, this gets the job done nonetheless
+	var options = {
+		'role'    : 'subscriber',
+		'message' : '',
+		'notify'  : '',
+		'password': 'no',
+		'thanks'  : '',
+		'fields'  : ''
+		};
+	var shortcode = '[register';
+
+	for( var index in options) {
+		if(index == 'fields') {
+
+			//set cfields
+			var vals = new Array();
+			jQuery('input[name="cfield"]:checked').each(function(i,obj) {
+				vals[i] = jQuery(obj).attr('rel');
+			});
+
+			if (typeof console != "undefined") {
+				console.log('simplr values: ' + vals);
+			}
+			shortcode += ' fields="'+vals.join()+'"';
+		} else {
+			var value = table.find('#reg-' + index).val();
+			if ( value !== options[index]) {
+				shortcode += ' ' + index + '="' + value + '"';
+			}
+		}
+	}
+
+	shortcode += ']';
+
+	// inserts the shortcode into the active editor
+	tinyMCE.activeEditor.execCommand('mceInsertContent', 0, shortcode);
+
+	// closes Thickbox
+	sregCloseModal();
+});
+</script>
+
+
+
+
