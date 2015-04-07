@@ -66,8 +66,9 @@ class SREG_Form {
 		<select name="<?php echo $option['name']; ?>" class="<?php echo $class; ?>">
 			<option value=""><?php echo __('Select') . ' ' . @$option['options']['post_type']; ?>... </option>
 			<?php $posts = get_posts(array('post_type'=>$option['post_type'],'orderby'=>'post_title','order'=>'ASC','showposts'=>-1)); ?>
-			<?php foreach($posts as $post): ?>
-				<?php if(!empty($vals)) { ?><?php $sel = ($post->ID == $vals) ? 'selected' : ''; ?><?php } ?>
+			<?php foreach($posts as $post):
+				$sel = '';
+				if(!empty($vals)) { $sel = ($post->ID == $vals) ? 'selected' : ''; } ?>
 				<option value="<?php echo $post->ID; ?>" <?php echo $sel; ?>><?php echo $post->post_title; ?></option>
 			<?php endforeach; ?>
 		</select>

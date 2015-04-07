@@ -24,7 +24,7 @@ if(isset($data['mod-submit'])) {
 }
 ?>
 <form id="add-field" action="" method="post">
-<h3><?php _e('Moderation','simplr-reg'); ?>"</h3>
+<h3><?php _e('Moderation','simplr-reg'); ?></h3>
 <p><?php _e('These settings allow you to enable and control moderation','simplr-reg'); ?><p>
 <?php SREG_Form::select(array(
 	'name'		=> 'mod_on',

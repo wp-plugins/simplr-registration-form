@@ -40,15 +40,15 @@ class SREG_Fields_Table extends SREG_Fields {
 					<th scope='col' id='cb' class='manage-column column-cb check-column'>
 						<input type="checkbox" id="delete-all" />
 					</th>
-					<?php foreach($this->cols as $col): $col = (object) $col; ?>
 					<?php
+					$sort = 'desc';
 					if(isset($_GET['order'])):
 						$sort = ($_GET['order'] == 'asc') ? 'desc' : 'asc';
 					endif;
-					?>
-					<th scope='col' id='<?php echo $col->key; ?>' class='manage-column column-title sortable <?php echo $sort; ?>'>
-						<?php echo $col->label; ?>
-					</th>
+					foreach($this->cols as $col): $col = (object) $col; ?>
+						<th scope='col' id='<?php echo $col->name; ?>' class='manage-column column-title sortable <?php echo $sort; ?>'>
+							<?php echo $col->label; ?>
+						</th>
 					<?php endforeach; ?>
 					<th scope="col" id="action" class="action-column" style=""><?php _e('Action','simplr-reg'); ?></th>
 				</tr>

@@ -19,6 +19,17 @@ if(isset($data['main-submit'])) {
 		$simplr_reg->fb_auto_register = @$data['fb_auto_register'];
 		update_option('simplr_reg_options',$simplr_reg);
 }
+// Fix Notices
+if ( !isset($simplr_reg->recap_public) )     { $simplr_reg->recap_public = ''; }
+if ( !isset($simplr_reg->recap_private) )    { $simplr_reg->recap_private = ''; }
+if ( !isset($simplr_reg->recap_on) )         { $simplr_reg->recap_on = 'no'; }
+if ( !isset($simplr_reg->fb_connect_on) )    { $simplr_reg->fb_connect_on = 'no'; }
+if ( !isset($simplr_reg->fb_app_id) )        { $simplr_reg->fb_app_id = ''; }
+if ( !isset($simplr_reg->fb_app_secret) )    { $simplr_reg->fb_app_secret = ''; }
+if ( !isset($simplr_reg->fb_request_perms) ) { $simplr_reg->fb_request_perms = ''; }
+if ( !isset($simplr_reg->fb_login_allow) )   { $simplr_reg->fb_login_allow = 'no'; }
+if ( !isset($simplr_reg->fb_auto_register) ) { $simplr_reg->fb_auto_register = 0; }
+if ( !isset($simplr_reg->fb_login_redirect) ){ $simplr_reg->fb_login_redirect = ''; }
 ?>
 <form action="?page=simplr_reg_set&regview=api" method="post" id="add-field">
 <h3><?php _e('reCAPTCHA','simplr-reg'); ?></h3>

@@ -47,7 +47,7 @@ For the banners we credit:
 = 2.3.0 =
 * 2015-04-
 * Make notices (messages) dismissable in WP 4.2.
-
+* Fix PHP warnings and notices.
 
 = 2.2.9 =
 * 2015-03-27

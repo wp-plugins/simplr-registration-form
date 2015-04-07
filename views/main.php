@@ -58,12 +58,17 @@ if(isset($data['main-submit'])) {
 		'wide chzn',''
 	);
 
+	if ( is_object($simplr_reg) && isset($simplr_reg->default_email ) ) {
+		$default_email = $simplr_reg->default_email;
+	} else {
+		$default_email = get_option('admin_email');
+	}
 	SREG_Form::text(array(
 		'name'=>'default_email',
 		'label'=>__('Default FROM Email','simplr-reg'),
 		'required'=>false
 	),
-	$simplr_reg->default_email?$simplr_reg->default_email:get_option('admin_email'), 'wide'
+	$default_email, 'wide'
 	);
 	SREG_Form::radio(array(
 		'name'=>'styles',
@@ -73,25 +78,25 @@ if(isset($data['main-submit'])) {
 		), @$simplr_reg->styles, '',
 		array('yes'=>'Yes','no'=>'No')
 	);
-if( $simplr_reg->styles != 'yes' ):
 
-	SREG_Form::select(array(
-		'name'=>'style_skin',
-		'label'	=> __('Select a style','simplr-reg'),
-		'required'	=> 'no',
-		'default'	=> 'default.css',
-		'helper'	=> 'skins'),
-		@$simplr_reg->style_skin, '', '');
+	if( isset($simplr_reg->styles) && $simplr_reg->styles != 'yes' ):
+		SREG_Form::select(array(
+			'name'=>'style_skin',
+			'label'	=> __('Select a style','simplr-reg'),
+			'required'	=> 'no',
+			'default'	=> 'default.css',
+			'helper'	=> 'skins'),
+			@$simplr_reg->style_skin, '', '');
 
-	SREG_Form::text(array(
-		'name'=>'stylesheet',
-		'label'=>__('Override Default Stylesheet','simplr-reg'),
-		'required'=>false,
-		'comment'=>__('Specify a custom stylesheet. Will not apply if "Plugin Styles" are disabled','simplr-reg')
-	),
-	@$simplr_reg->stylesheet, 'wide'
-	);
-endif;
+		SREG_Form::text(array(
+			'name'=>'stylesheet',
+			'label'=>__('Override Default Stylesheet','simplr-reg'),
+			'required'=>false,
+			'comment'=>__('Specify a custom stylesheet. Will not apply if "Plugin Styles" are disabled','simplr-reg')
+		),
+		@$simplr_reg->stylesheet, 'wide'
+		);
+	endif;
 	/*Deprecated: All registration forms now have custom messages.
 	SREG_Form::textarea(array(
 		'name'=>'email_message',
