@@ -20,7 +20,7 @@ if(isset($data['mod-submit'])) {
 		$simplr_reg->$k = $v ? $v : $defaults->$k;
 	}
 	update_option('simplr_reg_options', $simplr_reg);
-	echo '<div id="message" class="updated alert message"><p>'.__("Settings saved",'simplr-reg').'</p></div>';
+	echo '<div id="message" class="updated notice is-dismissible alert message"><p>'.__("Settings saved",'simplr-reg').'</p></div>';
 }
 ?>
 <form id="add-field" action="" method="post">

@@ -44,6 +44,11 @@ For the banners we credit:
 
 == Changelog ==
 
+= 2.3.0 =
+* 2015-04-
+* Make notices (messages) dismissable in WP 4.2.
+
+
 = 2.2.9 =
 * 2015-03-27
 * Fix bug when no activeEditor, add to textarea#content instead.

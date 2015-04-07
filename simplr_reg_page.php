@@ -642,6 +642,9 @@ function simplr_save_sort() {
 	if(isset($sort) and $page = 'simple_reg_set') {
 		update_option('simplr_field_sort',$sort);
 	}
+	// debugging code as the response.
+	echo "php sort: ";
+	print_r($sort);
 	die;
 }
 
@@ -721,7 +724,7 @@ function simplr_admin_actions() {
 				$simplr_reg->fb_request_perms = @$data['fb_request_perms'];
 				$simplr_reg->fb_auto_register = @$data['fb_auto_register'];
 				update_option('simplr_reg_options',$simplr_reg);
-				simplr_set_message('updated', __("Your settings were saved.", 'simplr-reg') );
+				simplr_set_message('updated notice is-dismissible', __("Your settings were saved.", 'simplr-reg') );
 				wp_redirect($_SERVER['REQUEST_URI']);
 		}
 
@@ -738,7 +741,7 @@ function simplr_admin_actions() {
 			$simplr_reg->thank_you = $data['thank_you'];
 			$simplr_reg->profile_redirect = $data['profile_redirect'];
 			update_option('simplr_reg_options',$simplr_reg);
-			simplr_set_message('updated', __("Your settings were saved.", 'simplr-reg') );
+			simplr_set_message('updated notice is-dismissible', __("Your settings were saved.", 'simplr-reg') );
 			wp_redirect($_SERVER['REQUEST_URI']);
 
 		}
@@ -749,7 +752,7 @@ function simplr_admin_actions() {
 			if( !check_admin_referer('delete','_wpnonce') ) { wp_die('Death to hackers'); }
 			$del = new SREG_Fields();
 			$del->delete_field($_GET['key']);
-			simplr_set_message('updated', __("Field deleted.", 'simplr-reg') );
+			simplr_set_message('updated notice is-dismissible', __("Field deleted.", 'simplr-reg') );
 			wp_redirect(remove_query_arg('action'));
 
 		} elseif(isset($_POST['mass-submit'])) {
@@ -759,7 +762,7 @@ function simplr_admin_actions() {
 				$del = new SREG_Fields();
 				$del->delete_field($key);
 			endforeach;
-			simplr_set_message('updated', __("Fields were deleted.", 'simplr-reg') );
+			simplr_set_message('updated notice is-dismissible', __("Fields were deleted.", 'simplr-reg') );
 			wp_redirect(remove_query_arg('action'));
 
 		}
@@ -769,7 +772,7 @@ function simplr_admin_actions() {
 			$new = new SREG_Fields();
 			$key = $_POST['key'];
 			$response = $new->save_custom($_POST);
-			simplr_set_message('updated', __("Your Field was saved.", 'simplr-reg') );
+			simplr_set_message('updated notice is-dismissible', __("Your Field was saved.", 'simplr-reg') );
 			wp_redirect(remove_query_arg('action'));
 
 		}
@@ -844,7 +847,7 @@ function simplr_activation_listen() {
 
 
 function simplr_set_notice( $class, $message ) {
-	add_action( "admin_notices" , create_function('',"echo '<div class=\"updated $class\"><p>$message</p></div>';") );
+	add_action( "admin_notices" , create_function('',"echo '<div class=\"updated notice is-dismissible $class\"><p>$message</p></div>';") );
 }
 
 /**

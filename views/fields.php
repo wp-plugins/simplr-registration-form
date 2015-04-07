@@ -25,7 +25,11 @@
 			jQuery('table#fields-table tbody#the-list tr').each(function(i) {
 				sort[i] = jQuery(this).find('.key').text();
 			});
-			jQuery.post(ajaxurl,{action:'simplr-save-sort',sort:sort});
+			jQuery.post(ajaxurl,{action:'simplr-save-sort',sort:sort},function(response){
+				//console.log('response: ' + response);
+			}
+			);
+			//console.log(sort);
 			jQuery('.ajaxloading').toggle();
 		}
 
