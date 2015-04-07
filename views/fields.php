@@ -56,6 +56,8 @@ if(@$_GET['action'] == 'edit' OR @$_GET['action'] == 'add') {
 	if($_GET['action'] == 'edit') {
 		$field = new SREG_Fields();
 		$field = (object) $field->custom_fields->{$_GET['key']};
+	} else if($_GET['action'] == 'add') {
+		$field = new SREG_Fields();
 	}
 	?>
 	<script>
