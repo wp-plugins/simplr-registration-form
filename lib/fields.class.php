@@ -70,7 +70,7 @@ class SREG_Fields {
 
 	function delete_field($key) {
 		$custom = (array) $this->custom_fields;
-		$order = get_option('simplr_field_sort');
+		$order = get_option('simplr_field_sort', array('first_name','last_name'));
 		unset($custom[$key]);
 		unset($order[array_search($key,$order)]);
 		update_option('simplr_field_sort',$order);
