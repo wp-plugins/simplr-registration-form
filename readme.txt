@@ -3,7 +3,7 @@ Contributors: mpvanwinkle77, mpol
 Donate link: http://www.mikevanwinkle.com/
 Tags: registration, signup, profile, cms, users, user management, user profile
 Requires at least: 3.0
-Tested up to: 4.1
+Tested up to: 4.2
 Stable tag: 2.2.9
 
 This plugin allows users to easily add a custom user registration form anywhere on their site using simple shortcode.
@@ -26,6 +26,15 @@ The plugin also creates an interface for adding/removing fields to be used in th
 
 See plugin settings page for detailed instructions.
 
+= When I click the Add Registration Form button, nothing happens. =
+
+It is likely that you have Javascript errors in your website.
+You can open the inspector of your browser, and check your messages in the console tab.
+
+= I added a Date field, but I don't see any years. =
+
+When you edit the field, you can give options along for the years, like '2000,2015'.
+
 = License =
 
 This plugin is licensed under the GPL.
@@ -45,7 +54,7 @@ For the banners we credit:
 == Changelog ==
 
 = 2.3.0 =
-* 2015-04-
+* 2015-04-07
 * Make notices (messages) dismissable in WP 4.2.
 * Fix PHP warnings and notices.
 
