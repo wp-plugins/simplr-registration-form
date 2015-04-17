@@ -10,10 +10,13 @@ $defaults = (object) array(
 	'mod_roles'                 => array('administrator'),
 );
 $simplr_reg = get_option('simplr_reg_options');
+
+if (!is_object($simplr_reg)) $simplr_reg = new stdClass;
 //setup defaults
 foreach($defaults as $k => $v ) {
-	$simplr_reg->$k = $simplr_reg->$k ? $simplr_reg->$k : $defaults->$k;
+	$simplr_reg->$k = isset($simplr_reg->$k) ? $simplr_reg->$k : $defaults->$k;
 }
+
 if(isset($data['mod-submit'])) {
 	if(!wp_verify_nonce(-1, $data['reg-mod']) && !current_user_can('manage_options')){ wp_die('Death to hackers!');}
 	foreach($data as $k => $v) {

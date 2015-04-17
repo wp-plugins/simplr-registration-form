@@ -53,6 +53,10 @@ For the banners we credit:
 
 == Changelog ==
 
+= 2.3.1 =
+* 2015-04-17
+* Fix more notices (thanks dvdm).
+
 = 2.3.0 =
 * 2015-04-07
 * Make notices (messages) dismissable in WP 4.2.
