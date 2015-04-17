@@ -53,6 +53,11 @@ For the banners we credit:
 
 == Changelog ==
 
+= 2.3.2 =
+* 2015-04-17
+* Have defaults for years in date dropdown.
+* Fix even more notices (thanks dvdm).
+
 = 2.3.1 =
 * 2015-04-17
 * Fix more notices (thanks dvdm).

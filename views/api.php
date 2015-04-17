@@ -19,7 +19,8 @@ if(isset($data['main-submit'])) {
 		$simplr_reg->fb_auto_register = @$data['fb_auto_register'];
 		update_option('simplr_reg_options',$simplr_reg);
 }
-// Fix Notices
+// Fix Notices and set some defaults.
+if (!is_object($simplr_reg)) $simplr_reg = new stdClass;
 if ( !isset($simplr_reg->recap_public) )     { $simplr_reg->recap_public = ''; }
 if ( !isset($simplr_reg->recap_private) )    { $simplr_reg->recap_private = ''; }
 if ( !isset($simplr_reg->recap_on) )         { $simplr_reg->recap_on = 'no'; }

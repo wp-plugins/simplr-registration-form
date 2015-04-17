@@ -358,7 +358,7 @@ function simplr_build_form($data,$atts) {
 			}
 
 			// do field
-			if($cf['type'] != '') {
+			if($cf['type'] != '' && isset($cf['options_array'])) {
 				SREG_Form::$cf['type']($args, @esc_attr($key_val), '', $cf['options_array']);
 			}
 

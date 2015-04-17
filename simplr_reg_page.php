@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: Simplr User Registration Form Plus
-Version: 2.3.1
+Version: 2.3.2
 Description: This a simple plugin for adding a custom user registration form to any post or page using shortcode.
 Author: Mike Van Winkle
 Author URI: http://www.mikevanwinkle.com
@@ -144,7 +144,7 @@ function simplr_fields_settings_process($input) {
 
 function simplr_reg_styles() {
 	$options = get_option('simplr_reg_options');
-	if($options->styles != 'yes') {
+	if( is_object($options) && isset($options->styles) && $options->styles != 'yes') {
 		if( @$options->style_skin ) {
 			$src = SIMPLR_URL .'/assets/skins/'.$options->style_skin;
 		} else {
@@ -152,10 +152,13 @@ function simplr_reg_styles() {
 		}
 		wp_register_style('simplr-forms-style',$src);
 		wp_enqueue_style('simplr-forms-style');
-	} elseif(!empty($options->stylesheet)) {
+	} elseif(is_object($options) || !empty($options->stylesheet)) {
 		$src = $options->stylesheet;
 		wp_register_style('simplr-forms-custom-style',$src);
 		wp_enqueue_style('simplr-forms-custom-style');
+	} else {
+		wp_register_style('simplr-forms-style', SIMPLR_URL .'/assets/skins/default.css');
+		wp_enqueue_style('simplr-forms-style');
 	}
 }
 
@@ -618,7 +621,9 @@ function simplr_register_redirect() {
 
 function simplr_profile_redirect() {
 	global $simplr_options,$wpdb;
-	$profile = $wpdb->get_var($wpdb->prepare("SELECT post_name FROM {$wpdb->prefix}posts WHERE ID = %d",$simplr_options->profile_redirect));
+	if ( is_object($simplr_options) &&  isset($simplr_options->profile_redirect) ) {
+		$profile = $wpdb->get_var($wpdb->prepare("SELECT post_name FROM {$wpdb->prefix}posts WHERE ID = %d",$simplr_options->profile_redirect));
+	}
 	$file = parse_url($_SERVER['REQUEST_URI']);
 	$path = explode('/',@$file['path']);
 	if(isset($profile) AND end($path) == $profile) {
