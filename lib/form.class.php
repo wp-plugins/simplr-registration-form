@@ -162,9 +162,10 @@ class SREG_Form {
 		$list = $vals;
 		if(!empty($list)) {
 			$list = explode('-',$list);
-			$lmo = $list[1];
-			$ldy = $list[2];
-			$lyr = $list[0];
+			if ( isset($list[1]) ) { $lmo = $list[1]; } else { $lmo = ''; };
+			if ( isset($list[2]) ) { $ldy = $list[2]; } else { $ldy = ''; };
+			if ( isset($list[0]) ) { $lyr = $list[0]; } else { $lyr = ''; };
+
 		}
 		$years = $options_array;
 		if ( !is_array($years) || empty($years) || empty($years[0]) ) {

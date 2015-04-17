@@ -127,14 +127,16 @@ function sreg_process_form($atts) {
 
 function simplr_setup_user($atts,$data) {
 	//check options
-	global $simplr_options;
+	global $simplr_options, $wp_version;
 	$custom = new SREG_Fields();
 	$admin_email = @$atts['from'];
 	$emessage = @$atts['message'];
 	$role = @$atts['role'];
 		if('' == $role) { $role = 'subscriber'; }
 		if('administrator' == $role) { wp_die('Do not use this form to register administrators'); }
-	require_once(ABSPATH . WPINC . '/registration.php' );
+	if ( version_compare($wp_version, "3.1", "<" ) ) {
+		require_once(ABSPATH . WPINC . '/registration.php' );
+	}
 	require_once(ABSPATH . WPINC . '/pluggable.php' );
 
 	//Assign POST variables
@@ -180,7 +182,7 @@ function simplr_setup_user($atts,$data) {
 	}
 
 	//set users status if this is a moderated user
-	if( $simplr_options->mod_on == 'yes' ) {
+	if( is_object($simplr_options) && isset($simplr_options->mod_on) && $simplr_options->mod_on == 'yes' ) {
 		$user_status = 2;
 		$user_activation_key = $data['activation_key'] = md5( @constant('AUTH_SALT') . $user_email . rand() );
 		global $wpdb;
@@ -279,7 +281,8 @@ function simplr_token_replace( $content, $data ) {
 	global $blog_id;
 	foreach( $data as $k => $v ) {
 		if( is_array($v) OR is_object($v) ) simplr_token_replace( $content, (array) $v );
-		$content = str_replace( "%%{$k}%%" , $v, $content );
+		if ( !is_array($v) )
+			$content = str_replace( "%%{$k}%%" , $v, $content );
 	}
 	return $content;
 }
@@ -457,10 +460,10 @@ function sreg_basic($atts) {
 			return $sreg->output;
 		} elseif( isset($sreg->errors) AND is_array($sreg->errors)) {
 			foreach($sreg->errors as $mes) {
-		        	$out .= '<div class="simplr-message error">'.$mes .'</div>';
-	        	}
+				$out .= '<div class="simplr-message error">'.$mes .'</div>';
+			}
 		} elseif(is_string($sreg->errors)) {
-	        	$out = '<div class="simplr-message error">'.$message .'</div>';
+			$out = '<div class="simplr-message error">'.$message .'</div>';
 		}
 		return $out.simplr_build_form($_POST,$atts);
 
@@ -478,7 +481,7 @@ function simplr_process_form() {
 
 		if(empty($sreg->errors))
 		{
-			if($simplr_options->fb_connect_on AND !empty($_POST['fbuser_id']) ) {
+			if( ( is_object($simplr_options) && isset($simplr_options->fb_connect_on) ) AND !empty($_POST['fbuser_id']) ) {
 				simplr_fb_auto_login();
 			} elseif(!empty($atts['thanks'])) {
 				$page = get_permalink($atts['thanks']);

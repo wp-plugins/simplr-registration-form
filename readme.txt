@@ -53,6 +53,11 @@ For the banners we credit:
 
 == Changelog ==
 
+= 2.3.3 =
+* 2015-04-17
+* Don't include registration.php on current WordPress.
+* And even more fixes...
+
 = 2.3.2 =
 * 2015-04-17
 * Have defaults for years in date dropdown.
