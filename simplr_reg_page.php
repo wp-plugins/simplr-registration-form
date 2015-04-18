@@ -352,7 +352,7 @@ function simplr_fb_auto_login() {
 		if(isset($user) && (@$_REQUEST['loggedout'] == 'true' OR @$_REQUEST['action'] == 'logout')) {
 			wp_redirect($facebook->getLogoutUrl(array('next'=>get_bloginfo('url'))));
 		} elseif(isset($user) AND !is_wp_error($auth) ) {
-	    wp_set_current_user($auth->ID, $auth->user_login);
+			wp_set_current_user($auth->ID, $auth->user_login);
 			wp_set_auth_cookie($auth->ID);
 			if(isset($simplr_options->thank_you) AND !is_page($simplr_options->thank_you)  ) {
 				update_user_meta($auth->ID,'first_visit',date('Y-m-d'));
@@ -485,26 +485,26 @@ function simplr_fb_login_footer_scripts() {
 		<div id="fb-root"></div>
 		<script>
 		window.fbAsyncInit = function() {
-		  FB.init({
-		    appId  : '<?php echo $ap_info['appId']; ?>',
-		    status : true, // check login status
-		    cookie : <?php echo $ap_info['cookie']; ?>, // enable cookies to allow the server to access the session
-		    xfbml  : true,  // parse XFBML
-		    oauth : true //enables OAuth 2.0
-		  });
+			FB.init({
+				appId  : '<?php echo $ap_info['appId']; ?>',
+				status : true, // check login status
+				cookie : <?php echo $ap_info['cookie']; ?>, // enable cookies to allow the server to access the session
+				xfbml  : true,  // parse XFBML
+				oauth : true //enables OAuth 2.0
+			});
 
 			FB.Event.subscribe('auth.login', function(response) {
-	        window.location.reload();
-	    });
-	    FB.Event.subscribe('auth.logout', function(response) {
-	        window.location.reload();
-	    });
+				window.location.reload();
+			});
+			FB.Event.subscribe('auth.logout', function(response) {
+				window.location.reload();
+			});
 		};
 		(function() {
-		  var e = document.createElement('script');
-		  e.src = document.location.protocol + '//connect.facebook.net/en_US/all.js';
-		  e.async = true;
-		  document.getElementById('fb-root').appendChild(e);
+			var e = document.createElement('script');
+			e.src = document.location.protocol + '//connect.facebook.net/en_US/all.js';
+			e.async = true;
+			document.getElementById('fb-root').appendChild(e);
 		}());
 		</script>
 	<?php
@@ -672,7 +672,7 @@ function simplr_print_message() {
 			}
 		} else {
 		?>
-				<div id="message" class="<?php echo $messages->class; ?>"><p><?php echo $messages->content; ?></p></div>
+			<div id="message" class="<?php echo $messages->class; ?>"><p><?php echo $messages->content; ?></p></div>
 		<?php
 		}
 	}
@@ -714,23 +714,23 @@ function simplr_admin_actions() {
 		if(isset($data['recaptcha-submit'])) {
 
 			if(!wp_verify_nonce(-1, $data['reg-api']) && !current_user_can('manage_options')){ wp_die('Death to hackers!');}
-				$simplr_reg->recap_public = $data['recap_public'];
-				$simplr_reg->recap_private = $data['recap_private'];
-				$simplr_reg->recap_on = $data['recap_on'];
-				update_option('simplr_reg_options',$simplr_reg);
+			$simplr_reg->recap_public = $data['recap_public'];
+			$simplr_reg->recap_private = $data['recap_private'];
+			$simplr_reg->recap_on = $data['recap_on'];
+			update_option('simplr_reg_options',$simplr_reg);
 		} elseif(isset($data['fb-submit'])) {
 			if(!wp_verify_nonce(-1, @$data['reg-fb']) && !current_user_can('manage_options')){ wp_die('Death to hackers!');}
-				$simplr_reg->fb_connect_on = $data['fb_connect_on'];
-				$simplr_reg->fb_app_id = @$data['fb_app_id'];
-				$simplr_reg->fb_app_key = @$data['fb_app_key'];
-				$simplr_reg->fb_app_secret = @$data['fb_app_secret'];
-				$simplr_reg->fb_login_allow = @$data['fb_login_allow'];
-				$simplr_reg->fb_login_redirect = @$data['fb_login_redirect'];
-				$simplr_reg->fb_request_perms = @$data['fb_request_perms'];
-				$simplr_reg->fb_auto_register = @$data['fb_auto_register'];
-				update_option('simplr_reg_options',$simplr_reg);
-				simplr_set_message('updated notice is-dismissible', __("Your settings were saved.", 'simplr-reg') );
-				wp_redirect($_SERVER['REQUEST_URI']);
+			$simplr_reg->fb_connect_on = $data['fb_connect_on'];
+			$simplr_reg->fb_app_id = @$data['fb_app_id'];
+			$simplr_reg->fb_app_key = @$data['fb_app_key'];
+			$simplr_reg->fb_app_secret = @$data['fb_app_secret'];
+			$simplr_reg->fb_login_allow = @$data['fb_login_allow'];
+			$simplr_reg->fb_login_redirect = @$data['fb_login_redirect'];
+			$simplr_reg->fb_request_perms = @$data['fb_request_perms'];
+			$simplr_reg->fb_auto_register = @$data['fb_auto_register'];
+			update_option('simplr_reg_options',$simplr_reg);
+			simplr_set_message('updated notice is-dismissible', __("Your settings were saved.", 'simplr-reg') );
+			wp_redirect($_SERVER['REQUEST_URI']);
 		}
 
 		if(isset($data['main-submit'])) {

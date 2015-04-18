@@ -42,8 +42,8 @@ function simplr_validate($data,$atts) {
 
 	// Validate username
 	if(!$data['username']) {
-	$errors[] = __("You must enter a username.",'simplr-reg');
-	add_filter('username_error_class','_sreg_return_error');
+		$errors[] = __("You must enter a username.",'simplr-reg');
+		add_filter('username_error_class','_sreg_return_error');
 	} else {
 		// check whether username is valid
 		$user_test = validate_username($data['username']);
@@ -90,8 +90,8 @@ function simplr_validate($data,$atts) {
 				{
 					if($data[$field['key'].'-mo'] == '' || $data[$field['key'].'-dy'] == '' || $data[$field['key'].'-yr'] == '')
 					{
-					$errors[] = $field['label'] . __(" is a required field. Please enter a value.", 'simplr-reg');
-					add_filter($field['key'].'_error_class','_sreg_return_error');
+						$errors[] = $field['label'] . __(" is a required field. Please enter a value.", 'simplr-reg');
+						add_filter($field['key'].'_error_class','_sreg_return_error');
 					}
 				} elseif(!isset($data[$field['key']]) || $data[$field['key']] == '' ) {
 					$errors[] = $field['label'] . __(" is a required field. Please enter a value.", 'simplr-reg');
@@ -115,7 +115,7 @@ function sreg_process_form($atts) {
 	$sreg->errors = simplr_validate($_POST,$atts);
 
 	if( !empty($sreg->errors) ) :
-		 $sreg->message = $sreg->errors;
+		$sreg->message = $sreg->errors;
 	endif;
 
 	if(!@$sreg->message) {
@@ -156,13 +156,13 @@ function simplr_setup_user($atts,$data) {
 	}
 
 	$userdata = array(
-		'user_login' 	=> $user_name,
-		'first_name' 	=> $fname,
-		'last_name' 	=> $lname,
-		'user_pass' 	=> $passw,
-		'user_email' 	=> $email,
-		'user_url' 	=> $user_url,
-		'role' 		=> $role,
+		'user_login' => $user_name,
+		'first_name' => $fname,
+		'last_name'  => $lname,
+		'user_pass'  => $passw,
+		'user_email' => $email,
+		'user_url'   => $user_url,
+		'role'       => $role,
 	);
 	// create user
 	$user_id = wp_insert_user( $userdata );
@@ -293,7 +293,8 @@ function simplr_token_replace( $content, $data ) {
 
 function simplr_build_form($data,$atts) {
 	include_once(SIMPLR_DIR.'/lib/form.class.php');
-	if(get_option('users_can_register') != '1') { print('Registrations have been disabled');
+	if( get_option('users_can_register') != '1' ) {
+		print('Registrations have been disabled');
 	} else {
 	// retrieve fields and options
 	$custom = new SREG_Fields();
@@ -504,26 +505,26 @@ function simplr_process_form() {
 function sreg_figure($atts) {
 	global $options;
 	extract(shortcode_atts(array(
-	'role' => 'subscriber',
-	'from' => get_option('sreg_admin_email'),
-	'message' => __('Thank you for registering','simplr-reg'),
-	'notify' => get_option('sreg_email'),
-	'fields' => null,
-	'fb' => false,
-	), $atts));
-		if($role != 'admin') {
-			$function = sreg_basic($atts);
-		} else {
-			$function = __('You should not register admin users via a public form','simplr-reg');
-		}
+		'role'    => 'subscriber',
+		'from'    => get_option('sreg_admin_email'),
+		'message' => __('Thank you for registering','simplr-reg'),
+		'notify'  => get_option('sreg_email'),
+		'fields'  => null,
+		'fb'      => false,
+		), $atts));
+	if($role != 'admin') {
+		$function = sreg_basic($atts);
+	} else {
+		$function = __('You should not register admin users via a public form','simplr-reg');
+	}
 	return $function;
 }//End Function
 
 function sreg_recaptcha_field() {
- require_once(SIMPLR_DIR .'/lib/recaptchalib.php');
- $options = get_option('simplr_reg_options');
- $publickey = $options->recap_public; // you got this from the signup page
- return recaptcha_get_html($publickey);
+	require_once(SIMPLR_DIR .'/lib/recaptchalib.php');
+	$options = get_option('simplr_reg_options');
+	$publickey = $options->recap_public; // you got this from the signup page
+	return recaptcha_get_html($publickey);
 }
 
 function recaptcha_check($data) {
@@ -535,7 +536,7 @@ function recaptcha_check($data) {
 	if (!$resp->is_valid) {
 		// What happens when the CAPTCHA was entered incorrectly
 		return __("The reCAPTCHA wasn't entered correctly. Go back and try it again. (reCAPTCHA said:", 'simplr-reg') .
-		     " " . $resp->error . ")";
+			" " . $resp->error . ")";
 	} else {
 		return false;
 	}
@@ -553,24 +554,24 @@ function sreg_fb_connect() {
 
 		$facebook = new Facebook(Simplr_Facebook::get_fb_info());
 
-	   # Active session, let's try getting the user id (getUser()) and user info (api->('/me'))
-    try {
-      $uid = $facebook->getUser();
-      $user = $facebook->api('/me');
-    } catch (FacebookApiException $e) {}
+		# Active session, let's try getting the user id (getUser()) and user info (api->('/me'))
+		try {
+			$uid = $facebook->getUser();
+			$user = $facebook->api('/me');
+		} catch (FacebookApiException $e) {}
 
-	  if(!empty($user)) {
-	    # User info ok? Let's print it (Here we will be adding the login and registering routines)
-	    $out = $user;
-	  } else {
-	    # For testing purposes, if there was an error, let's kill the script
-		  # There's no active session, let's generate one
+		if(!empty($user)) {
+			# User info ok? Let's print it (Here we will be adding the login and registering routines)
+			$out = $user;
+		} else {
+			# For testing purposes, if there was an error, let's kill the script
+			# There's no active session, let's generate one
 			$login_url = $facebook->getLoginUrl();
-		  $perms = implode(',',$options->fb_request_perms);
-		  $out = __('Register using Facebook', 'simplr-reg') . ' <fb:login-button scope="'.$perms.'"></fb:login-button>';
-	   }
+			$perms = implode(',',$options->fb_request_perms);
+			$out = __('Register using Facebook', 'simplr-reg') . ' <fb:login-button scope="'.$perms.'"></fb:login-button>';
+		}
 
-	   return $out;
+		return $out;
 	}
 }
 
@@ -583,26 +584,26 @@ function sreg_load_fb_script() {
 	<div id="fb-root"></div>
 	<script>
 	window.fbAsyncInit = function() {
-	  FB.init({
-	    appId  : '<?php echo $ap_info['appId']; ?>',
-	    status : true, // check login status
-	    cookie : <?php echo $ap_info['cookie']; ?>, // enable cookies to allow the server to access the session
-	    xfbml  : true,  // parse XFBML
-	    oauth : true //enables OAuth 2.0
-	  });
-	  FB.Event.subscribe('auth.login', function(response) {
-        window.location.reload();
-    });
-    FB.Event.subscribe('auth.logout', function(response) {
-        window.location.reload();
-    });
+		FB.init({
+			appId  : '<?php echo $ap_info['appId']; ?>',
+			status : true, // check login status
+			cookie : <?php echo $ap_info['cookie']; ?>, // enable cookies to allow the server to access the session
+			xfbml  : true,  // parse XFBML
+			oauth  : true //enables OAuth 2.0
+		});
+		FB.Event.subscribe('auth.login', function(response) {
+			window.location.reload();
+		});
+		FB.Event.subscribe('auth.logout', function(response) {
+			window.location.reload();
+		});
 	};
 
 	(function() {
-	  var e = document.createElement('script');
-	  e.src = document.location.protocol + '//connect.facebook.net/en_US/all.js';
-	  e.async = true;
-	  document.getElementById('fb-root').appendChild(e);
+		var e = document.createElement('script');
+		e.src = document.location.protocol + '//connect.facebook.net/en_US/all.js';
+		e.async = true;
+		document.getElementById('fb-root').appendChild(e);
 	}());
 	</script>
 <?php
