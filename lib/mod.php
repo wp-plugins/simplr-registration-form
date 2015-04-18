@@ -50,7 +50,12 @@ if( !function_exists('simplr_resend_email') ) {
 		$subj = simplr_token_replace( $simplr_options->mod_email_subj, $data );
 		$content = simplr_token_replace( $simplr_options->mod_email, $data );
 		$content = simplr_token_replace( $content, array('link' => get_home_url( $blog_id, '/?activation_key='.$data['user_activation_key'] ) ) );
-		$headers = "From: ".$data['blogname']." <".get_option('admin_email')."> \r\n";
+		if ( isset( $simplr_options->default_email ) ) {
+			$from = $simplr_options->default_email;
+		} else {
+			$from = get_option('admin_email');
+		}
+		$headers = "From: ".$data['blogname']." <".$from."> \r\n";
 		wp_mail( $data['user_email'], $subj, $content, $headers);
 	}
 }

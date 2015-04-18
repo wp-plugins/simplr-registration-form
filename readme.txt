@@ -53,6 +53,10 @@ For the banners we credit:
 
 == Changelog ==
 
+= 2.3.4 =
+* 2015-04-18
+* Really use the Email From address for emails.
+
 = 2.3.3 =
 * 2015-04-17
 * Don't include registration.php on current WordPress.

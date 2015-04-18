@@ -255,12 +255,17 @@ function simplr_send_notifications($atts, $data, $passw) {
 	$email = @$data['email'];
 	$notify = @$atts['notify'];
 	$emessage = @$atts['message'];
-	$headers = "From: $name" . ' <' .get_option('admin_email') .'> ' ."\r\n\\";
+	if ( isset( $simplr_options->default_email ) ) {
+		$from = $simplr_options->default_email;
+	} else {
+		$from = get_option('admin_email');
+	}
+	$headers = "From: $name <$from>\r\n";
 	wp_mail($notify, __("A new user registered for", 'simplr-reg') . " " . $name, __("A new user has registered for", 'simplr-reg') . " " . $name."\r". __("Username", 'simplr-reg') . ": $user_name\r" . __("Email", 'simplr-reg') . ": $email \r",$headers);
 	$emessage = $emessage . "\r\r---\r";
-		if(!isset($data['password'])) {
-			$emessage .= __("You should login and change your password as soon as possible.", 'simplr-reg') . "\r\r";
-		}
+	if(!isset($data['password'])) {
+		$emessage .= __("You should login and change your password as soon as possible.", 'simplr-reg') . "\r\r";
+	}
 	$emessage .= __("Username:", 'simplr-reg') . " $user_name\r";
 	$emessage .= (isset($data['fbuser_id'])) ? __("Registered with Facebook", 'simplr-reg') : __("Password", 'simplr-reg') . ": $passw\r" . __("Login", 'simplr-reg') . ": $site";
 	if( @$simplr_options->mod_on == 'yes' AND @$simplr_options->mod_activation == 'auto')  {
@@ -268,7 +273,6 @@ function simplr_send_notifications($atts, $data, $passw) {
 		$data['link'] = get_home_url( $blog_id, '/?activation_key='.$data['activation_key'] );
 		$content = simplr_token_replace( $simplr_options->mod_email, $data );
 		$subject = simplr_token_replace( $simplr_options->mod_email_subj, $data );
-		$headers = "From: ".get_option('admin_email')." \n";
 		wp_mail( $data['user_email'], $subject, $content, $headers);
 	} else {
 		$emessage = simplr_token_replace( $emessage, $data );

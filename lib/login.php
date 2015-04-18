@@ -272,7 +272,7 @@ addLoadEvent(function(){ var p=new Array(15,30,15,0,-15,-30,-15,0);p=p.concat(p.
  * @return bool|WP_Error True: when finish. WP_Error on error
  */
 function retrieve_password() {
-	global $wpdb, $current_site;
+	global $wpdb, $current_site,$simplr_options;
 
 	$errors = new WP_Error();
 
@@ -339,7 +339,14 @@ function retrieve_password() {
 	$title = apply_filters('retrieve_password_title', $title);
 	$message = apply_filters('retrieve_password_message', $message, $key);
 
-	if ( $message && !wp_mail($user_email, $title, $message) )
+	if ( isset( $simplr_options->default_email ) ) {
+		$from = $simplr_options->default_email;
+	} else {
+		$from = get_option('admin_email');
+	}
+	$headers = "From: ".$blogname." <".$from."> \r\n";
+
+	if ( $message && !wp_mail($user_email, $title, $message, $headers) )
 		wp_die( __('The e-mail could not be sent.','simplr-reg') . "<br />\n" . __('Possible reason: your host may have disabled the mail() function...','simplr-reg') );
 
 	return true;
