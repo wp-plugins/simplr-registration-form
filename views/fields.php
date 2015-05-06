@@ -75,7 +75,7 @@ if(@$_GET['action'] == 'edit' OR @$_GET['action'] == 'add') {
 	});
 	</script>
 	<div class="inner">
-		<form action="<?php echo add_query_arg(array('action'=>'add')); ?>" method="post" id="add-field">
+		<form action="<?php echo esc_url(add_query_arg(array('action'=>'add'))); ?>" method="post" id="add-field">
 			<?php SREG_Form::text(array('name'=>'label','label'=>__('Field Label','simplr-reg'),'required'=>true,'comment'=>__('Human readable name for display to users','simplr-reg')),esc_attr(@$field->label),'wide'); ?>
 			<?php SREG_Form::text(array('name'=>'key','label'=>__('Field Key','simplr-reg'),'required'=>true,'comment'=>__('Machine readable name to represent this field in the Database','simplr-reg')),esc_attr(@$field->key),'wide'); ?>
 

@@ -7,7 +7,7 @@
 if(!function_exists('simplr_views_users')):
 	function simplr_views_users( $views ) {
 		$class = (@$_GET['view_inactive'] == true) ? 'current':'';
-		$views['view_inactive'] = '<a href="'.add_query_arg(array('view_inactive' => 'true')).'" class="'.$class.'" >'. __('Inactive Users','simplr-reg') . ' ('.simplr_count_inactive().')</a>';
+		$views['view_inactive'] = '<a href="'.esc_url(add_query_arg(array('view_inactive' => 'true'))).'" class="'.$class.'" >'. __('Inactive Users','simplr-reg') . ' ('.simplr_count_inactive().')</a>';
 		return $views;
 	}
 endif;
