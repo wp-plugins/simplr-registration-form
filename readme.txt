@@ -3,8 +3,8 @@ Contributors: mpvanwinkle77, mpol
 Donate link: http://www.mikevanwinkle.com/
 Tags: registration, signup, profile, cms, users, user management, user profile
 Requires at least: 3.0
-Tested up to: 4.2.1
-Stable tag: 2.3.5
+Tested up to: 4.2.2
+Stable tag: 2.3.6
 
 This plugin allows users to easily add a custom user registration form anywhere on their site using simple shortcode.
 
@@ -52,6 +52,10 @@ For the banners we credit:
 3. The modal where you can customize the shortcode that will be entered.
 
 == Changelog ==
+
+= 2.3.6 =
+* 2015-06-06
+* With checkbox, have label after the input, and adjust its CSS.
 
 = 2.3.5 =
 * properly escape add_query_arg inputs

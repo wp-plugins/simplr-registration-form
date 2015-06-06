@@ -1,9 +1,9 @@
 #simplr-form {
-	padding:10px 5px; 
-	border-top: 1px dotted #eee; 
-	border-bottom: 1px dotted #eee; 
-	margin:10px; 
-	text-align:left;	
+	padding:10px 5px;
+	border-top: 1px dotted #eee;
+	border-bottom: 1px dotted #eee;
+	margin:10px;
+	text-align:left;
 }
 
 #simplr-form h3 {
@@ -11,13 +11,17 @@
 }
 
 #simplr-form label {
-	float:left; 
-	display:block; 
-	margin-right: 10px; 
+	float:left;
+	display:block;
+	margin-right: 10px;
 	width: auto;
 	color:#333;
 	font-style: italic;
 	font-size: 0.8em;
+}
+#simplr-form .checkbox label {
+	float:none;
+	display:inline-block;
 }
 
 #simplr-form .date label {
@@ -30,29 +34,29 @@
 	-moz-border-radius: 6px;
 	padding:10px;
 	width:90%;
-	margin:10px 5px; 
+	margin:10px 5px;
 }
 
 .simplr-message {
-	margin:5px 0; 
-	padding:5px 10px; 
-	font-size:12px; 
-	border-radius: 6px; 
-	-webkit-border-radius:6px; 
-	-moz-border-radius:6px; 
+	margin:5px 0;
+	padding:5px 10px;
+	font-size:12px;
+	border-radius: 6px;
+	-webkit-border-radius:6px;
+	-moz-border-radius:6px;
 	opacity:0.7;
 }
 
-.success { 
-	background: #DFF2BF; 
-	color:#4F8A10; 
+.success {
+	background: #DFF2BF;
+	color:#4F8A10;
 	border-color: #4F8A10;
 }
 
-.error { 
-	background: #FFBABA; 
+.error {
+	background: #FFBABA;
 	color: #D8000C;
-	border-color: #D8000C; 
+	border-color: #D8000C;
 }
 
 form .error {
@@ -60,19 +64,19 @@ form .error {
 }
 
 .simplr-field,.option-field {
-	margin:5px 0; 
-	display: block; 
+	margin:5px 0;
+	display: block;
 	padding-left:5px;
 	border-radius: 6px;
 	-webkit-border-radius: 6px;
 	-moz-border-radius: 6px;
-} 
+}
 
 .simplr-field .left {color: #000;}
 .simplr-field .required {color:red;}
 
 #simplr-form input {
-	width:90%; 
+	width:90%;
 	border-radius: 6px;
 	-webkit-border-radius: 6px;
 	-moz-border-radius: 6px;
@@ -95,7 +99,7 @@ form .error {
 	background: #fff;
 }
 
-input[type="password"] { 
+input[type="password"] {
   background: #f9f9f9;
   border: 1px solid #ccc;
   box-shadow: inset 1px 1px 1px rgba(0,0,0,0.1);
@@ -108,15 +112,15 @@ input[type="password"] {
 	width:90%;
 	clear:both;
 	display:block;
-	margin:5px; 
+	margin:5px;
 }
 
 #simplr-form textarea {
-	margin:5px 0 10px 0px; 
-	clear:both; 
+	margin:5px 0 10px 0px;
+	clear:both;
 	display: block;
 	width:90%;
-	clear:both; 
+	clear:both;
 	border-radius: 6px;
 	-webkit-border-radius: 6px;
 	-moz-border-radius: 6px;
@@ -135,15 +139,15 @@ input[type="password"] {
 }
 
 #simplr-form input[type=radio],
-#simplr-form input[type=checkbox] { 
-	display: inline; 
-	margin: 0px 5px; 
-	width:auto; 
+#simplr-form input[type=checkbox] {
+	display: inline;
+	margin: 0px 5px;
+	width:auto;
 }
 
 #simplr-form input[type=submit] {
-	width:200px; 
-	border: 1px solid #666; 
+	width:200px;
+	border: 1px solid #666;
 	color: #fff;
 	border-radius: 6px;
 	-webkit-border-radius: 6px;
@@ -153,7 +157,7 @@ input[type="password"] {
 	background-image: -moz-linear-gradient(bottom, #219473 40%, #338C71 75%, #2A8065 89%);
 	background-image: -webkit-linear-gradient(bottom, #219473 40%, #338C71 75%, #2A8065 89%);
 	background-image: -ms-linear-gradient(bottom, #219473 40%, #338C71 75%, #2A8065 89%);
-	
+
 	background-image: -webkit-gradient(
 	linear,
 	left bottom,
@@ -162,12 +166,12 @@ input[type="password"] {
 	color-stop(0.75, #338C71),
 	color-stop(0.89, #2A8065)
 	);
-	
+
 	box-shadow: 1px 1px 5px #555;
 	-webkit-box-shadow: 1px 1px 5px #555;
 	-moz-box-shadow: 1px 1px 5px #555;
 	margin:5px 10px;
-	
+
 }
 #simplr-form input[type=submit]:hover {
 	color:#eee;
@@ -177,7 +181,7 @@ input[type="password"] {
 	background-image: -moz-linear-gradient(, #219473 40%, #338C71 75%, #2A8065 87%);
 	background-image: -webkit-linear-gradient(, #219473 40%, #338C71 75%, #2A8065 87%);
 	background-image: -ms-linear-gradient(, #219473 40%, #338C71 75%, #2A8065 87%);
-	
+
 	background-image: -webkit-gradient(
 		linear,
 		left top,
@@ -186,7 +190,7 @@ input[type="password"] {
 		color-stop(0.75, #338C71),
 		color-stop(0.87, #2A8065)
 	);
-	
+
 }
 
 #simplr-form input[type=submit]:active {
