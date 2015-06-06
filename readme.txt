@@ -53,6 +53,10 @@ For the banners we credit:
 
 == Changelog ==
 
+= 2.3.6 =
+* 2015-06-06
+* With checkbox, have label after the input, and adjust its CSS.
+
 = 2.3.5 =
 * properly escape add_query_arg inputs
 

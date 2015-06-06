@@ -81,10 +81,10 @@ class SREG_Form {
 	static function checkbox($option, $vals, $class) {
 		?>
 		<div class="option-field checkbox <?php echo apply_filters($option['name'].'_error_class',''); ?>">
-		<?php $sel = ('on' == $vals)?'checked':''; ?>
-		<label for="<?php echo $option['name']; ?>"><?php echo $option['label'] . show_required($option); ?></label>
+			<?php $sel = ('on' == $vals)?'checked':''; ?>
 			<input type="checkbox" name="<?php echo $option['name']; ?>" id="<?php echo $option['name']; ?>" value="on" class="<?php echo @$class; ?>" <?php echo $sel; ?>/>
-		<?php if(isset($option['comment'])) { echo '<div class="form-comment">'.$option['comment'].'</div>'; } ?>
+			<label for="<?php echo $option['name']; ?>"><?php echo $option['label'] . show_required($option); ?></label>
+			<?php if(isset($option['comment'])) { echo '<div class="form-comment">'.$option['comment'].'</div>'; } ?>
 		</div>
 		<div class="simplr-clr"></div>
 		<?php
